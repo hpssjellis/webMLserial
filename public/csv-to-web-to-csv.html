@@ -1,0 +1,74 @@
+Version 0.2.1-11<br>
+<h2 align=center>CSV to Web To CSV</h2>
+Writtennby duelling chatbots. CoPilot verse chatGPT. <br>
+
+<script src="https://unpkg.com/papaparse@5.3.2/papaparse.js"></script>
+<script>
+
+function myLoadCSV(){
+   //use papparse to load a csv file and show it in an HTML table
+    var fileInput = document.getElementById('myFileButton');
+    var file = fileInput.files[0];
+    var reader = new FileReader();
+    reader.onload = function(event) {
+        var csv = event.target.result;
+        var data = Papa.parse(csv, {header: true}).data;
+
+        // create a table element
+        var table = document.createElement("table");
+        table.setAttribute("border", "1");
+
+        // add header row
+        var headerRow = table.insertRow(0);
+        Object.keys(data[0]).forEach(function(key) {
+            var cell = headerRow.insertCell(-1);
+            cell.innerHTML = key;
+        });
+
+        // add data rows
+        data.forEach(function(row) {
+            var tableRow = table.insertRow(-1);
+            Object.keys(row).forEach(function(key) {
+                var cell = tableRow.insertCell(-1);
+                cell.innerHTML = row[key];
+            });
+        });
+
+        // add table to document
+        var csvTableContainer = document.getElementById("csvTableContainer");
+        csvTableContainer.innerHTML = "";
+        csvTableContainer.appendChild(table);
+        document.getElementById("myArea01").value = reader.result
+    };
+    reader.readAsText(file);
+}
+
+function mySaveCSV(myInFileName) {
+  var csv = document.getElementById("myArea01").value;
+  var data = Papa.parse(csv, { header: true }).data;
+  var csvContent = Papa.unparse(data, { delimiter: "," });
+
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", "data:text/csv;charset=utf-8," + encodedUri);
+  link.setAttribute("download", myInFileName);
+
+  document.body.appendChild(link);
+  link.click();
+
+  document.body.removeChild(link);
+}
+
+
+
+</script>
+
+<input type="file" id="myFileButton" accept=".csv"><br>
+<button type="button" onclick="myLoadCSV()">Load CSV</button><br>
+<button type="button" onclick="{
+alert(document.getElementById('myEnteredFileName').value)
+}">show CSV</button><br>
+<button type="button" onclick="mySaveCSV(document.getElementById('myEnteredFileName').value)">Save CSV</button>
+<input type="text" id="myEnteredFileName" value="myTable.csv"><br>
+<textarea id="myArea01" rows="10" cols="50"></textarea>
+<div id="csvTableContainer"></div>
