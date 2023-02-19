@@ -1,4 +1,4 @@
-<h6> Version 0.2.0-16   </h6>
+<h6> Version 0.2.1-17   </h6>
 
 <h1 align=center>Both WebSerial and Polyfill to CSV</h1>
 
@@ -25,9 +25,13 @@
 <button type="button" onclick="{
 alert(document.getElementById('myEnteredFileName').value)
 }">show CSV</button><br>
+
 <button type="button" onclick="mySaveCSV(document.getElementById('myEnteredFileName').value)">Save CSV</button>
+
 <input type="text" id="myEnteredFileName" value="myTable.csv"><br>
+
 <textarea id="myArea01" rows="10" cols="50"></textarea>
+
 <div id="csvTableContainer"></div>
 
 
@@ -36,7 +40,10 @@ alert(document.getElementById('myEnteredFileName').value)
 
 
 
-<div id="target">...</div> <br><br>
+<div id="target" onchange="{
+   document.getElementById('myArea01').value  = document.getElementById('target').innerText;       
+                                                         
+}">...</div> <br><br>
 <div id="myDiv01">...</div> <br><br><br>
 
 
