@@ -66,7 +66,7 @@ void loop() {
     if (readString == "b"){
       digitalWrite(LED_BUILTIN, HIGH);
     }
-    if (readString == "send"){
+    if (readString == "start"){
       mySendData = true;
     }
     if (readString == "stop"){
