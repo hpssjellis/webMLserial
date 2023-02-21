@@ -1,4 +1,4 @@
-<h6> Version 0.3.2-26   </h6>
+<h6> Version 0.3.2-27   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Andfroid-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Pol,yfill has a bug. I will try to fix it.<br>
@@ -23,9 +23,9 @@ alert(document.getElementById('myEnteredFileName').value)
 
 <button type="button" onclick="mySaveCSV(document.getElementById('myEnteredFileName').value)">Save CSV</button>
 <button type="button" onclick="{
-    let myTemp = document.getElementById('myEnteredFileName').value[0]
-    alert(myTemp);
-    document.getElementById('myEnteredFileName').value = ''                                                         
+    let myTemp = document.getElementById('myEnteredFileName').value.split('\n')
+    alert(myTemp[0]);
+    document.getElementById('myEnteredFileName').value = myTemp[0]                                                         
 }">Clear CSV (except first line)</button>
 
 <input type="text" id="myEnteredFileName" value="myTable.csv"><br>
