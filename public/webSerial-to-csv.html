@@ -1,4 +1,4 @@
-<h6> Version 0.3.1-23   </h6>
+<h6> Version 0.3.1-24   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Andfroid-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Pol,yfill has a bug. I will try to fix it.<br>
@@ -12,12 +12,6 @@ As of Feb 20th, 2023 Pol,yfill has a bug. I will try to fix it.<br>
 <script src="https://unpkg.com/papaparse@5.3.2/papaparse.js"></script>  <!-- For CSV manipulation  -->
 
 <button id="connectButton">Connect via Serial Port</button>
-
-<input type=text id="mySendText" value="a">
-<input type=button value="send" onclick="{ mySendIt(document.getElementById('mySendText').value) }"><br><br>
-
-<input type=button value="send 'a' LED On" onclick="{mySendIt('a')}"><br><br>
-<input type=button value="send 'b' LED Off" onclick="{mySendIt('b')}"><br><br>
 
 
 
@@ -282,8 +276,8 @@ async function myPoly(){
 
 
   Here is the latest sketch I am using. The .txt is for viewing the .ino is to download<br>
- <li><a href="arduino04-webserial.txt">arduino04-webserial.txt</a>  This arduino sketch can be viewed
-<li><a href="arduino04-webserial.ino">arduino04-webserial.ino</a>  Click to download: Note: New ArduinoWebSerial testing code. Make sure in Arduino Serial Monitor you don't send a new-line
+ <li><a href="web-csv-arduino.txt">arduino04-webserial.txt</a>  This arduino sketch can be viewed
+<li><a href="web-csv-arduino.ino">arduino04-webserial.ino</a>  Click to download: Note: New ArduinoWebSerial testing code. Make sure in Arduino Serial Monitor you don't send a new-line
  
 
   This Github at <a href="https://github.com/hpssjellis/web-serial-polyfill">https://github.com/hpssjellis/web-serial-polyfill</a>
