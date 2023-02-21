@@ -25,17 +25,17 @@ Headers are always needed.<br>
 <input type=text id="mySendText" value="a">
 <input type=button value="send" onclick="{ mySendIt(document.getElementById('mySendText').value) }"><br><br>
 
-<input type=button value="send 'a' LED On" onclick="{mySendIt('a')}"><br><br>
-<input type=button value="send 'b' LED Off" onclick="{mySendIt('b')}"><br><br>
-<input type=button value="send 'stop' " onclick="{mySendIt('stop')}"><br><br>
-<input type=button value="send 'start' " onclick="{mySendIt('start')}"><br><br>
+<input type=button value="send 'a' LED On" onclick="{mySendIt('a')}"><br>
+<input type=button value="send 'b' LED Off" onclick="{mySendIt('b')}"><br>
+<input type=button value="send 'stop' " onclick="{mySendIt('stop')}"><br>
+<input type=button value="send 'start' " onclick="{mySendIt('start')}"><br>
 <input type=button value="send 'firstline' " onclick="{mySendIt('firstline')}"><br><br>
 Save as time-series data<input id="myRadioTimeSeries" type=radio name="myChoice" CHECKED onClick="{
   myMultiCSV = true 
 }"><br>
 Save individual data in numbered CSV files<input id="myRadioIndividual" type=radio name="myChoice" onclick="{
   myMultiCSV = false 
-}"><br>
+}"><br><br>
 
 
 <input type="file" id="myFileButton" accept=".csv"><br>
