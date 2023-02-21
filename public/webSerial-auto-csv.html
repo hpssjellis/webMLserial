@@ -1,4 +1,4 @@
-<h6> Version 0.4.2-36   </h6>
+<h6> Version 0.4.2-37   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Android-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Pol,yfill has a bug. I will try to fix it.<br>
@@ -27,6 +27,9 @@ Headers are always needed.<br>
 
 <input type=button value="send 'a' LED On" onclick="{mySendIt('a')}"><br><br>
 <input type=button value="send 'b' LED Off" onclick="{mySendIt('b')}"><br><br>
+<input type=button value="send 'stop' " onclick="{mySendIt('stop')}"><br><br>
+<input type=button value="send 'start' " onclick="{mySendIt('start')}"><br><br>
+<input type=button value="send 'firstline' " onclick="{mySendIt('firstline')}"><br><br>
 Save as time-series data<input id="myRadioTimeSeries" type=radio name="myChoice" CHECKED onClick="{
   myMultiCSV = true 
 }"><br>
