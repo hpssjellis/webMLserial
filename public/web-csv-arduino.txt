@@ -28,7 +28,7 @@ void setup() {
   
   myStart = millis();   // set delay
   randomSeed(analogRead(A0));  // AO pin on XIAO does not have to be connected to anything
-  Serial.println("\"DateTime\", \"A0:\", \"A1:\", \"A2:\"");
+  Serial.println("timestamp,accX,accY,accZ");  // CSV file heading titles
 }
 
 void loop() {
@@ -37,7 +37,7 @@ void loop() {
   if ( (millis() - myStart ) >= myDelay) {       
      myStart = millis();      //  reset the delay time
      digitalWrite(LED_BUILTIN, LOW); 
-     Serial.println("\"" + String(myStart)+ "\",\"" + String(analogRead(A0)) + "\",\"" + String(analogRead(A1)) + "\",\"" +  String(analogRead(A2))  + "\""  );
+     Serial.println( String(myStart)+ "," + String(analogRead(A0)) + "," + String(analogRead(A1)) + "," +  String(analogRead(A2))  );
      delay(50); // make this smaller as needed
   } 
   
