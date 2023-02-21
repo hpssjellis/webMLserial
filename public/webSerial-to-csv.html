@@ -1,6 +1,7 @@
-<h6> Version 0.3.0-22   </h6>
+<h6> Version 0.3.1-23   </h6>
 
-<h1 align=center>Both WebSerial and Polyfill to CSV</h1>
+<h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Andfroid-Chrome) to CSV</h1>
+As of Feb 20th, 2023 Pol,yfill has a bug. I will try to fix it.<br>
 
 <script>
   //Global Variables
@@ -165,7 +166,8 @@ async function connectSerial() {
       const { value, done } = await reader.read();
       if (value) {
        // log.textContent += value + '\n';   // original div
-        log.value += value + '\n';
+       // log.value += value + '\n';
+        log.value += value;
       }
       if (done) {
         console.log('[readLoop] DONE', done);
