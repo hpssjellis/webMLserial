@@ -1,4 +1,4 @@
-<h6> Version 0.4.1-34   </h6>
+<h6> Version 0.4.2-35   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Android-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Pol,yfill has a bug. I will try to fix it.<br>
@@ -41,8 +41,7 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 <button type="button" onclick="mySaveCSV(document.getElementById('myEnteredFileName').value)">Save CSV</button>
 <input type="text" id="myEnteredFileName" size=50 value="myLabel.unique-number.csv"><br>
 <button type="button" onclick="{
-    let myTemp = document.getElementById('myArea01').value.split('\n')   // split along lines
-    document.getElementById('myArea01').value = myTemp[0] + '\n'         // just keep the first line                                                 
+    keepOneLine()                                     
 }">Clear CSV (except first line)</button><br>
 <button type="button" onclick="{
     document.getElementById('myArea01').value = ''                                                
@@ -71,6 +70,11 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 
 
 <script>
+  
+function keepOneLine()
+    let myTemp = document.getElementById('myArea01').value.split('\n')   // split along lines
+    document.getElementById('myArea01').value = myTemp[0] + '\n'         // just keep the first line            
+}
 
 function myLoadCSV(){
    //use papparse to load a csv file and show it in an HTML table
@@ -189,7 +193,9 @@ async function connectSerial() {
         if (myMultiCSV){
             log.value += value;
         } else {
+           log.value += value;
            mySaveCSV('Cool.csv')
+           keepOneLine();
         }
       }
       if (done) {
