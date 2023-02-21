@@ -1,4 +1,4 @@
-<h6> Version 0.3.3-30   </h6>
+<h6> Version 0.3.3-31   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Android-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Pol,yfill has a bug. I will try to fix it.<br>
@@ -25,7 +25,7 @@ alert(document.getElementById('myEnteredFileName').value)
 }">show CSV</button><br>
 
 <button type="button" onclick="mySaveCSV(document.getElementById('myEnteredFileName').value)">Save CSV</button>
-<input type="text" id="myEnteredFileName" value="myLabel.unique-number-myTable.csv"><br>
+<input type="text" id="myEnteredFileName" size=50 value="myLabel.unique-number.csv"><br>
 <button type="button" onclick="{
     let myTemp = document.getElementById('myArea01').value.split('\n')   // split along lines
     document.getElementById('myArea01').value = myTemp[0] + '\n'              // just keep the first line                                                 
