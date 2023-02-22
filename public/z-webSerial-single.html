@@ -1,4 +1,4 @@
-<h6> Version 0.5.1-40   </h6>
+<h6> Version 0.6.0-41   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Android-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Polyfill has a bug. I will try to fix it.<br>
@@ -17,6 +17,16 @@ Headers are always needed.<br>
   //Global Variables
   var exports = {};
   let myMultiCSV = false   // for individual csv data files
+  let timeleft = 10;
+  let downloadTimer = setInterval(function(){
+  if(timeleft <= 0){
+    clearInterval(downloadTimer);
+    document.getElementById("countdown").innerHTML = "Finished";
+  } else {
+    document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+  }
+  timeleft -= 1;
+}, 1000);
 </script>  
 
 <script src="https://cdn.jsdelivr.net/npm/web-serial-polyfill@1.0.13/dist/serial.js"> </script> 
@@ -37,7 +47,7 @@ Save as time-series data<input id="myRadioTimeSeries" type=radio name="myChoice"
 Save individual data in numbered CSV files<input id="myRadioIndividual" type=radio name="myChoice" CHECKED onclick="{
   myMultiCSV = false 
 }"><br><br>
-
+<div id="countdown"></div><br>
 
 <input type="file" id="myFileButton" accept=".csv"><br>
 <button type="button" onclick="myLoadCSV()">Load CSV</button><br>
