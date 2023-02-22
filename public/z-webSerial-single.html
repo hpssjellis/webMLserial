@@ -26,6 +26,16 @@ Headers are always needed.<br>
     timeleft = 30
   } else {
     document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+    if (timeleft == 5){ // data probably ready to be uploaded
+       mySaveCSV(document.getElementById('myEnteredFileName').value)
+    }
+    if (timeleft == 3){ // data probably ready to be uploaded
+       keepOneLine()
+    }    
+    
+      
+    
+    
   }
   timeleft -= 1;
 }, 1000);
@@ -192,7 +202,7 @@ async function connectSerial() {
     
   try {
     port = await navigator.serial.requestPort();
-    await port.open({ baudRate: 9600 });
+    await port.open({ baudRate: 115200 });
     
     const decoder = new TextDecoderStream(); 
     port.readable.pipeTo(decoder.writable);
@@ -200,6 +210,8 @@ async function connectSerial() {
     //setup reader stream 
     const inputStream = decoder.readable;
     const reader = inputStream.getReader();
+    
+    timeleft = 30  // reset coutdown timer
     
     //setup writer stream
    // writer = port.writable.getWriter();
@@ -214,7 +226,7 @@ async function connectSerial() {
         } else {
            // if single data csv files then save old data then load new data
           // mySaveCSV(document.getElementById('myEnteredFileName').value)
-           keepOneLine();  
+           //keepOneLine();  
            log.value += value;
            console.log(value)
            // wait a few ms and then save the data
@@ -235,7 +247,7 @@ async function connectSerial() {
     log.innerHTML = error;
   }
   
-   timeleft = 30  // reset coutdown timer
+
 }  
   
 async function mySendIt(myData) {  
