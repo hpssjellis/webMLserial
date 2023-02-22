@@ -63,7 +63,6 @@ void setup() {
  // Serial.println("timestamp,accX,accY,accZ");  // CSV file heading titles
  // No timestamp needed for single data csv files, but might as well include it
   
-   Serial.println("timestamp,proximity,gesture,colorR,colorG,colorB,accX,accY,accZ,gyroX,gyroY,gyroZ,magX,magY,magZ"); 
    
   /* IMU setup for LSM9DS1*/
   /* default setup has all sensors active in continous mode. Sample rates
@@ -83,7 +82,8 @@ void setup() {
     // boost results in more power consumption. 
     APDS.setLEDBoost(3);   // default 0
 
-
+  Serial.println("timestamp,proximity,gesture,colorR,colorG,colorB,accX,accY,accZ,gyroX,gyroY,gyroZ,magX,magY,magZ"); 
+ 
   
 }
 
@@ -145,17 +145,17 @@ void loop() {
     
      // Proximity first        
      //  Serial.print(String(proximity) + ".00,");  // to format like a float, probably not needed
-    Serial.print(String(proximity) + "," +String(gesture)+ "," + String(colorR) + "," +String(colorG) + "," +String(colorB) + "," );  
-
+    Serial.print(String(myStart) + "," + String(proximity) + "," +String(gesture)+ "," + String(colorR) + "," +String(colorG) + "," +String(colorB) + "," );  
+    delay(3);
     // Serial.printf("%f,%f,%f,", accelerometerX, accelerometerY, accelerometerZ);
     Serial.print(String(accelerometerX, 2) + ","+String(accelerometerY, 2) + ","+String(accelerometerZ, 2) + ","); 
-     
+    delay(3);     
     // Serial.printf("%f,%f,%f,", gyroscopeX, gyroscopeY, gyroscopeZ);
     Serial.print(String(gyroscopeX, 2) + ","+String(gyroscopeY, 2) + ","+String(gyroscopeZ, 2) + ","); 
-     
+    delay(3);     
     // Serial.printf("%f,%f,%f,", magneticX, magneticY, magneticZ);
     Serial.print(String(magneticX, 2) + ","+String(magneticY, 2) + ","+String(magneticZ, 2)   );  
-
+    delay(3);
     // more data colection could go here
     
     Serial.println();   // just to finish the set of data
