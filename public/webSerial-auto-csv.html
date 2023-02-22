@@ -1,4 +1,4 @@
-<h6> Version 0.4.2-37   </h6>
+<h6> Version 0.4.2-38   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Android-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Pol,yfill has a bug. I will try to fix it.<br>
@@ -219,9 +219,9 @@ async function mySendIt(myData) {
     const writer = port.writable.getWriter();
     await writer.write(encoder.encode(myData));
     writer.releaseLock();
+    console.log(myData);
   } else {
     mySend(myData)
-    console.log(myData)
   }
 
 } 
