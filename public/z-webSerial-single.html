@@ -17,11 +17,13 @@ Headers are always needed.<br>
   //Global Variables
   var exports = {};
   let myMultiCSV = false   // for individual csv data files
-  let timeleft = 10;
+  
+  let timeleft = 30;
   let downloadTimer = setInterval(function(){
   if(timeleft <= 0){
-    clearInterval(downloadTimer);
-    document.getElementById("countdown").innerHTML = "Finished";
+   // clearInterval(downloadTimer);
+    document.getElementById("countdown").innerHTML = "Saving CSV file";
+    timeleft = 30
   } else {
     document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
   }
