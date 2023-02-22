@@ -1,4 +1,4 @@
-<h6> Version 0.6.0-42   </h6>
+<h6> Version 0.6.1-43   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Android-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Polyfill has a bug. I will try to fix it.<br>
@@ -210,14 +210,16 @@ async function connectSerial() {
             log.value += value;
         } else {
            // if single data csv files then save old data then load new data
-           mySaveCSV(document.getElementById('myEnteredFileName').value)
-           keepOneLine();  
+          // mySaveCSV(document.getElementById('myEnteredFileName').value)
+         //  keepOneLine();  
            log.value += value;
+          console.log(value)
         }
       }
       if (done) {
         console.log('[readLoop] DONE', done);
         reader.releaseLock();
+        console.log('done')
         break;
       }
     }
