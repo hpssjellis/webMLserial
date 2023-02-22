@@ -1,4 +1,4 @@
-<h6> Version 0.6.1-43   </h6>
+<h6> Version 0.6.2-44   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Android-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Polyfill has a bug. I will try to fix it.<br>
@@ -185,7 +185,7 @@ document.getElementById('connectButton').addEventListener('click', () => {
 
 async function connectSerial() {
   
-  timeleft = 30  // reset coutdown timer
+ 
   
  // const log = document.getElementById('target');
   const log = document.getElementById('myArea01');
@@ -218,9 +218,9 @@ async function connectSerial() {
            log.value += value;
            console.log(value)
            // wait a few ms and then save the data
-           let myTimer01 = setTimeout(function myTimer() {
-              mySaveCSV(document.getElementById('myEnteredFileName').value)
-           }, 200);
+           //  let myTimer01 = setTimeout(function myTimer() {
+           //     mySaveCSV(document.getElementById('myEnteredFileName').value)
+           // }, 200);
         }
       }
       if (done) {
@@ -234,6 +234,8 @@ async function connectSerial() {
   } catch (error) {
     log.innerHTML = error;
   }
+  
+   timeleft = 30  // reset coutdown timer
 }  
   
 async function mySendIt(myData) {  
