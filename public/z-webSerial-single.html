@@ -214,9 +214,13 @@ async function connectSerial() {
         } else {
            // if single data csv files then save old data then load new data
           // mySaveCSV(document.getElementById('myEnteredFileName').value)
-         //  keepOneLine();  
+           keepOneLine();  
            log.value += value;
-          console.log(value)
+           console.log(value)
+           // wait a few ms and then save the data
+           let myTimer01 = setTimeout(function myTimer() {
+              mySaveCSV(document.getElementById('myEnteredFileName').value)
+           }, 200);
         }
       }
       if (done) {
