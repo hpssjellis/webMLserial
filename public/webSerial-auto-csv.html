@@ -35,14 +35,14 @@ Save as time-series data<input id="myRadioTimeSeries" type=radio name="myChoice"
 }"><br>
 Save individual data in numbered CSV files<input id="myRadioIndividual" type=radio name="myChoice" onclick="{
   myMultiCSV = false 
-}"><br><br>
+  }"> for example try <a href="z-webSerial-single.html">z-webSerial-single.html</a><br><br>
 
 
 <input type="file" id="myFileButton" accept=".csv"><br>
 <button type="button" onclick="myLoadCSV()">Load CSV</button><br>
 
 <button type="button" onclick="mySaveCSV(document.getElementById('myEnteredFileName').value)">Save CSV</button>
-<input type="text" id="myEnteredFileName" size=50 value="myLabel.csv"><br>
+<input type="text" id="myEnteredFileName" size=50 value="myLabel.myFile.csv"><br>
 <button type="button" onclick="{
     keepOneLine()                                     
 }">Clear CSV (except first line)</button><br>
