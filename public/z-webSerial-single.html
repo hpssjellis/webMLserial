@@ -1,4 +1,4 @@
-<h6> Version 0.6.2-44   </h6>
+<h6> Version 0.6.3-46  </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Android-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Polyfill has a bug. I will try to fix it.<br>
@@ -59,7 +59,10 @@ Save as time-series data<input id="myRadioTimeSeries" type=radio name="myChoice"
 Save individual data in numbered CSV files<input id="myRadioIndividual" type=radio name="myChoice" CHECKED onclick="{
   myMultiCSV = false 
 }"><br><br>
-<div id="countdown"></div><br>
+<div id="countdown"></div>  
+<input type=button value="Reset Timer" onclick="{
+   timeleft = 30                                          
+}"><br>
 
 <input type="file" id="myFileButton" accept=".csv"><br>
 <button type="button" onclick="myLoadCSV()">Load CSV</button><br>
