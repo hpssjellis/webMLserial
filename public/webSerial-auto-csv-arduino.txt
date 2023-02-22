@@ -1,4 +1,4 @@
-/*
+\/*
  * webSerial for testing javascript connection with an arduino
  * 
  * Latest work at   https://github.com/hpssjellis/webMLserial
@@ -19,12 +19,18 @@
 #define CONVERT_G_TO_MS2    9.80665f
 #define FREQUENCY_HZ        50
 #define INTERVAL_MS         (1000 / (FREQUENCY_HZ + 1))
+#define COLLECTION_SECONDS  10
+
+
+
+int myMaxData = FREQUENCY_HZ * COLLECTION_SECONDS;
+int myCount = 0;
+int myDelay = INTERVAL_MS;   // non-block delay in milliseconds
+unsigned long myStart; 
 
 String readString;
 bool mySendData = true;
 
-int myDelay = INTERVAL_MS;   // non-block delay in milliseconds
-unsigned long myStart; 
 
 void setup() {
   Serial.begin(115200);
@@ -46,8 +52,12 @@ void loop() {
   float x, y, z;
   if ( (millis() - myStart ) >= myDelay) {       
      myStart = millis();      //  reset the delay time
+     myCount += 1;
      IMU.readAcceleration(x, y, z);
      //Serial.println( String(myStart)+ "," + String(analogRead(A0)) + "," + String(analogRead(A1)) + "," +  String(analogRead(A2))  );
+     if (myCount >= myMaxData){
+        mySendData = false;   // stop sending data when amount reached
+     }
      if (mySendData){
         Serial.println( String(myStart)+ "," + String(x) + "," + String(y) + "," +  String(z)  );
      } 
@@ -68,6 +78,7 @@ void loop() {
     }
     if (readString == "start"){
       mySendData = true;
+      myCount = 0;
     }
     if (readString == "stop"){
       mySendData = false;
