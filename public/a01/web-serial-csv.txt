@@ -1,4 +1,4 @@
-\/*
+/*
  * webSerial for testing javascript connection with an arduino
  * 
  * Latest work at   https://github.com/hpssjellis/webMLserial
@@ -17,16 +17,18 @@
 #include <Arduino_LSM9DS1.h>
 
 #define CONVERT_G_TO_MS2    9.80665f
-#define FREQUENCY_HZ        50
+#define FREQUENCY_HZ        5
 #define INTERVAL_MS         (1000 / (FREQUENCY_HZ + 1))
-#define COLLECTION_SECONDS  10
+#define COLLECTION_SECONDS  30
 
-
-
-int myMaxData = FREQUENCY_HZ * COLLECTION_SECONDS;
+int myFreq = FREQUENCY_HZ;
+int mySeconds = COLLECTION_SECONDS;
+int myMaxData = myFreq * mySeconds;
 int myCount = 0;
 int myDelay = INTERVAL_MS;   // non-block delay in milliseconds
 unsigned long myStart; 
+unsigned long myReset = 0; 
+
 
 String readString;
 bool mySendData = true;
@@ -59,7 +61,7 @@ void loop() {
         mySendData = false;   // stop sending data when amount reached
      }
      if (mySendData){
-        Serial.println( String(myStart)+ "," + String(x) + "," + String(y) + "," +  String(z)  );
+        Serial.println( String(myStart-myReset)+ "," + String(x) + "," + String(y) + "," +  String(z)  );
      } 
    }
 
@@ -82,7 +84,41 @@ void loop() {
     }
     if (readString == "stop"){
       mySendData = false;
+    }    
+    if (readString[0] == 'd'){
+       int myIn = readString.substring(1).toInt();
+       Serial.println(""Setting the delay for " + String(myIn) + "milliseconds");
+       myDelay = myIn;
+       myCount = 0;
+       myStart = millis();      //  reset the delay time
+       myReset = millis();
+       mySendData = true;
     }
+
+        if (readString[0] == 'c'){
+       int myIn = readString.substring(1).toInt();
+       Serial.println("Collecting for " + String(myIn) + " seconds");
+       mySeconds = myIn;
+       myMaxData = myFreq * mySeconds;
+       myCount = 0;
+       myStart = millis();      //  reset the delay time
+       myReset = millis(); 
+       mySendData = true;
+    }
+        if (readString[0] == 'f'){
+       int myIn = readString.substring(1).toInt();
+       Serial.println("Setting the frquency to " + String(myIn) + " Hz");
+       myFreq = myIn;
+       myDelay = (1000 / (myFreq + 1));
+       myMaxData = myFreq * mySeconds;
+       myCount = 0;
+       myStart = millis();      //  reset the delay time 
+       myReset = millis();  
+       mySendData = true;    
+    }
+
+
+    
     if (readString == "firstline"){
       Serial.println("timestamp,accX,accY,accZ");  // CSV file heading titles
     }
