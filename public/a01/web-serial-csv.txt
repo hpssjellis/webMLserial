@@ -87,7 +87,7 @@ void loop() {
     }    
     if (readString[0] == 'd'){
        int myIn = readString.substring(1).toInt();
-       Serial.println("Setting the delay for " + String(myIn) + "milliseconds");
+       Serial.println("Setting the delay for " + String(myIn) + " milliseconds");
        myDelay = myIn;
        myCount = 0;
        myStart = millis();      //  reset the delay time
