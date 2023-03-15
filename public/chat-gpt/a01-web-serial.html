@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>WebSerial and TensorFlow.js</title>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"> </script> 
+    <h1>WebSerial and TensorFlow.js</h1>
+    <div id="output"></div>
+    <script>
+      // Connect to the microcontroller
+      let mySerial;
+      const baudRate = 9600;
+      const portOptions = {
+        baudRate: baudRate,
+        dataBits: 8,
+        stopBits: 1,
+        parity: "none",
+        flowControl: "none",
+      };
+      async function myConnect() {
+        const port = await navigator.serial.requestPort();
+        await port.open(portOptions);
+        mySerial = port;
+        myReadLoop();
+      }
+
+  async function myReadLoop() {
+    const reader = mySerial.readable.getReader();
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) {
+        console.log("Read loop done");
+        reader.releaseLock();
+        break;
+      }
+      const str = new TextDecoder().decode(value);
+      const [x, y, z] = str.split(",").map((value) => parseInt(value));
+      myTrainModel(x, y, z);
+    }
+  }
+
+  // Train the TensorFlow.js model
+  let myModel;
+  const learningRate = 0.1;
+  const inputShape = [1, 3];
+  const outputShape = [1, 1];
+  const optimizer = tf.train.sgd(learningRate);
+  const loss = "meanSquaredError";
+  const batchSize = 1;
+  const epochs = 1;
+  async function myTrainModel(x, y, z) {
+    if (!myModel) {
+      myModel = tf.sequential({
+        layers: [
+          tf.layers.dense({ units: 32, inputShape, activation: "relu" }),
+          tf.layers.dense({ units: 1, outputShape }),
+        ],
+      });
+      myModel.compile({ optimizer, loss });
+    }
+    const inputTensor = tf.tensor2d([[x, y, z]]);
+    const outputTensor = tf.tensor2d([[x + y + z]]);
+    await myModel.fit(inputTensor, outputTensor, { batchSize, epochs });
+    const prediction = myModel.predict(inputTensor);
+    const outputDiv = document.getElementById("output");
+    outputDiv.innerHTML = `Prediction: ${prediction.dataSync()[0].toFixed(2)}`;
+  }
+</script>
+<button onclick="myConnect()">Connect</button>
+  </body>
+</html>
