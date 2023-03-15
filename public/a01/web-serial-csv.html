@@ -22,7 +22,7 @@ Headers are always needed.<br>
 <script src="https://unpkg.com/papaparse@5.3.2/papaparse.js"></script>  <!-- For CSV manipulation  -->
 
 <button id="connectButton">Connect via Serial Port</button><br>
-<input type=text id="mySendText" value="a">
+<input type=text id="mySendText" value="d1000">
 <input type=button value="send" onclick="{ mySendIt(document.getElementById('mySendText').value) }"><br><br>
 
 <input type=button value="send 'a' LED On" onclick="{mySendIt('a')}"><br>
@@ -30,6 +30,9 @@ Headers are always needed.<br>
 <input type=button value="send 'stop' " onclick="{mySendIt('stop')}"><br>
 <input type=button value="send 'start' " onclick="{mySendIt('start')}"><br>
 <input type=button value="send 'firstline' " onclick="{mySendIt('firstline')}"><br><br>
+<input type=button value="send 'f2' " onclick="{mySendIt('f2')}"> Set the frequency to 2 Hz<br>
+<input type=button value="send 'd1000' " onclick="{mySendIt('d1000')}">Set the delay to 1000 milliseconds = 1 second<br>
+<input type=button value="send 'c10' " onclick="{mySendIt('c10')}">set the collection seconds to 10 seconds<br>
 Save as time-series data<input id="myRadioTimeSeries" type=radio name="myChoice" CHECKED onClick="{
   myMultiCSV = true 
 }"><br>
