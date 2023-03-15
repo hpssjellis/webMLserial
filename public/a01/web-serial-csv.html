@@ -1,4 +1,4 @@
-<h6> Version 0.4.2-38   </h6>
+<h6> Version 0.4.3-39   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Android-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Pol,yfill has a bug. I will try to fix it.<br>
@@ -54,7 +54,7 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 }">Clear CSV All</button><br>
 
 
-<textarea id="myArea01" rows="10" cols="50"></textarea>
+<textarea id="myArea01" rows="15" cols="120"></textarea>
 
 <div id="csvTableContainer"></div>
 
@@ -179,7 +179,7 @@ async function connectSerial() {
     
   try {
     port = await navigator.serial.requestPort();
-    await port.open({ baudRate: 9600 });
+    await port.open({ baudRate: 115200 });
     
     const decoder = new TextDecoderStream(); 
     port.readable.pipeTo(decoder.writable);
@@ -214,6 +214,14 @@ async function connectSerial() {
   } catch (error) {
     log.innerHTML = error;
   }
+  
+  // resize textarea if needed.
+  
+    if(log.selectionStart == log.selectionEnd) {
+     log.scrollTop = log.scrollHeight;
+  }
+}
+  
 }  
   
 async function mySendIt(myData) {  
