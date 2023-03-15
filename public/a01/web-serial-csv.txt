@@ -17,11 +17,11 @@
 #include <Arduino_LSM9DS1.h>
 
 #define CONVERT_G_TO_MS2    9.80665f
-#define FREQUENCY_HZ        5
+#define FREQUENCY_HZ        2
 #define INTERVAL_MS         (1000 / (FREQUENCY_HZ + 1))
-#define COLLECTION_SECONDS  30
+#define COLLECTION_SECONDS  20
 
-int myFreq = FREQUENCY_HZ;
+float myFreq = FREQUENCY_HZ;
 int mySeconds = COLLECTION_SECONDS;
 int myMaxData = myFreq * mySeconds;
 int myCount = 0;
@@ -57,7 +57,7 @@ void loop() {
      myCount += 1;
      IMU.readAcceleration(x, y, z);
      //Serial.println( String(myStart)+ "," + String(analogRead(A0)) + "," + String(analogRead(A1)) + "," +  String(analogRead(A2))  );
-     if (myCount >= myMaxData){
+     if (myCount > myMaxData){
         mySendData = false;   // stop sending data when amount reached
      }
      if (mySendData){
@@ -72,15 +72,21 @@ void loop() {
   }
 
   if (readString.length() > 0) {
-    if (readString == "a"){
+    readString.trim();  // get rid of last weird character
+    Serial.println(readString); 
+
+    
+    if (readString[0] == 'a'){
       digitalWrite(LED_BUILTIN, LOW); //onboard LED LOW = on
     }
-    if (readString == "b"){
+    if (readString[0] == 'b'){
       digitalWrite(LED_BUILTIN, HIGH);
     }
     if (readString == "start"){
-      mySendData = true;
-      myCount = 0;
+       myCount = 0;
+       myStart = millis();      //  reset the delay time
+       myReset = millis(); 
+       mySendData = true;
     }
     if (readString == "stop"){
       mySendData = false;
@@ -89,6 +95,12 @@ void loop() {
        int myIn = readString.substring(1).toInt();
        Serial.println("Setting the delay for " + String(myIn) + " milliseconds");
        myDelay = myIn;
+       // myDelay = (1000 / (myFreq + 1));
+       if (myDelay > 0){
+          myFreq = 1000 / (myDelay * 1.000); 
+       } else {myFreq = 0.00001;}
+       Serial.println("Setting the frquency to " + String(myFreq,3) + " Hz");
+       myMaxData = myFreq * mySeconds;
        myCount = 0;
        myStart = millis();      //  reset the delay time
        myReset = millis();
@@ -106,10 +118,12 @@ void loop() {
        mySendData = true;
     }
         if (readString[0] == 'f'){
-       int myIn = readString.substring(1).toInt();
-       Serial.println("Setting the frquency to " + String(myIn) + " Hz");
+       float myIn = readString.substring(1).toFloat();
+       Serial.println("Setting the frquency to " + String(myIn,3) + " Hz");
        myFreq = myIn;
-       myDelay = (1000 / (myFreq + 1));
+       if (myFreq > 0){
+       myDelay = (1000 / (myFreq)); }
+       else {myDelay = 1000;}
        myMaxData = myFreq * mySeconds;
        myCount = 0;
        myStart = millis();      //  reset the delay time 
@@ -119,7 +133,7 @@ void loop() {
 
 
     
-    if (readString == "firstline"){
+    if (readString == "firstline" ){
       Serial.println("timestamp,accX,accY,accZ");  // CSV file heading titles
     }
     readString="";
