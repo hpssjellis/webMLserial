@@ -1,4 +1,4 @@
-<h6> Version 0.4.3-40   </h6>
+<h6> Version 0.4.4-41   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Android-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Pol,yfill has a bug. I will try to fix it.<br>
@@ -76,6 +76,15 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 
 
 <script>
+  
+  
+let myTimer = setInterval(function () {
+ alert()
+document.getElementById('myArea01').scrollTop = document.getElementById('myArea01').scrollHeight
+//log.scrollTop = log.scrollHeight
+
+}, 3000);
+  
   
 function keepOneLine(){
     let myTemp = document.getElementById('myArea01').value.split('\n')   // split along lines
