@@ -27,9 +27,13 @@ Headers are always needed.<br>
 
 <input type=button value="send 'a' LED On" onclick="{mySendIt('a')}"><br>
 <input type=button value="send 'b' LED Off" onclick="{mySendIt('b')}"><br>
-<input type=button value="send 'stop' " onclick="{mySendIt('stop')}"><br>
+<input type=button value="send 'stop' " onclick="{mySendIt('stop')}"><br><br>
+
 <input type=button value="send 'start' " onclick="{mySendIt('start')}"><br>
-<input type=button value="send 'firstline' " onclick="{mySendIt('firstline')}"><br><br>
+<input type=button value="send 'firstline' " onclick="{
+  document.getElementById('myArea01').value = ''                                                    
+  mySendIt('firstline')
+}"><br><br>
 <input type=button value="send 'f2' " onclick="{mySendIt('f2')}"> Set the frequency to 2 Hz<br>
 <input type=button value="send 'd1000' " onclick="{mySendIt('d1000')}">Set the delay to 1000 milliseconds = 1 second<br>
 <input type=button value="send 'c10' " onclick="{mySendIt('c10')}">set the collection seconds to 10 seconds<br>
@@ -80,7 +84,7 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
   
 let myTimer = setInterval(function () {   //auto scroll textarea
   document.getElementById('myArea01').scrollTop = document.getElementById('myArea01').scrollHeight
-}, 500);
+}, 50);
   
   
 function keepOneLine(){
