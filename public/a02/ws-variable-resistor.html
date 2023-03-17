@@ -78,12 +78,9 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 <script>
   
   
-let myTimer = setInterval(function () {
- alert()
-document.getElementById('myArea01').scrollTop = document.getElementById('myArea01').scrollHeight
-//log.scrollTop = log.scrollHeight
-
-}, 3000);
+let myTimer = setInterval(function () {   //auto scroll textarea
+  document.getElementById('myArea01').scrollTop = document.getElementById('myArea01').scrollHeight
+}, 500);
   
   
 function keepOneLine(){
