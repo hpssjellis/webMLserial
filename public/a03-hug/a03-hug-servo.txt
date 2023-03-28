@@ -9,8 +9,6 @@
  * Laptops Desktops  https://hpssjellis.github.io/my-examples-of-arduino-webUSB-webSerial/public/index.html
  * IOS     not really sure
  * 
- * Regular servo connection own power 5V red wrie GND brown wire
- * D2 connect to orange Wire for Servo control
  */
 
 
@@ -160,32 +158,32 @@ void loop() {
     if (readString == "Cat" ){
       Serial.println("Cat");  
       myServo_D2.write(20);          // servo at 90 degrees
-      delay(200); 
+      //delay(200); 
     }
     if (readString == "Dog" ){
       Serial.println("Dog");  
       myServo_D2.write(40);          // servo at 90 degrees
-      delay(200); 
+     // delay(200); 
     }    
     if (readString == "Person" ){
       Serial.println("Person");  
       myServo_D2.write(60);          // servo at 90 degrees
-      delay(200); 
+     // delay(200); 
     }
     if (readString == "Pen" ){
       Serial.println("Pen");  
       myServo_D2.write(80);          // servo at 90 degrees
-      delay(200); 
+     // delay(200); 
     }   
     if (readString == "TV" ){
       Serial.println("TV");  
       myServo_D2.write(100);          // servo at 90 degrees
-      delay(200); 
+     // delay(200); 
     }    
      if (readString == "Unknown" ){
       Serial.println("Unknown");  
       myServo_D2.write(170);          // servo at 90 degrees
-      delay(200); 
+     // delay(200); 
     }     
     readString = "";   // blank out the readString
   } 
