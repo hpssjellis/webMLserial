@@ -81,7 +81,22 @@
 
   <br><br>  <br><br>  <br><br>  <br><br>  <br><br>  <br><br>  <br><br>  <br><br> <br><br> <br><br> 
 version 0.6.0-60<br>
-  <h2 align=center> Testing HuggingFaceJS</h2>
+  <h2 align=center> Testing HuggingFaceJS with WebSerial Output to a servo motor</h2>
+  
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/web-serial-polyfill@1.0.13/dist/serial.js"> </script> 
+<script src="https://unpkg.com/papaparse@5.3.2/papaparse.js"></script>  <!-- For CSV manipulation  -->
+
+<button id="connectButton">Connect via Serial Port</button><br>
+<input type=text id="mySendText" value="a">
+<input type=button value="send" onclick="{ mySendIt(document.getElementById('mySendText').value) }"><br><br>
+
+<input type=button value="send 'a' LED On" onclick="{mySendIt('a')}"><br>
+  
+  
+  
+  
 Output in the div below. Works without personal token just stops after about 20 loads or refreshes per hour<br>
   
 Note: Delete and save a blank token to return to the regular rate.<br><br>  
