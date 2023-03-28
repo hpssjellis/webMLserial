@@ -7,6 +7,12 @@
      </script>
     
     <script>
+      
+      
+    //Global Variables
+    var exports = {};
+      
+      
      myHugginFaceLoad = async function(mySentToken, mySentData, mySentModel){ 
         let hf = new document.HfInference(mySentToken)
         document.myHf = hf  // let this be global, also kind of bad prrogramming
