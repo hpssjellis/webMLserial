@@ -9,12 +9,16 @@
  * Laptops Desktops  https://hpssjellis.github.io/my-examples-of-arduino-webUSB-webSerial/public/index.html
  * IOS     not really sure
  * 
+ * Regular servo connection own power 5V red wrie GND brown wire
+ * D2 connect to orange Wire for Servo control
  */
 
 
 
 #include <Arduino.h> // Only needed for https://platformio.org/
+#include <Servo.h>
 
+Servo myServo_D2;
 
 
 #define MYDEBUG             false
@@ -39,6 +43,8 @@ int myA0;
 void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
+  myServo_D2.attach(D2);   // D2 should do PWM on Portenta
+
   pinMode(A0, INPUT);
   digitalWrite(LED_BUILTIN, HIGH);   // onboard LED, HIGH = off
   while (!Serial) {}                // do nothing and wait
@@ -150,6 +156,37 @@ void loop() {
     if (readString == "firstline" ){
       Serial.println("timestamp,A0");  // CSV file heading titles
     }
+
+    if (readString == "Cat" ){
+      Serial.println("Cat");  
+      myServo_D2.write(20);          // servo at 90 degrees
+      delay(200); 
+    }
+    if (readString == "Dog" ){
+      Serial.println("Dog");  
+      myServo_D2.write(40);          // servo at 90 degrees
+      delay(200); 
+    }    
+    if (readString == "Person" ){
+      Serial.println("Person");  
+      myServo_D2.write(60);          // servo at 90 degrees
+      delay(200); 
+    }
+    if (readString == "Pen" ){
+      Serial.println("Pen");  
+      myServo_D2.write(80);          // servo at 90 degrees
+      delay(200); 
+    }   
+    if (readString == "TV" ){
+      Serial.println("TV");  
+      myServo_D2.write(100);          // servo at 90 degrees
+      delay(200); 
+    }    
+     if (readString == "Unknown" ){
+      Serial.println("Unknown");  
+      myServo_D2.write(170);          // servo at 90 degrees
+      delay(200); 
+    }     
     readString = "";   // blank out the readString
   } 
   
