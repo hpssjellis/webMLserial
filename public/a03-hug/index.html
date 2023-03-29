@@ -48,7 +48,8 @@
        
                                                 
    for (let myLoop = 0; myLoop < document.myObjDetect.length; myLoop++ ) {  
-      mySendIt(document.myObjDetect[myLoop].label)
+     console.log(' document.myObjDetect[myLoop].label' )
+     console.log( document.myObjDetect[myLoop].label )
       document.getElementById('myBox'+myLoop).innerText   = document.myObjDetect[myLoop].label + ': '+  parseInt(document.myObjDetect[myLoop].score*100) + '%'  
       document.getElementById('myBox'+myLoop).style.top = document.myObjDetect[myLoop].box.ymin       
       document.getElementById('myBox'+myLoop).style.left = document.myObjDetect[myLoop].box.xmin     
