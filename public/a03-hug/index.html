@@ -48,9 +48,13 @@
        
                                                 
    for (let myLoop = 0; myLoop < document.myObjDetect.length; myLoop++ ) {  
-      console.log(' document.myObjDetect[myLoop].label' )
-      console.log( document.myObjDetect[myLoop].label )
-      let myStuff = await mySendIt(document.myObjDetect[myLoop].label)
+    //  console.log(' document.myObjDetect[myLoop].label' )
+     // console.log( document.myObjDetect[myLoop].label )
+     // let myStuff = await mySendIt(document.myObjDetect[myLoop].label)
+      
+      
+     document.getElementById('mySendText').value = document.myObjDetect[myLoop].label
+     document.getElementById('send').click()
      
       document.getElementById('myBox'+myLoop).innerText   = document.myObjDetect[myLoop].label + ': '+  parseInt(document.myObjDetect[myLoop].score*100) + '%'  
       document.getElementById('myBox'+myLoop).style.top = document.myObjDetect[myLoop].box.ymin       
