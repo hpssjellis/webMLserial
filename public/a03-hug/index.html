@@ -54,7 +54,9 @@
       
       
      document.getElementById('mySendText').value = document.myObjDetect[myLoop].label
-     document.getElementById('mySendButton').click()
+     
+     const myTimeout = setTimeout(document.getElementById('mySendButton').click(), 500);
+      
      
       document.getElementById('myBox'+myLoop).innerText   = document.myObjDetect[myLoop].label + ': '+  parseInt(document.myObjDetect[myLoop].score*100) + '%'  
       document.getElementById('myBox'+myLoop).style.top = document.myObjDetect[myLoop].box.ymin       
@@ -105,10 +107,12 @@ version 0.6.0-60<br>
 <button id="connectButton">Connect via Serial Port</button><br>
 <input type=text id="mySendText" value="a">
 <input type=button id="mySendButton" value="send" onclick="{
+
+ mySendIt(document.getElementById('mySendText').value)                                                          
                                                            
-myTypicalFunctionNew = async function(){                                                            
-   let myReturn = await  mySendIt(document.getElementById('mySendText').value) 
-}                                                           
+//myTypicalFunctionNew = async function(){                                                            
+//   let myReturn = await  mySendIt(document.getElementById('mySendText').value) 
+//}                                                           
                                                            
 }"><br><br>
 
