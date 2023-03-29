@@ -107,7 +107,7 @@ version 0.6.0-60<br>
   <script src="https://cdn.jsdelivr.net/npm/web-serial-polyfill@1.0.13/dist/serial.js"> </script> 
 <script src="https://unpkg.com/papaparse@5.3.2/papaparse.js"></script>  <!-- For CSV manipulation  -->
 
-<button id="connectButton">Connect via Serial Port</button><br>
+<button id="connectButton" style="color:red; width:200px; ">Connect via Serial Port</button><br>
 <input type=text id="mySendText" value="a">
 <input type=button id="mySendButton" value="send" onclick="{
  mySendIt(document.getElementById('mySendText').value)                                                          
@@ -141,7 +141,7 @@ function myFunction(variable) {
   
   
   
-<input type=text id="mySendText2" value="unknown,cat,unknown,cat,dog,person,cat">
+<input type=text id="mySendText2" size=70 value="unknown,cat,unknown,cat,dog,person,cat">
 <input type=button id="mySendButton2" value="send multi" onclick="{
  // mySendIt(document.getElementById('mySendText').value)      
  //document.getElementById('mySendButton').click()                                                                
@@ -162,7 +162,8 @@ function myFunction(variable) {
 <input type=button value="send 'pen' " onclick="{mySendIt('pen')}"><br>
 <input type=button value="send 'unknown' " onclick="{mySendIt('unknown')}"><br>
   
-  
+  Needs the Arudino serial print code here for reading <a href="a03-hug-servo.txt">a03-hug-servo.ino</a><br>
+  For download as an Arduino Sketch .ino file <a href="a03-hug-servo.txt">a03-hug-servo.ino</a><br>
   
   
 Output in the div below. Works without personal token just stops after about 20 loads or refreshes per hour<br>
