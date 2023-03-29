@@ -356,6 +356,7 @@ async function mySendIt(myData) {
     const writer = port.writable.getWriter();
     await writer.write(encoder.encode(myData));
     writer.releaseLock();
+    console.log('myData');
     console.log(myData);
   } else {
     mySend(myData)
@@ -433,13 +434,13 @@ async function myPoly(){
   }
         
  async function mySend(myData2){  
-   console.log('myData2')
-   console.log(myData2)
+  // console.log('myData2')
+  // console.log(myData2)
     writer.ready.then(() => {                                         
       let inputArrayBuffer = str2ab(myData2);
       const myWritten = writer.write(inputArrayBuffer);
-      console.log('myWritten')
-      console.log(myWritten)
+     // console.log('myWritten')
+     // console.log(myWritten)
                                          
       //document.getElementById('myDiv01').innerHTML = '<br><br><b>myWriter: </b><br><pre>' +  JSON.stringify(myWritten, null, 3) + '</pre><br><br>'  
                                             
