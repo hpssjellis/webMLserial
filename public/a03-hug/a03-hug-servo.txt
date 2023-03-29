@@ -20,6 +20,9 @@ Servo myServo_D2;
 
 
 #define MYDEBUG             false
+
+
+/*
 #define CONVERT_G_TO_MS2    9.80665f
 #define FREQUENCY_HZ        50
 #define INTERVAL_MS         (1000 / (FREQUENCY_HZ + 1))
@@ -32,7 +35,7 @@ int myCount = 0;
 int myDelay = INTERVAL_MS;   // non-block delay in milliseconds
 unsigned long myStart; 
 unsigned long myReset = 0; 
-
+*/
 
 String readString;
 bool mySendData = true;
@@ -41,21 +44,24 @@ int myA0;
 void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
-  myServo_D2.attach(D2);   // D2 should do PWM on Portenta
+ // myServo_D2.attach(D2);   // D2 should do PWM on Portenta
 
-  pinMode(A0, INPUT);
+ // pinMode(A0, INPUT);
   digitalWrite(LED_BUILTIN, HIGH);   // onboard LED, HIGH = off
   while (!Serial) {}                // do nothing and wait
   
-  myStart = millis();   // set delay
-  randomSeed(analogRead(A1));  // A1 pin on XIAO or Portenta does not have to be connected to anything
-  Serial.println("timestamp,A0");  // CSV file heading titles
+//  myStart = millis();   // set delay
+//  randomSeed(analogRead(A1));  // A1 pin on XIAO or Portenta does not have to be connected to anything
+  //Serial.println("timestamp,A0");  // CSV file heading titles
   
 
 }
 
 void loop() {
+  delay(3);
 
+
+/*
   if ( (millis() - myStart ) >= myDelay) {       
      myStart = millis();      //  reset the delay time
      myCount += 1;
@@ -70,6 +76,9 @@ void loop() {
      } 
    }
 
+
+
+*/
    while (Serial.available()) {
     delay(3);  
     char myChar = Serial.read();
@@ -89,6 +98,8 @@ void loop() {
     if (readString[0] == 'b'){
       digitalWrite(LED_BUILTIN, HIGH);
     }
+
+   /* 
     if (readString == "start"){
        myCount = 0;
        myStart = millis();      //  reset the delay time
@@ -101,6 +112,7 @@ void loop() {
       myReset = millis(); 
       mySendData = false;
     }    
+
     if (readString[0] == 'd'){
        int myIn = readString.substring(1).toInt();
        if (MYDEBUG){ 
@@ -154,38 +166,38 @@ void loop() {
     if (readString == "firstline" ){
       Serial.println("timestamp,A0");  // CSV file heading titles
     }
-
+*/
     if (readString == "Cat" ){
       Serial.println("Cat");  
-      myServo_D2.write(20);          // servo at 90 degrees
-      //delay(200); 
+      myServo_D2.attach(D2);
+      myServo_D2.write(10);          // servo at 90 degrees
+      delay(1000); 
     }
     if (readString == "Dog" ){
+      myServo_D2.attach(D2);
       Serial.println("Dog");  
-      myServo_D2.write(40);          // servo at 90 degrees
-     // delay(200); 
+      myServo_D2.write(50);          // servo at 90 degrees
+      delay(1000); 
     }    
     if (readString == "Person" ){
+      myServo_D2.attach(D2);
       Serial.println("Person");  
-      myServo_D2.write(60);          // servo at 90 degrees
-     // delay(200); 
+      myServo_D2.write(90);          // servo at 90 degrees
+      delay(1000); 
     }
     if (readString == "Pen" ){
+      myServo_D2.attach(D2);
       Serial.println("Pen");  
-      myServo_D2.write(80);          // servo at 90 degrees
-     // delay(200); 
-    }   
-    if (readString == "TV" ){
-      Serial.println("TV");  
-      myServo_D2.write(100);          // servo at 90 degrees
-     // delay(200); 
-    }    
+      myServo_D2.write(130);          // servo at 90 degrees
+      delay(1000); 
+    }      
      if (readString == "Unknown" ){
+      myServo_D2.attach(D2);
       Serial.println("Unknown");  
       myServo_D2.write(170);          // servo at 90 degrees
-     // delay(200); 
+      delay(1000); 
     }     
     readString = "";   // blank out the readString
   } 
-  
+  myServo_D2.detach();
 }
