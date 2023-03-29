@@ -48,6 +48,7 @@
        
                                                 
    for (let myLoop = 0; myLoop < document.myObjDetect.length; myLoop++ ) {  
+      mySendIt(document.myObjDetect[myLoop].label)
       document.getElementById('myBox'+myLoop).innerText   = document.myObjDetect[myLoop].label + ': '+  parseInt(document.myObjDetect[myLoop].score*100) + '%'  
       document.getElementById('myBox'+myLoop).style.top = document.myObjDetect[myLoop].box.ymin       
       document.getElementById('myBox'+myLoop).style.left = document.myObjDetect[myLoop].box.xmin     
@@ -222,7 +223,7 @@ Load the URL of the image to Analyse:<br>
        async function getStream2() {
 
         if (myVideo.srcObject) {
-           myVideo.srcObject.getTracks().forEach(track => {
+             myVideo.srcObject.getTracks().forEach(track => {
              myVideo.srcObject.removeTrack(track);
              track.stop();
            });
