@@ -167,33 +167,33 @@ void loop() {
       Serial.println("timestamp,A0");  // CSV file heading titles
     }
 */
-    if (readString == "Cat" ){
-      Serial.println("Cat");  
+    if (readString == "cat" ){
+      Serial.println("cat");  
       myServo_D2.attach(D2);
       myServo_D2.write(10);          // servo at 90 degrees
       delay(1000); 
     }
-    if (readString == "Dog" ){
+    if (readString == "dog" ){
       myServo_D2.attach(D2);
-      Serial.println("Dog");  
+      Serial.println("dog");  
       myServo_D2.write(50);          // servo at 90 degrees
       delay(1000); 
     }    
-    if (readString == "Person" ){
+    if (readString == "person" ){
       myServo_D2.attach(D2);
-      Serial.println("Person");  
+      Serial.println("person");  
       myServo_D2.write(90);          // servo at 90 degrees
       delay(1000); 
     }
-    if (readString == "Pen" ){
+    if (readString == "pen" ){
       myServo_D2.attach(D2);
-      Serial.println("Pen");  
+      Serial.println("pen");  
       myServo_D2.write(130);          // servo at 90 degrees
       delay(1000); 
     }      
-     if (readString == "Unknown" ){
+     if (readString == "unknown" ){
       myServo_D2.attach(D2);
-      Serial.println("Unknown");  
+      Serial.println("unknown");  
       myServo_D2.write(170);          // servo at 90 degrees
       delay(1000); 
     }     
