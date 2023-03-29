@@ -48,8 +48,10 @@
        
                                                 
    for (let myLoop = 0; myLoop < document.myObjDetect.length; myLoop++ ) {  
-     console.log(' document.myObjDetect[myLoop].label' )
-     console.log( document.myObjDetect[myLoop].label )
+      console.log(' document.myObjDetect[myLoop].label' )
+      console.log( document.myObjDetect[myLoop].label )
+      mySendIt(document.myObjDetect[myLoop].label)
+     
       document.getElementById('myBox'+myLoop).innerText   = document.myObjDetect[myLoop].label + ': '+  parseInt(document.myObjDetect[myLoop].score*100) + '%'  
       document.getElementById('myBox'+myLoop).style.top = document.myObjDetect[myLoop].box.ymin       
       document.getElementById('myBox'+myLoop).style.left = document.myObjDetect[myLoop].box.xmin     
@@ -102,11 +104,11 @@ version 0.6.0-60<br>
 
 <input type=button value="send 'a' LED Off" onclick="{mySendIt('a')}"><br>
 <input type=button value="send 'b' LED On" onclick="{mySendIt('b')}"><br>
-<input type=button value="send 'Cat' " onclick="{mySendIt('Cat')}"><br>
-<input type=button value="send 'Dog' " onclick="{mySendIt('Dog')}"><br>
-<input type=button value="send 'Person' " onclick="{mySendIt('Person')}"><br>
-<input type=button value="send 'Pen' " onclick="{mySendIt('Pen')}"><br>
-<input type=button value="send 'Unknown' " onclick="{mySendIt('Unknown')}"><br>
+<input type=button value="send 'cat' " onclick="{mySendIt('cat')}"><br>
+<input type=button value="send 'dog' " onclick="{mySendIt('dog')}"><br>
+<input type=button value="send 'person' " onclick="{mySendIt('person')}"><br>
+<input type=button value="send 'pen' " onclick="{mySendIt('pen')}"><br>
+<input type=button value="send 'unknown' " onclick="{mySendIt('unknown')}"><br>
   
   
   
