@@ -110,9 +110,38 @@ version 0.6.0-60<br>
  mySendIt(document.getElementById('mySendText').value)                                                          
 }"><br>
   
+<script>
+  function callFunctionEverySecond(array, func) {
+  let i = 0;
+  setInterval(() => {
+    if (i < array.length) {
+      func(array[i]);
+      i++;
+    } else {
+      clearInterval(intervalId);
+    }
+  }, 1000);
+}
+  
+  const myArray = [1, 2, 3, 4, 5];
+
+function myFunction(variable) {
+  console.log(variable);
+}
+
+  
+</script>
+  
+  
+  
+  
+  
 <input type=text id="mySendText2" value=",cat,cat,dog,person,cat">
 <input type=button id="mySendButton" value="send multi" onclick="{
- // mySendIt(document.getElementById('mySendText').value)                                                          
+ // mySendIt(document.getElementById('mySendText').value)      
+                                                                 
+    callFunctionEverySecond(myArray, myFunction);                                                               
+                                                                 
 }">
     
   
