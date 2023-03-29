@@ -46,14 +46,14 @@
                   })
        
        
-                                                
+   document.getElementById('mySendText2').value = ''                                             
    for (let myLoop = 0; myLoop < document.myObjDetect.length; myLoop++ ) {  
     //  console.log(' document.myObjDetect[myLoop].label' )
      // console.log( document.myObjDetect[myLoop].label )
      // let myStuff = await mySendIt(document.myObjDetect[myLoop].label)
       
       
-     document.getElementById('mySendText2').value += document.myObjDetect[myLoop].label + ','
+     document.getElementById('mySendText2').value += ',' + document.myObjDetect[myLoop].label 
      
     // const myTimeout = setTimeout(document.getElementById('mySendButton').click(), 500);
       
@@ -110,7 +110,7 @@ version 0.6.0-60<br>
  mySendIt(document.getElementById('mySendText').value)                                                          
 }"><br>
   
-<input type=text id="mySendText2" value="cat,cat,dog,person,cat">
+<input type=text id="mySendText2" value=",cat,cat,dog,person,cat">
 <input type=button id="mySendButton" value="send multi" onclick="{
  // mySendIt(document.getElementById('mySendText').value)                                                          
 }">
