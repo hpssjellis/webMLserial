@@ -1,4 +1,3 @@
-
 <html>
   <head>
      <script type="module">
@@ -46,14 +45,14 @@
                   })
        
        
-   document.getElementById('mySendText2').value = ''                                             
+   document.getElementById('mySendText2').value = 'unknown'                                             
    for (let myLoop = 0; myLoop < document.myObjDetect.length; myLoop++ ) {  
     //  console.log(' document.myObjDetect[myLoop].label' )
      // console.log( document.myObjDetect[myLoop].label )
      // let myStuff = await mySendIt(document.myObjDetect[myLoop].label)
       
       
-     document.getElementById('mySendText2').value += ',' + document.myObjDetect[myLoop].label 
+     document.getElementById('mySendText2').value += ',' + document.myObjDetect[myLoop].label + ',unknown' 
      
     // const myTimeout = setTimeout(document.getElementById('mySendButton').click(), 500);
       
@@ -80,8 +79,11 @@
           document.getElementById('myBox'+myLoop).style.fontSize = 'xx-large'
       }
    }      
-       
-     }  
+    
+   // then press the multi-send-button
+   //document.getElementById('mySendButton2').click()
+
+  }  
       
     </script>
   
@@ -111,16 +113,18 @@ version 0.6.0-60<br>
 }"><br>
   
 <script>
+  let myIntervalId
+
   function callFunctionEverySecond(array, func) {
   let i = 0;
-  setInterval(() => {
+  myIntervalId = setInterval(() => {
     if (i < array.length) {
       func(array[i]);
       i++;
     } else {
-      clearInterval(intervalId);
+      clearInterval(myIntervalId);
     }
-  }, 1000);
+  }, 1500);
 }
   
   const myArray = [1, 2, 3, 4, 5];
@@ -136,11 +140,12 @@ function myFunction(variable) {
   
   
   
-<input type=text id="mySendText2" value=",cat,cat,dog,person,cat">
-<input type=button id="mySendButton" value="send multi" onclick="{
+<input type=text id="mySendText2" value="unknown,cat,unknown,cat,dog,person,cat">
+<input type=button id="mySendButton2" value="send multi" onclick="{
  // mySendIt(document.getElementById('mySendText').value)      
-                                                                 
-    callFunctionEverySecond(myArray, myFunction);                                                               
+ //document.getElementById('mySendButton').click()                                                                
+   // callFunctionEverySecond(myArray, myFunction);               
+    callFunctionEverySecond(document.getElementById('mySendText2').value.split(','), mySendIt);                                                               
                                                                  
 }">
     
