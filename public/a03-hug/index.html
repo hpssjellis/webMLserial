@@ -53,9 +53,9 @@
      // let myStuff = await mySendIt(document.myObjDetect[myLoop].label)
       
       
-     document.getElementById('mySendText').value = document.myObjDetect[myLoop].label
+     document.getElementById('mySendText2').value += document.myObjDetect[myLoop].label + ','
      
-     const myTimeout = setTimeout(document.getElementById('mySendButton').click(), 500);
+    // const myTimeout = setTimeout(document.getElementById('mySendButton').click(), 500);
       
      
       document.getElementById('myBox'+myLoop).innerText   = document.myObjDetect[myLoop].label + ': '+  parseInt(document.myObjDetect[myLoop].score*100) + '%'  
@@ -107,14 +107,17 @@ version 0.6.0-60<br>
 <button id="connectButton">Connect via Serial Port</button><br>
 <input type=text id="mySendText" value="a">
 <input type=button id="mySendButton" value="send" onclick="{
-
  mySendIt(document.getElementById('mySendText').value)                                                          
-                                                           
-//myTypicalFunctionNew = async function(){                                                            
-//   let myReturn = await  mySendIt(document.getElementById('mySendText').value) 
-//}                                                           
-                                                           
-}"><br><br>
+}"><br>
+  
+<input type=text id="mySendText2" value="cat,cat,dog,person,cat">
+<input type=button id="mySendButton" value="send multi" onclick="{
+ // mySendIt(document.getElementById('mySendText').value)                                                          
+}">
+    
+  
+  
+  <br><br>
 
 <input type=button value="send 'a' LED Off" onclick="{mySendIt('a')}"><br>
 <input type=button value="send 'b' LED On" onclick="{mySendIt('b')}"><br>
