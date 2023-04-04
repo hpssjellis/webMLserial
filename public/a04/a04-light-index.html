@@ -25,8 +25,8 @@ Headers are always needed.<br>
 <input type=text id="mySendText" value="d1000">
 <input type=button value="send" onclick="{ mySendIt(document.getElementById('mySendText').value) }"><br><br>
 
-<input type=button value="send 'a' LED On" onclick="{mySendIt('a')}"><br>
-<input type=button value="send 'b' LED Off" onclick="{mySendIt('b')}"><br>
+<input type=button value="send 'a' LED On or Off" onclick="{mySendIt('a')}"><br> 
+<input type=button value="send 'b' LED Off or On" onclick="{mySendIt('b')}"><br>
 <input type=button value="send 'stop' " onclick="{mySendIt('stop')}"><br><br>
 
 <input type=button value="send 'start' " onclick="{mySendIt('start')}"><br>
@@ -34,9 +34,14 @@ Headers are always needed.<br>
   document.getElementById('myArea01').value = ''                                                    
   mySendIt('firstline')
 }"><br><br>
-<input type=button value="send 'f2' " onclick="{mySendIt('f2')}"> Set the frequency to 2 Hz<br>
-<input type=button value="send 'd1000' " onclick="{mySendIt('d1000')}">Set the delay to 1000 milliseconds = 1 second<br>
-<input type=button value="send 'c10' " onclick="{mySendIt('c10')}">set the collection seconds to 10 seconds<br>
+
+<input type=button value="send 'c10' " onclick="{mySendIt('c10')}">set the collection seconds to 10 seconds   OR
+<input type=button value="send 'm9000' " onclick="{mySendIt('m9000')}">set the collection seconds to 9000 milliseconds
+
+
+<input type=button value="send 'd1000' " onclick="{mySendIt('d1000')}">Set the delay to 1000 milliseconds = 1 second OR
+<input type=button value="send 'f2' " onclick="{mySendIt('f2')}"> Set the frequency to 2 Hz <br> 
+
 Save as time-series data<input id="myRadioTimeSeries" type=radio name="myChoice" CHECKED onClick="{
   myMultiCSV = true 
 }"><br>
@@ -239,6 +244,7 @@ async function mySendIt(myData) {
     await writer.write(encoder.encode(myData));
     writer.releaseLock();
     console.log(myData);
+    document.getElementById('mySendText').value = myData
   } else {
     mySend(myData)
   }
@@ -320,7 +326,8 @@ async function myPoly(){
       const myWritten = writer.write(inputArrayBuffer);
       console.log('myWritten')
       console.log(myWritten)
-                                         
+        
+      document.getElementById('mySendText').value = myData2      // check if this works                           
       //document.getElementById('myDiv01').innerHTML = '<br><br><b>myWriter: </b><br><pre>' +  JSON.stringify(myWritten, null, 3) + '</pre><br><br>'  
                                             
    
@@ -334,8 +341,8 @@ async function myPoly(){
 
 
   Here is the latest sketch I am using. The .txt is for viewing the .ino is to download<br>
- <li><a href="ws-variable-resistor.txt">ws-variable-resistor.txt</a>  This arduino sketch can be viewed
-<li><a href="ws-variable-resistor.ino">ws-variable-resistor.ino</a>  Click to download: Note: New ArduinoWebSerial testing code. Make sure in Arduino Serial Monitor you don't send a new-line
+ <li><a href="a04-light.txt">a04-light.txt</a>  This arduino sketch can be viewed
+<li><a href="a04-light.ino">a04-light.ino</a>  Click to download: Note: New ArduinoWebSerial testing code. Make sure in Arduino Serial Monitor you don't send a new-line
 EdgeImpulse data uploading csv format <a href="https://docs.edgeimpulse.com/reference/data-ingestion/importing-csv-data">here</a><br> 
   
 
