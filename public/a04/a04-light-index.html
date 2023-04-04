@@ -60,8 +60,9 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 }">Clear CSV (except first line)</button>      
 
 <button  onclick="{
-     keepOneLine()  
-    mySendIt('start')          
+     mySaveCSV(document.getElementById('myEnteredFileName').value)  // clean and save file
+     keepOneLine()                                                  // put CSV headers
+     mySendIt('start')                                              // Start using present settings
 }">Auto: clean-save-start</button>
 
 <button  onclick="{
