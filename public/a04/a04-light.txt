@@ -9,6 +9,8 @@
  * Laptops Desktops  https://hpssjellis.github.io/my-examples-of-arduino-webUSB-webSerial/public/index.html
  * IOS     not really sure
  * 
+ * 
+ * I am having weird issues with analogRead A0 so using A1
  */
 
 
@@ -17,7 +19,9 @@
 
 
 
-#define MYDEBUG             false
+#define MYDEBUG             false   // set to true if you need more information
+
+
 #define CONVERT_G_TO_MS2    9.80665f
 #define FREQUENCY_HZ        50
 #define INTERVAL_MS         (1000 / (FREQUENCY_HZ + 1))
@@ -34,18 +38,19 @@ unsigned long myReset = 0;
 
 String readString;
 bool mySendData = true;
-int myA0;
+int myA1;
 
 void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(A0, INPUT);
+  pinMode(A1, INPUT);
   digitalWrite(LED_BUILTIN, HIGH);   // onboard LED, HIGH = off
   while (!Serial) {}                // do nothing and wait
   
   myStart = millis();   // set delay
-  randomSeed(analogRead(A1));  // A1 pin on XIAO or Portenta does not have to be connected to anything
-  Serial.println("timestamp,A0");  // CSV file heading titles
+  randomSeed(analogRead(A0));  // A1 pin on XIAO or Portenta does not have to be connected to anything
+  Serial.println("timestamp,A1");  // CSV file heading titles
   
 
 }
@@ -55,14 +60,14 @@ void loop() {
   if ( (millis() - myStart ) >= myDelay) {       
      myStart = millis();      //  reset the delay time
      myCount += 1;
-     myA0 = analogRead(A0);
+     myA1 = analogRead(A1);
      //Serial.println( String(myStart)+ "," + String(analogRead(A0)) + "," + String(analogRead(A1)) + "," +  String(analogRead(A2))  );
      if (myCount > myMaxData){
         mySendData = false;   // stop sending data when amount reached
      }
      if (mySendData){
        // Serial.println( String(myStart-myReset)+ "," + String(x) + "," + String(y) + "," +  String(z)  );
-        Serial.println( String(myStart-myReset) + "," + String(myA0) );
+        Serial.println( String(myStart-myReset) + "," + String(myA1) );
      } 
    }
 
@@ -97,7 +102,7 @@ void loop() {
       myReset = millis(); 
       mySendData = false;
     }    
-    if (readString[0] == 'd'){
+    if (readString[0] == 'd' && isDigit(readString[1]) ){
        int myIn = readString.substring(1).toInt();
        if (MYDEBUG){ 
           Serial.println("Setting the delay for " + String(myIn) + " milliseconds");
@@ -117,7 +122,7 @@ void loop() {
        mySendData = true;
     }
 
-        if (readString[0] == 'c'){
+        if (readString[0] == 'c'  && isDigit(readString[1]) ){
        int myIn = readString.substring(1).toInt();
        if (MYDEBUG){
           Serial.println("Collecting for " + String(myIn) + " seconds");
@@ -129,7 +134,7 @@ void loop() {
        myReset = millis(); 
        mySendData = true;
     }
-        if (readString[0] == 'f'){
+        if (readString[0] == 'f'  && isDigit(readString[1]) ){
        float myIn = readString.substring(1).toFloat();
        if (MYDEBUG){
           Serial.println("Setting the frquency to " + String(myIn,3) + " Hz");
@@ -148,7 +153,7 @@ void loop() {
 
     
     if (readString == "firstline" ){
-      Serial.println("timestamp,A0");  // CSV file heading titles
+      Serial.println("timestamp,A1");  // CSV file heading titles
     }
     readString = "";   // blank out the readString
   } 
