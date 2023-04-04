@@ -1,4 +1,4 @@
-<h6> Version 0.5.0-45   </h6>
+<h6> Version 0.5.1-46   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Android-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Pol,yfill has a bug. I will try to fix it.<br>
@@ -62,13 +62,19 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 <button  onclick="{
      keepOneLine()  
     mySendIt('start')          
-}">Auto</button><br>
+}">Auto: clean-save-start</button>
+
+<button  onclick="{
+    document.getElementById('myArea01').value = document.getElementById('myArea01').replace(/\n\n/g, '\n')   // remove blank lines 
+    document.getElementById('myArea01').value = document.getElementById('myArea01').replace(/(\s*,?\s*)*$/, '')    // remove extra commas 
+}">Clean</button><br>
+<br>
 
 <button type="button" onclick="{
     document.getElementById('myArea01').value = ''                                                
 }">Clear CSV All</button>
 
-, Allow Textarea AutoScroll Yes:<input type=radio name="myRadioAutoScroll" CHECKED onChange="{
+ Allow-AutoScroll Yes:<input type=radio name="myRadioAutoScroll" CHECKED onChange="{
  myTimer = setInterval(function () {   //auto scroll textarea
   document.getElementById('myArea01').scrollTop = document.getElementById('myArea01').scrollHeight
 }, 50);
