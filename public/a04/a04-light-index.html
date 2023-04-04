@@ -21,7 +21,7 @@ Headers are always needed.<br>
 <script src="https://cdn.jsdelivr.net/npm/web-serial-polyfill@1.0.13/dist/serial.js"> </script> 
 <script src="https://unpkg.com/papaparse@5.3.2/papaparse.js"></script>  <!-- For CSV manipulation  -->
 
-<button id="connectButton">Connect via Serial Port</button><br>
+<button id="connectButton"  style="color:red; width:200px; ">Connect via Serial Port</button><br>
 <input type=text id="mySendText" value="d1000">
 <input type=button value="send" onclick="{ mySendIt(document.getElementById('mySendText').value) }"><br><br>
 
@@ -60,16 +60,18 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 }">Clear CSV (except first line)</button>      
 
 <button  onclick="{
+    document.getElementById('myArea01').value = document.getElementById('myArea01').value.replace(/\n\n/g, '\n')   // remove blank lines 
+   // document.getElementById('myArea01').value = document.getElementById('myArea01').value.replace(/(\s*,?\s*)*$/, '')    // remove extra commas 
+}">clean only</button><br>
+
+<button  style="color:green; width:200px; " onclick="{
   mySaveCSV(document.getElementById('myEnteredFileName').value)  // clean and save file
   document.getElementById('myArea01').value = ''                 // delete textarea                                   
   mySendIt('firstline')                                          // put CSV headers
   setTimeout(() => { mySendIt('start'); }, 400);                 // Start but after a short delay
 }">Auto: clean-save-start</button>
 
-<button  onclick="{
-    document.getElementById('myArea01').value = document.getElementById('myArea01').value.replace(/\n\n/g, '\n')   // remove blank lines 
-   // document.getElementById('myArea01').value = document.getElementById('myArea01').value.replace(/(\s*,?\s*)*$/, '')    // remove extra commas 
-}">clean only</button><br>
+
 <br>
 
 <button type="button" onclick="{
