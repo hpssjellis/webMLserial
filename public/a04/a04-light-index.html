@@ -57,13 +57,24 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 <input type="text" id="myEnteredFileName" size=50 value="myLabel.myFile.csv"><br>
 <button type="button" onclick="{
     keepOneLine()                                     
-}">Clear CSV (except first line)</button><br>
+}">Clear CSV (except first line)</button>      
+
+<button  onclick="{
+     keepOneLine()  
+    mySendIt('start')          
+}">Auto</button><br>
+
 <button type="button" onclick="{
     document.getElementById('myArea01').value = ''                                                
 }">Clear CSV All</button>
 
-AutoScroll Textarea: Yes:<input type=radio name="myRadioAutoScroll" CHECKED onChange="{alert('a')}">
-, No:<input type=radio name="myRadioAutoScroll" onChange="{alert('b')}">
+, Allow Textarea AutoScroll Yes:<input type=radio name="myRadioAutoScroll" CHECKED onChange="{
+ myTimer = setInterval(function () {   //auto scroll textarea
+  document.getElementById('myArea01').scrollTop = document.getElementById('myArea01').scrollHeight
+}, 50);
+   
+}">
+, No:<input type=radio name="myRadioAutoScroll" onChange="{ clearInterval(myTimer)}">
 <br>
 
 
