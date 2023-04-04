@@ -60,9 +60,10 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 }">Clear CSV (except first line)</button>      
 
 <button  onclick="{
-     mySaveCSV(document.getElementById('myEnteredFileName').value)  // clean and save file
-     keepOneLine()                                                  // put CSV headers
-     mySendIt('start')                                              // Start using present settings
+  mySaveCSV(document.getElementById('myEnteredFileName').value)  // clean and save file
+  document.getElementById('myArea01').value = ''                 // delete textarea                                   
+  mySendIt('firstline')                                          // put CSV headers
+  setTimeout(() => { mySendIt('start'); }, 400);                 // Start but after a short delay
 }">Auto: clean-save-start</button>
 
 <button  onclick="{
@@ -81,7 +82,7 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 }, 50);
    
 }">
-, No:<input type=radio name="myRadioAutoScroll" onChange="{ clearInterval(myTimer)}">
+ No:<input type=radio name="myRadioAutoScroll" onChange="{ clearInterval(myTimer)}">
 <br>
 
 
