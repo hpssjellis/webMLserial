@@ -1,4 +1,4 @@
-<h6> Version 0.5.0-44   </h6>
+<h6> Version 0.5.0-45   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Android-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Pol,yfill has a bug. I will try to fix it.<br>
@@ -224,7 +224,7 @@ async function connectSerial() {
         }
         
         // error checking
-        if (log.value == ','){ console.log(log.value) }
+        if (log.value == ''){ console.log('nothing') }
       }
       if (done) {
         console.log('[readLoop] DONE', done);
