@@ -211,7 +211,6 @@ async function connectSerial() {
       if (value) {
        // log.textContent += value + '\n';   // original div
        // log.value += value + '\n';
-       // if (value.length < 3){ console.log(value)}
         if (myMultiCSV){
             log.value += value;
         } else {
@@ -219,6 +218,9 @@ async function connectSerial() {
            mySaveCSV(document.getElementById('myEnteredFileName').value)
            keepOneLine();
         }
+        
+        // error checking
+        if (log.value == ','){ console.log(log.value) }
       }
       if (done) {
         console.log('[readLoop] DONE', done);
@@ -228,7 +230,7 @@ async function connectSerial() {
     }
   
   } catch (error) {
-    log.innerHTML = error;
+    log.value = error;
   }
   
   // resize textarea if needed.
