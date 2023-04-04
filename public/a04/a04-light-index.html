@@ -211,6 +211,7 @@ async function connectSerial() {
       if (value) {
        // log.textContent += value + '\n';   // original div
        // log.value += value + '\n';
+        if (value.length < 3){ console.log(value)}
         if (myMultiCSV){
             log.value += value;
         } else {
