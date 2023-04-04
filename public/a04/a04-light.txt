@@ -29,6 +29,7 @@
 
 float myFreq = FREQUENCY_HZ;
 int mySeconds = COLLECTION_SECONDS;
+int myMilliSeconds = COLLECTION_SECONDS * 1000;
 int myMaxData = myFreq * mySeconds;
 int myCount = 0;
 int myDelay = INTERVAL_MS;   // non-block delay in milliseconds
@@ -122,7 +123,7 @@ void loop() {
        mySendData = true;
     }
 
-        if (readString[0] == 'c'  && isDigit(readString[1]) ){
+     if (readString[0] == 'c'  && isDigit(readString[1]) ){
        int myIn = readString.substring(1).toInt();
        if (MYDEBUG){
           Serial.println("Collecting for " + String(myIn) + " seconds");
@@ -134,6 +135,22 @@ void loop() {
        myReset = millis(); 
        mySendData = true;
     }
+
+     if (readString[0] == 'm'  && isDigit(readString[1]) ){
+       int myIn = readString.substring(1).toInt();
+       if (MYDEBUG){
+          Serial.println("Collecting for " + String(myIn) + " milliseconds");
+       }
+       mySeconds = myIn/1000;   // fix this we need it as a float or something better perhaps maxData / 1000 etc.
+       myMaxData = myFreq * mySeconds;
+       myCount = 0;
+       myStart = millis();      //  reset the delay time
+       myReset = millis(); 
+       mySendData = true;
+    }
+
+
+    
         if (readString[0] == 'f'  && isDigit(readString[1]) ){
        float myIn = readString.substring(1).toFloat();
        if (MYDEBUG){
