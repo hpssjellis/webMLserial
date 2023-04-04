@@ -152,7 +152,7 @@ function myLoadCSV(){
 
 function mySaveCSV(myInFileName) {
   var csv = document.getElementById("myArea01").value.replace(/(\s*,?\s*)*$/, "");   // removes last commas , , , 
-  
+      csv = csv.replace(/\n\n/g, '\n')                                               // remove any empty lines
   var data = Papa.parse(csv, { header: true }).data;
   var csvContent = Papa.unparse(data, { delimiter: "," });
 
