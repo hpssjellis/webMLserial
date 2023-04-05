@@ -145,7 +145,7 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
               let features = document.getElementById('myArea01').value.split(',').map(x => Number(x.trim()));
               let myResult = classifier.classify(features);
               // document.getElementById('myDiv01').innerHTML  = JSON.stringify(myResult, null, 4);
-              for (let myLoop = 0;   myLoop <=  myResult.results.length ){
+              for (let myLoop = 0;   myLoop <=  myResult.results.length; myLoop++ ){
                   document.getElementById('myDiv01').innerHTML  += myResult.results[myLoop].label + ' : ' + parseInt(myResult.results[myLoop].value * 100) + '%<br>'
               }
           }
