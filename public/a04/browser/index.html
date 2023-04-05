@@ -1,4 +1,4 @@
-<h6> Version 0.5.2-48   </h6>
+<h6> Version 0.5.3-49   </h6>
 
 <h1 align=center>Microcontroller to CSV using WebSerial for both desktop and laptop computers</h1>
 As of Feb 20th, 2023 Android Polyfill has a bug. I will try to fix it later.<br>
@@ -123,7 +123,18 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
          await classifier.init();  
         
          let project = classifier.getProjectInfo();
-         document.getElementById('target').innerHTML = project.owner + ' / ' + project.name + ' (version ' + project.deploy_version + ')';
+         document.getElementById('target').innerHTML = '<br><b>'+project.owner + ' / ' + project.name + ' (version ' + project.deploy_version + ')</b><br>';
+        
+         try {
+                    let features = document.getElementById('myArea01').value.split(',').map(x => Number(x.trim()));
+                    let res = classifier.classify(features);
+                    document.getElementById('myDiv01').innerHTML  = JSON.stringify(res, null, '<br>');
+                }
+                catch (ex) {
+                    console.log('Failed to classify: ' + (ex.message || ex.toString()));
+                }
+        
+        
       }
      
       
