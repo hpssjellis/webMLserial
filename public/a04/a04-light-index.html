@@ -50,11 +50,11 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
   }"> for example try <a href="z-webSerial-single.html">z-webSerial-single.html</a><br><br>
 
 
-<input type="file" id="myFileButton" accept=".csv"> Note: For EdgeImpulse change filename for each ML Label<br>
+<input type="file" id="myFileButton" accept=".csv"><br>
 <button type="button" onclick="myLoadCSV()">Load CSV</button><br>
 
 <button type="button" onclick="mySaveCSV(document.getElementById('myEnteredFileName').value)">Save CSV</button>
-<input type="text" id="myEnteredFileName" size=50 value="myLabel.myFile.csv"><br>
+<input type="text" id="myEnteredFileName" size=50 value="myLabel.myFile.csv"> <b style="color:green; ">Note: For EdgeImpulse change filename for each ML Label</b><br>
 <button type="button" onclick="{
     keepOneLine()                                     
 }">Clear CSV (except first line)</button>      
