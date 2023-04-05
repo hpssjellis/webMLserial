@@ -1,351 +1,11 @@
+<h6> Version 0.5.2-48   </h6>
 
+<h1 align=center>Microcontroller to CSV using WebSerial for both desktop and laptop computers</h1>
+As of Feb 20th, 2023 Android Polyfill has a bug. I will try to fix it later.<br>
 
-<body>
-  <div id="main">
-
-  
-<canvas id="myGrowCanvas" style="position:relative; left:0px; top:0px; width:3000px; height:2000px; " ></canvas> <br>  
-    
-<table border=1 style="position:absolute; left:800px; top:0px;  ">
-<tr><td>
-  
-Version 0.9.19 <br>
-  
-  
-<div id="description">
-        <div id="description-title" style="font-size:30px">Demo Edge Impulse WASM</div>
-      
-      
-      
-      
-        Frequency ms <input type=text id="myText01" value=130 onChange="{
-             myFrequencyMs = this.value
-             clearInterval(myTimer01)
-            myTimer01 = setInterval(myPictureNow, myFrequencyMs);
-          }"><br>
-      (square) width/height: <input type=text value="96" size=5 id="myWidthHeight" READONLY>  <br>    
-
-      
-        <div id="myDiv01" style="font-size:30px">...</div>
-        Stop Data Collection: <input type=checkbox id="myCheckbox01"><br>
-        Stop All Sounds <input type=checkbox id="myCheckbox02sounds" ><br>
-        Stop 0 (First) label sound: <input type=checkbox id="myCheckbox03lable0" checked=true><br>
-        <input type=button value="Width -" onclick="{
-           document.getElementById('myGrowCanvas').style.width = parseInt(document.getElementById('myGrowCanvas').style.width) - 50                                                                                
-        }"><input type=button value="Width +" onclick="{
-           document.getElementById('myGrowCanvas').style.width = parseInt(document.getElementById('myGrowCanvas').style.width) + 50         
-        }">    
-        <input type=button value="Height -" onclick="{
-           document.getElementById('myGrowCanvas').style.height = parseInt(document.getElementById('myGrowCanvas').style.height) - 50                                                                              
-        }"><input type=button value="Height +" onclick="{
-           document.getElementById('myGrowCanvas').style.height = parseInt(document.getElementById('myGrowCanvas').style.height) + 50          
-        }">   
-  
-        <br>
-        Camera: <select id="mySelect" onChange="setupPage()"><option  value="user">Front Camera<option selected="selected" value="environment">Rear Camera</select><br>
-        Default is not mirrored:  see canvas: scaleX(-1);  transform: scaleX(-1);<br>
-        Default GRAYSCALE, Check to use Color <input type=checkbox id="myCheckboxColor"><br><br>
-      
-       <textarea id="myTextArea01" style="display:none; " rows=10 cols=70>...</textarea> <br> <br> <br>
-  
-  </td></tr></table>
-    
-        
-
-      
-      
-      
-    <video id="video" playsinline="" style="display:none; -webkit-transform: scaleX(-1); transform: scaleX(-1); width: auto; height: auto;"></video>
-      
-    <canvas id="myOnTopOutput" style="display:none; background-color:white; border:black 3px solid;" ></canvas>  <!--  position:absolute; top:0; left:0;   -->  
-    
-    <canvas id="output" style="display:none; " ></canvas>  
-    
-    <canvas id="myColorCanvas" style="display:none; " ></canvas>   <br>
-  
-    </div>
-      
-
-</body>
-
- <script src="edge-impulse-standalone.js"></script>
-
-<!-- Link to short internet sounds, load your own sound if uploaded to the same folder with the below code. .wav, .a4u, mp3 sound files should work -->
-<!--
-    <audio preload="auto" id="mySound8" src="mySound01.mp3"></audio>
- -->
-
-
-    <audio preload="auto" id="mySound0" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/clap.wav"></audio>
-    <audio preload="auto" id="mySound1" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/boom.wav"></audio>
-    <audio preload="auto" id="mySound2" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/kick.wav"></audio>
-    <audio preload="auto" id="mySound3" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/openhat.wav"></audio>
-    <audio preload="auto" id="mySound4" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/ride.wav"></audio>
-    <audio preload="auto" id="mySound5" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/snare.wav"></audio>
-    <audio preload="auto" id="mySound6" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/tom.wav"></audio>
-    <audio preload="auto" id="mySound7" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/tink.wav"></audio>
-    <audio preload="auto" id="mySound8" src="https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/hihat.wav"></audio>
-
-
-
-
-
-<script> 
-
-let myTimer01 = 0;
-let myOutputString = ''
-let myFrequencyMs = document.getElementById('myText01').value
-let myWidthHeightSquare = document.getElementById('myWidthHeight').value
-  
-  
-  function RGBAToHex(r,g,b,a) {
-  r = r.toString(16);
-  g = g.toString(16);
-  b = b.toString(16);
-
-  if (r.length == 1)
-    r = "0" + r;
-  if (g.length == 1)
-    g = "0" + g;
-  if (b.length == 1)
-    b = "0" + b;
-
- // return "#" + r + g + b + ", " ;
-  return "0x" + r + g + b + ", " ;
-       
-}
-  
-  
-  
-  
-const setupCamera = async function(){   
-  
-  video = document.getElementById('video');
-  
-  // stop it if running
-  video.pause()
-  video.srcObject = null
-  
-  const stream = await navigator.mediaDevices.getUserMedia({
-    'audio': false,
-    'video': { facingMode: document.getElementById('mySelect').value },
-  });
-  video.srcObject = stream;
-
-  return new Promise((resolve) => {
-    video.onloadedmetadata = () => {
-      resolve(video);
-    };
-  });
-}
-
- 
-
-  
- const renderPrediction = async function(){   
-
-   document.ctx.clearRect(0, 0, document.ctx.canvas.width, document.ctx.canvas.width);
- 
- 
-   document.ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
-   ctxColor.drawImage(video, 0, 0, videoWidth, videoHeight);
-  
-  
-  let imgData = document.ctx.getImageData(0, 0, document.ctx.canvas.width, document.ctx.canvas.height);
-  let pixels = imgData.data;
-  for (var i = 0; i < pixels.length; i += 4) {
-
-    let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
-
-    pixels[i] = lightness;
-    pixels[i + 1] = lightness;
-    pixels[i + 2] = lightness;
-  }
-   
-  document.ctx.scale(-1, 1);  // mirror image
-  document.ctx.putImageData(imgData, 0, 0);
-       
-  requestAnimationFrame(renderPrediction);
-     
-   
-}; 
-  
-  
-  
-const myPictureNow  = async function(){    
-  
-   var classifier = new EdgeImpulseClassifier();
-   await classifier.init(); 
-    
-   let props = classifier.getProperties();
-    
-   myWidthHeightSquare = props.input_width 
-   document.getElementById('myWidthHeight').value = props.input_width
-    
-
-//  console.log(props.input_width)    //  props.sensor   props.frequency  props.frame_sample_count   props.input_width   props.input_height
-   
-    
-  ctxOnTop.clearRect(0, 0, canvasOnTop.width, canvasOnTop.height); 
-    
-  let myX = (640-myWidthHeightSquare)/2
-  let myY = (480-myWidthHeightSquare)/2
-  let ImageData2;
-  
-    if (document.getElementById('myCheckboxColor').checked ) {
-      ImageData2 =  ctxColor.getImageData(myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab COLOR image x,y,width,height
-    }   else  {
-  
-    
-      ImageData2 = document.ctx.getImageData(myX, myY, myWidthHeightSquare, myWidthHeightSquare);  // grab GRAYSCALE  image x,y,width,height
-      
-    }
-
-  ctxOnTop.putImageData(ImageData2, myX,  myY   );  //put image near center
-    
-  ctxGrow.putImageData(ImageData2,  0, 0);  // try to grow the image 
-    
-    
- // alert(RGBAToHex(ImageData2.data[0], ImageData2.data[1], ImageData2.data[2], ImageData2.data[3]) )  
-  let pixels2 = ImageData2.data
-  myOutputString = ''
-     
-   
-   if (document.getElementById('myCheckbox01').checked ) {
-     //console.log('checked')
-     //console.log(document.getElementById('myCheckbox01').checked)
-     myOutputString = document.getElementById('myTextArea01').value  
-     document.getElementById('myTextArea01').style.display = 'inline'  
-   
-   } else { 
-     document.getElementById('myTextArea01').style.display = 'none' 
-    
-     for (var i = 0; i < pixels2.length; i += 4) {
-        myOutputString += RGBAToHex(ImageData2.data[i], ImageData2.data[i+1], ImageData2.data[i+2], ImageData2.data[i+3])
-     }
-  
-      // console.log('myOutputString')
-      // console.log(myOutputString)
-      // document.getElementById('myTextArea01').value= JSON.stringify(myOutputString, 2, '\n')
-      // myOutputString = myOutputString.substring(1);  // remove first "
-      myOutputString = myOutputString.substring(0, myOutputString.length - 2);  // remove last ,"
-      document.getElementById('myTextArea01').value = myOutputString
-    }
-
-    
-     results = await classifier.classify( myOutputString.split(', ')   );      //, true  can set debug true auto shows in console
-    
-    
-  let myTemp = ''
-  myTemp =  '<table border=1  style="font-size:30px">'
-    
-  let myBestClassificationNumber = -1  
-  let myBestClassificationValue = 0.25   // lowest best allowable value 
-  for (let j = 0;  j < results.results.length; j++){  
-      if (results.results[j].value > myBestClassificationValue ){
-           myBestClassificationNumber = j;                      // find the biggest array value
-           myBestClassificationValue = results.results[j].value  
-        }
-  }
-    
-  
-  //////////////////////////////////////////// Where the magic happens //////////////////////////////////////////////////////////////////////////////
-  
-  
-  
-    
-  for (let i = 0;  i < results.results.length; i++){  
-    if (myBestClassificationNumber == i){   // check if this is the best one
-        if (! document.getElementById('myCheckbox02sounds').checked){
-          
-           if (! document.getElementById('myCheckbox03lable0').checked){         
-              if (i==0) { document.getElementById('mySound0').currentTime = 0; document.getElementById('mySound0').play() }
-           }
-           if (i==1) { document.getElementById('mySound1').currentTime = 0; document.getElementById('mySound1').play() }
-           if (i==2) { document.getElementById('mySound2').currentTime = 0; document.getElementById('mySound2').play() }
-           if (i==3) { document.getElementById('mySound3').currentTime = 0; document.getElementById('mySound3').play() }
-           if (i==4) { document.getElementById('mySound4').currentTime = 0; document.getElementById('mySound4').play() }
-           if (i==5) { document.getElementById('mySound5').currentTime = 0; document.getElementById('mySound5').play() }
-           if (i==6) { document.getElementById('mySound6').currentTime = 0; document.getElementById('mySound6').play() } 
-           if (i==7) { document.getElementById('mySound7').currentTime = 0; document.getElementById('mySound7').play() }
-           if (i==8) { document.getElementById('mySound8').currentTime = 0; document.getElementById('mySound8').play() }
-          }   
-      
-           myTemp += '<tr><td>'+ results.results[i].label + '</td><td><font style=\'color:yellow; background-color:blue;\'>' + results.results[i].value.toFixed(3) +'</font></td></tr>'            
-        } else {
-           myTemp += '<tr><td>'+ results.results[i].label + '</td><td>' + results.results[i].value.toFixed(3) +'</td></tr>'
-        }
-   }  
-       
-  myTemp += '</table>'   
-  //console.log(results) 
-  
-    
-    
-  document.getElementById('myDiv01').innerHTML = ' results.anomaly: '+ results.anomaly + '<br>' +  myTemp
-}
-  
-  
-  
-  
-const setupPage = async function(){   
-
-  await setupCamera();
-  video.play();
-
-  videoWidth = video.videoWidth;
-  videoHeight = video.videoHeight;
-  console.log('videoWidth')
-  console.log(videoWidth)
-  console.log('videoHeight')
-  console.log(videoHeight)
-  
-  video.width = videoWidth;
-  video.height = videoHeight;
-
-
-  canvasOnTop = document.getElementById('myOnTopOutput');
-  canvasOnTop.width = videoWidth;
-  canvasOnTop.height = videoHeight;
-  ctxOnTop = canvasOnTop.getContext('2d'); 
-  
-  
-  
-  canvasColor = document.getElementById('myColorCanvas');
-  canvasColor.width = videoWidth;
-  canvasColor.height = videoHeight;
-  ctxColor = canvasColor.getContext('2d'); 
-  
-    
-  canvasGrow = document.getElementById('myGrowCanvas');
-  canvasGrow.width = videoWidth;
-  canvasGrow.height = videoHeight;
-  ctxGrow = canvasGrow.getContext('2d'); 
-  
-  canvas = document.getElementById('output');
-  canvas.width = videoWidth;
-  canvas.height = videoHeight;
-  document.ctx = canvas.getContext('2d'); 
-  
- // setInterval(function(){ alert("Hello"); }, 3000);
-  myTimer01 = setInterval(myPictureNow, myFrequencyMs);
- // myTimer01 = setInterval('myPictureNow', 3000); 
-  renderPrediction();
-  
-  
-};
-
-  
-// main program!
-setupPage();
-
-
-</script>
-
-
-
-
-
+Note: For multiple values a timestamp needs to be the first value. If single multiple readings in each .csv file then a timestamp is not needed. 
+Headers are always a good idea. The latest EdgeImpulse seems fine with or without headers.<br>
+<h3>This code collects data at a frequency of 0.05 Hz (delay of ~20 milliseconds) for ~1000 milliSeconds collecting about 50 samples.</h3>
 
 
 
@@ -353,82 +13,450 @@ setupPage();
 
 
 <script>
-  
- // From the old run_impulse.js file 
-  
-// Classifier module
-let classifierInitialized = false;
-Module.onRuntimeInitialized = function() {
-    classifierInitialized = true;
-};
+  //Global Variables
+  var exports = {};
+  let myMultiCSV = true
+  let myRaw = false
+  let myRawInterval
+</script>  
 
-class EdgeImpulseClassifier {
-    _initialized = false;
- 
-  
-  // https://forum.edgeimpulse.com/t/wasm-sound-acceleration-camera-demos/1611/7
-      getProperties() {
-        return Module.get_properties();
-    }
+<script src="https://cdn.jsdelivr.net/npm/web-serial-polyfill@1.0.13/dist/serial.js"> </script> 
+<script src="https://unpkg.com/papaparse@5.3.2/papaparse.js"></script>  <!-- For CSV manipulation  -->
 
-    init() {
-        if (classifierInitialized === true) return Promise.resolve();
+<button id="connectButton"  style="color:red; width:200px; ">Connect via Serial Port</button><br>
+<input type=text id="mySendText" value="d1000">
+<input type=button value="send" onclick="{ mySendIt(document.getElementById('mySendText').value) }"><br><br>
 
-        return new Promise((resolve) => {
-            Module.onRuntimeInitialized = () => {
-                resolve();
-                classifierInitialized = true;
+<input type=button value="send 'a' LED On or Off" onclick="{mySendIt('a')}">
+<input type=button value="send 'b' LED Off or On" onclick="{mySendIt('b')}">
+<input type=button value="send 'stop' " onclick="{mySendIt('stop')}">
+
+<input type=button value="send 'start' " onclick="{mySendIt('start')}">
+<input type=button value="send 'firstline' " onclick="{
+  document.getElementById('myArea01').value = ''                                                    
+  mySendIt('firstline')
+}">
+<input type=button value="send 'raw' " onclick="{
+
+  myRaw = true     // not yet used but available if needed  
+  clearInterval(myRawInterval)  
+  myRawInterval = setInterval(myRawSend, 1000); // this interval should match the data input interval
+
+}"><br>
+
+<input type=button value="send 'c10' " onclick="{mySendIt('c10')}">set the collection seconds to 10 seconds   OR
+<input type=button value="send 'm9000' " onclick="{mySendIt('m9000')}">set the collection seconds to 9000 milliseconds<br>
+
+
+<input type=button value="send 'd1000' " onclick="{mySendIt('d1000')}">Set the delay to 1000 milliseconds = 1 second OR
+<input type=button value="send 'f2' " onclick="{mySendIt('f2')}"> Set the frequency to 2 Hz <br> <br>
+
+Save as time-series data<input id="myRadioTimeSeries" type=radio name="myChoice" CHECKED onClick="{
+  myMultiCSV = true 
+}"><br>
+Save individual data in numbered CSV files<input id="myRadioIndividual" type=radio name="myChoice" onclick="{
+  myMultiCSV = false 
+  }"> for example try <a href="z-webSerial-single.html">z-webSerial-single.html</a><br><br>
+
+
+<input type="file" id="myFileButton" accept=".csv"><br>
+<button type="button" onclick="myLoadCSV()">Load CSV</button><br>
+
+<button type="button" onclick="mySaveCSV(document.getElementById('myEnteredFileName').value)">Save CSV</button>
+<input type="text" id="myEnteredFileName" size=50 value="myLabel.myFile.csv"> <b style="color:green; ">Note: For EdgeImpulse change "myLabel" when appropriate</b><br>
+<button type="button" onclick="{
+    keepOneLine()                                     
+}">Clear CSV (except first line)</button>      
+
+<button  onclick="{
+    document.getElementById('myArea01').value = document.getElementById('myArea01').value.replace(/\n\n/g, '\n')   // remove blank lines 
+   // document.getElementById('myArea01').value = document.getElementById('myArea01').value.replace(/(\s*,?\s*)*$/, '')    // remove extra commas 
+}">clean only</button>
+
+<button  style="color:green; width:200px; " onclick="{
+  mySaveCSV(document.getElementById('myEnteredFileName').value)  // clean and save file
+  document.getElementById('myArea01').value = ''                 // delete textarea                                   
+  mySendIt('firstline')                                          // put CSV headers
+  setTimeout(() => { mySendIt('start'); }, 400);                 // Start but after a short delay
+}">Auto: clean-save-start</button>
+
+
+<br>
+
+<button type="button" onclick="{
+    document.getElementById('myArea01').value = ''                                                
+}">Clear CSV All</button>
+
+ Allow-AutoScroll Yes:<input type=radio name="myRadioAutoScroll" CHECKED onChange="{
+ myTimer = setInterval(function () {   //auto scroll textarea
+  document.getElementById('myArea01').scrollTop = document.getElementById('myArea01').scrollHeight
+}, 50);
+   
+}">
+ No:<input type=radio name="myRadioAutoScroll" onChange="{ clearInterval(myTimer)}">
+<br>
+
+
+<textarea id="myArea01" rows="15" cols="120"></textarea>
+
+<div id="csvTableContainer"></div>
+
+
+
+
+
+
+
+<div id="target">...</div> <br><br>
+<div id="myDiv01">...</div> <br><br><br>
+
+
+
+
+
+    <script src="edge-impulse-standalone.js"></script>
+    <script src="run-impulse.js"></script>
+    <script>
+      
+      myEdgeImpulse = async function(){  
+         var classifier = new EdgeImpulseClassifier();
+         await classifier.init();  
+        
+         let project = classifier.getProjectInfo();
+         document.getElementById('target').innerHTML = project.owner + ' / ' + project.name + ' (version ' + project.deploy_version + ')';
+      }
+     
+      
+
+      
+
+      /*
+        (async () => {
+            var classifier = new EdgeImpulseClassifier();
+            await classifier.init();
+
+            let project = classifier.getProjectInfo();
+            document.querySelector('h1').textContent = project.owner + ' / ' + project.name + ' (version ' + project.deploy_version + ')';
+
+            document.querySelector('#run-inference').onclick = () => {
+                try {
+                    let features = document.querySelector('#features').value.split(',').map(x => Number(x.trim()));
+                    let res = classifier.classify(features);
+                    document.querySelector('#results').textContent = JSON.stringify(res, null, 4);
+                }
+                catch (ex) {
+                    alert('Failed to classify: ' + (ex.message || ex.toString()));
+                }
             };
+        })();
+      
+      */
+
+  
+  
+let myTimer = setInterval(function () {   //auto scroll textarea
+  document.getElementById('myArea01').scrollTop = document.getElementById('myArea01').scrollHeight
+}, 50);
+  
+  
+function keepOneLine(){
+    let myTemp = document.getElementById('myArea01').value.split('\n')   // split along lines
+    document.getElementById('myArea01').value = myTemp[0] + '\n'         // just keep the first line            
+}
+
+  
+  
+  
+ function myRawSend(){ 
+   
+  myEdgeImpulse();  // initialize the ML model 
+   
+  document.getElementById('myArea01').value = ''   
+  myRaw = true     // not yet used but available if needed  
+  mySendIt('raw')
+ 
+ } 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+function myLoadCSV(){
+   //use papparse to load a csv file and show it in an HTML table
+    var fileInput = document.getElementById('myFileButton');
+    var file = fileInput.files[0];
+    var reader = new FileReader();
+    reader.onload = function(event) {
+        var csv = event.target.result;
+        var data = Papa.parse(csv, {header: true}).data;
+
+        // create a table element
+        var table = document.createElement("table");
+        table.setAttribute("border", "1");
+
+        // add header row
+        var headerRow = table.insertRow(0);
+        Object.keys(data[0]).forEach(function(key) {
+            var cell = headerRow.insertCell(-1);
+            cell.innerHTML = key;
         });
-    }
 
-    classify(rawData, debug = false) {
-        if (!classifierInitialized) throw new Error('Module is not initialized');
+        // add data rows
+        data.forEach(function(row) {
+            var tableRow = table.insertRow(-1);
+            Object.keys(row).forEach(function(key) {
+                var cell = tableRow.insertCell(-1);
+                cell.innerHTML = row[key];
+            });
+        });
 
-        const obj = this._arrayToHeap(rawData);
-        let ret = Module.run_classifier(obj.buffer.byteOffset, rawData.length, debug);
-        Module._free(obj.ptr);
+        // add table to document
+        var csvTableContainer = document.getElementById("csvTableContainer");
+        csvTableContainer.innerHTML = "";
+        csvTableContainer.appendChild(table);
+        document.getElementById("myArea01").value = reader.result
+    };
+    reader.readAsText(file);
+}
 
-        if (ret.result !== 0) {
-            throw new Error('Classification failed (err code: ' + ret.result + ')');
+function mySaveCSV(myInFileName) {
+  var csv = document.getElementById("myArea01").value.replace(/(\s*,?\s*)*$/, "");   // removes last commas , , , 
+      csv = csv.replace(/\n\n/g, '\n')                                               // remove any empty lines
+  var data = Papa.parse(csv, { header: true }).data;
+  var csvContent = Papa.unparse(data, { delimiter: "," });
+
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", "data:text/csv;charset=utf-8," + encodedUri);
+  link.setAttribute("download", myInFileName);
+
+  document.body.appendChild(link);
+  link.click();
+
+  document.body.removeChild(link);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /////////////////////////////////////// webSerial code first ///////////////////////////////////////////
+  
+  //Global Variables
+  //let writer;  
+  let port
+  
+
+document.getElementById('connectButton').addEventListener('click', () => {
+  if (navigator.serial) {
+    connectSerial();
+  } else {
+    document.getElementById('myDiv01').innerHTML = 'Web Serial API not supported. Switching to Polyfill<br>'
+    myPoly()
+
+  }
+});
+
+async function connectSerial() {
+ // const log = document.getElementById('target');
+  const log = document.getElementById('myArea01');
+    
+  try {
+    port = await navigator.serial.requestPort();
+    await port.open({ baudRate: 115200 });
+    
+    const decoder = new TextDecoderStream(); 
+    port.readable.pipeTo(decoder.writable);
+
+    //setup reader stream 
+    const inputStream = decoder.readable;
+    const reader = inputStream.getReader();
+    
+    //setup writer stream
+   // writer = port.writable.getWriter();
+     
+    while (true) {
+      const { value, done } = await reader.read();
+      if (value) {
+       // log.textContent += value + '\n';   // original div
+       // log.value += value + '\n';
+        if (myMultiCSV){
+            log.value += value;
+        } else {
+           log.value += value;
+           mySaveCSV(document.getElementById('myEnteredFileName').value)
+           keepOneLine();
         }
-
-
-        let jsResult = {
-            anomaly: ret.anomaly,
-            results: []
-        };
-
-        // if ret.size is a function, then this is a new module. Use this API call to prevent leaks.
-        // the old API (calling via ret.classification) is still there for backwards compatibility, but leaks some memory
-        if (typeof ret.size === 'function') {
-            for (let cx = 0; cx < ret.size(); cx++) {
-                let c = ret.get(cx);
-                jsResult.results.push({ label: c.label, value: c.value });
-                c.delete();
-            }
-        }
-        else {
-            for (let cx = 0; cx < ret.classification.size(); cx++) {
-                let c = ret.classification.get(cx);
-                jsResult.results.push({ label: c.label, value: c.value });
-                c.delete();
-            }
-        }
-
-        ret.delete();
-
-        return jsResult;
+        
+        // error checking
+        if (log.value == ''){ console.log('nothing') }
+      }
+      if (done) {
+        console.log('[readLoop] DONE', done);
+        reader.releaseLock();
+        break;
+      }
     }
+  
+  } catch (error) {
+    log.value = error;
+  }
+  
+  // resize textarea if needed.
+ // log.scrollTop = log.scrollHeight;   // not working
+  
 
-    _arrayToHeap(data) {
-        let typedArray = new Float32Array(data);
-        let numBytes = typedArray.length * typedArray.BYTES_PER_ELEMENT;
-        let ptr = Module._malloc(numBytes);
-        let heapBytes = new Uint8Array(Module.HEAPU8.buffer, ptr, numBytes);
-        heapBytes.set(new Uint8Array(typedArray.buffer));
-        return { ptr: ptr, buffer: heapBytes };
+  
+}  
+  
+async function mySendIt(myData) {  
+  if (navigator.serial) {  
+    const encoder = new TextEncoder();
+    const writer = port.writable.getWriter();
+    await writer.write(encoder.encode(myData));
+    writer.releaseLock();
+    console.log(myData);
+    document.getElementById('mySendText').value = myData
+  } else {
+    mySend(myData)
+  }
+
+} 
+  
+  
+///////////////////////////////////////// end webSerial //////////////////////////////////////////
+///////////////////////////////////////// start polyfill for Android ////////////////////////////
+  
+  
+  
+  //Global Variables for Polyfill
+  var serial = exports.serial;  // is this needed as defined in the npm
+ 
+  let myLooping  // for read setinterval
+  var mySerial;
+  //let receivedText = '';
+  let reader = {};
+  let writer = {};
+  
+   str2ab = function(str) {
+    var buf = new Uint8Array(str.length); // 1 byte for each char
+    for (var i=0, strLen=str.length; i < strLen; i++) {
+      buf[i] = str.charCodeAt(i);
     }
+    return buf;
+  }
+
+  ab2str = function(buf) {
+    return String.fromCharCode.apply(null, buf);
+  } 
+  
+  
+  
+async function myRead(){  
+    reader.read().then(({value}) => {        
+        let receivedText = ab2str(value);
+        document.getElementById('target').innerHTML = receivedText + '<br>' + document.getElementById('target').innerHTML // latest on top
+      },
+      error => {
+      console.error('error from read', error)
+     document.getElementById('myDiv01').innerHTML = 'error from read' + error
+     }
+    );
 }
   
+   
+  
+async function myPoly(){  
+    mySerial = await serial.requestPort()
+                                                                     
+    document.getElementById('myDiv01').innerHTML += await '<b>mySerial: </b><br><pre>' +  JSON.stringify(mySerial, null, 3) + '</pre><br><br>'      
+                                            
+                                                                                     
+    console.log('mySerial')                    
+    console.log(mySerial)   
+
+    const myOpen = await mySerial.open({baudRate: 115200});
+    reader = mySerial.readable.getReader();                                              
+    writer = mySerial.writable.getWriter();    
+                                            
+    const results = mySerial.getInfo();
+    
+    //document.getElementById('myDiv01').innerHTML += await 'Results:<b>: </b><br><pre>' +  JSON.stringify(results, null, 3) + '</pre><br><br>'                                          
+    console.log('get info results', results);
+    document.getElementById('myDiv01').innerHTML += 'results.usbVendorId: ' + results.usbVendorId + '<br>'
+    document.getElementById('myDiv01').innerHTML += 'results.usbProductId: ' + results.usbProductId + '<br>'
+ 
+    
+    // start looping the serial read. Is there a better way to do this?
+    clearInterval(myLooping)
+    myLooping = setInterval(myRead, 1000); 
+  }
+        
+ async function mySend(myData2){  
+    writer.ready.then(() => {                                         
+      let inputArrayBuffer = str2ab(myData2);
+      const myWritten = writer.write(inputArrayBuffer);
+      console.log('myWritten')
+      console.log(myWritten)
+        
+      document.getElementById('mySendText').value = myData2      // check if this works                           
+      //document.getElementById('myDiv01').innerHTML = '<br><br><b>myWriter: </b><br><pre>' +  JSON.stringify(myWritten, null, 3) + '</pre><br><br>'  
+                                            
+   
+    })    
+} 
+  
+/////////////////////////////////////// end Polyfill for Android ////////////////////////////////  
 </script>
+
+
+
+
+  Here is the latest sketch I am using. The .txt is for viewing the .ino is to download<br>
+ <li><a href="a04-light.txt">a04-light.txt</a>  This arduino sketch can be viewed
+<li><a href="a04-light.ino">a04-light.ino</a>  Click to download: Note: New ArduinoWebSerial testing code. Make sure in Arduino Serial Monitor you don't send a new-line
+EdgeImpulse data uploading csv format <a href="https://docs.edgeimpulse.com/reference/data-ingestion/importing-csv-data">here</a><br> 
+  
+
+  This Github at <a href="https://github.com/hpssjellis/web-serial-polyfill">https://github.com/hpssjellis/web-serial-polyfill</a>
+<p><small>Original Demo from <a href="https://codelabs.developers.google.com/codelabs/web-serial/" target="_blank" rel="noopener">Google Developers</a> codelabs.</small></p>
+
+<br><br>
+ An example of a trained edgeimpulse model can be found at <a href="browser/index.html"> browser/index.html </a> the github folder for this code is at 
+  <a href="https://github.com/hpssjellis/webMLserial/tree/main/public/a04/browser">https://github.com/hpssjellis/webMLserial/tree/main/public/a04/browser</a>
+  Note that the file index-original.html is the WASM index.html from Edgeimpulse. The index.html file is my Javascript webSerial updated file that you could probably use with some changes for your specific data.
+<br> This work is lossely based on previous work I did at this folder <a href="https://github.com/hpssjellis/my-examples-of-edge-impulse/tree/main/public/downloads">https://github.com/hpssjellis/my-examples-of-edge-impulse/tree/main/public/downloads<a/>
+  which also has interesting index.html files in the other folders one directory up in the public folder
+  
+  
+  <br><br>
+  
+
+Main index <a href="https://hpssjellis.github.io/webMLserial/public/index.html">here</a><br>
+Github <a href="https://github.com/hpssjellis/webMLserial">here</a><br>
+  
+  
