@@ -1,4 +1,4 @@
-<h6> Version 0.5.3-49   </h6>
+<h6> Version 0.5.3-50   </h6>
 
 <h1 align=center>Microcontroller to CSV using WebSerial for both desktop and laptop computers</h1>
 As of Feb 20th, 2023 Android Polyfill has a bug. I will try to fix it later.<br>
@@ -36,13 +36,8 @@ Headers are always a good idea. The latest EdgeImpulse seems fine with or withou
   document.getElementById('myArea01').value = ''                                                    
   mySendIt('firstline')
 }">
-<input type=button value="send 'raw' " onclick="{
+<input type=button value="send 'raw' " onclick="{mySendIt('raw')}">
 
-  myRaw = true     // not yet used but available if needed  
-  //clearInterval(myRawInterval)  
-  //myRawInterval = setInterval(myRawSend, 1000); // this interval should match the data input interval
-  myRawSend()
-}"> 
 <input type=button value="Analyse" onclick="{
   myEdgeImpulse()
 }"> <br>
