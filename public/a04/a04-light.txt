@@ -27,6 +27,8 @@
 #define INTERVAL_MS         (1000 / (FREQUENCY_HZ + 1))
 #define COLLECTION_SECONDS  1
 
+
+bool myRaw = false;
 float myFreq = FREQUENCY_HZ;
 int mySeconds = COLLECTION_SECONDS;
 int myMilliSeconds = COLLECTION_SECONDS * 1000;
@@ -66,9 +68,13 @@ void loop() {
      if (myCount > myMaxData){
         mySendData = false;   // stop sending data when amount reached
      }
-     if (mySendData){
+     if (mySendData){  // yes send the requested data
        // Serial.println( String(myStart-myReset)+ "," + String(x) + "," + String(y) + "," +  String(z)  );
-        Serial.println( String(myStart-myReset) + "," + String(myA1) );
+        if (myRaw) { // yes send raw data Note: no end of line.  
+           Serial.print(String(myA1) + ", " );
+        } else{    // no send formatted data
+           Serial.println( String(myStart-myReset) + "," + String(myA1) );
+        }
      } 
    }
 
@@ -92,6 +98,14 @@ void loop() {
       digitalWrite(LED_BUILTIN, HIGH);
     }
     if (readString == "start"){
+       myRaw = false;
+       myCount = 0;
+       myStart = millis();      //  reset the delay time
+       myReset = millis(); 
+       mySendData = true;
+    }
+    if (readString == "raw"){
+       myRaw = true;
        myCount = 0;
        myStart = millis();      //  reset the delay time
        myReset = millis(); 
