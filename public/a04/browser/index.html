@@ -128,7 +128,7 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
          try {
                     let features = document.getElementById('myArea01').value.split(',').map(x => Number(x.trim()));
                     let res = classifier.classify(features);
-                    document.getElementById('myDiv01').innerHTML  = JSON.stringify(res, null, '<br>');
+                    document.getElementById('myDiv01').innerHTML  = JSON.stringify(res, null, 4);
                 }
                 catch (ex) {
                     console.log('Failed to classify: ' + (ex.message || ex.toString()));
