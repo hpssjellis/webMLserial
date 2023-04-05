@@ -39,10 +39,13 @@ Headers are always a good idea. The latest EdgeImpulse seems fine with or withou
 <input type=button value="send 'raw' " onclick="{
 
   myRaw = true     // not yet used but available if needed  
-  clearInterval(myRawInterval)  
-  myRawInterval = setInterval(myRawSend, 1000); // this interval should match the data input interval
-
-}"><br>
+  //clearInterval(myRawInterval)  
+  //myRawInterval = setInterval(myRawSend, 1000); // this interval should match the data input interval
+  myRawSend()
+}"> 
+<input type=button value="Analyse" onclick="{
+  myEdgeImpulse()
+}"> <br>
 
 <input type=button value="send 'c10' " onclick="{mySendIt('c10')}">set the collection seconds to 10 seconds   OR
 <input type=button value="send 'm9000' " onclick="{mySendIt('m9000')}">set the collection seconds to 9000 milliseconds<br>
@@ -178,15 +181,15 @@ function keepOneLine(){
   
   
   
- function myRawSend(){ 
+ //function myRawSend(){ 
+ // mySendIt('raw') 
+ // setTimeout(myEdgeImpulse, 200);  // wait a bit to ge the data 
    
-  myEdgeImpulse();  // initialize the ML model 
-   
-  document.getElementById('myArea01').value = ''   
-  myRaw = true     // not yet used but available if needed  
-  mySendIt('raw')
+ // document.getElementById('myArea01').value = ''   
+ // myRaw = true     // not yet used but available if needed  
+ // mySendIt('raw')
  
- } 
+// } 
   
   
   
