@@ -36,10 +36,25 @@ Headers are always a good idea. The latest EdgeImpulse seems fine with or withou
   document.getElementById('myArea01').value = ''                                                    
   mySendIt('firstline')
 }">
-<input type=button value="send 'raw' " onclick="{mySendIt('raw')}">
+<input type=button value="send 'raw' " onclick="{
+   document.getElementById('myArea01').value = ''   // clear the textarea                                              
+   mySendIt('raw')
+}">
 
 <input type=button value="Analyse" onclick="{
   myEdgeImpulse()
+}"> <br>
+
+<input type=button value="Auto Analysis" onclick="{
+
+ clearInterval(myRawInterval) 
+ myRawInterval =  setInterval(function () {
+ document.getElementById('myArea01').value = ''   // clear the textarea                                              
+ mySendIt('raw')                                             
+ setTimeout(myEdgeImpulse, 1200);
+
+}, 3000);        // intervall should be the interval for the analysis I should do this later                                        
+                                                  
 }"> <br>
 
 <input type=button value="send 'c10' " onclick="{mySendIt('c10')}">set the collection seconds to 10 seconds   OR
