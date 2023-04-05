@@ -16,6 +16,7 @@ Headers are always a good idea. The latest EdgeImpulse seems fine with or withou
   //Global Variables
   var exports = {};
   let myMultiCSV = true
+  let myRaw = false
 </script>  
 
 <script src="https://cdn.jsdelivr.net/npm/web-serial-polyfill@1.0.13/dist/serial.js"> </script> 
@@ -33,6 +34,11 @@ Headers are always a good idea. The latest EdgeImpulse seems fine with or withou
 <input type=button value="send 'firstline' " onclick="{
   document.getElementById('myArea01').value = ''                                                    
   mySendIt('firstline')
+}"><br>
+<input type=button value="send 'raw' " onclick="{
+  document.getElementById('myArea01').value = ''   
+  myRaw = true     // not yet used but available if needed                                 
+  mySendIt('raw')
 }"><br>
 
 <input type=button value="send 'c10' " onclick="{mySendIt('c10')}">set the collection seconds to 10 seconds   OR
