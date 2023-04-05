@@ -129,7 +129,10 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 
     <script src="edge-impulse-standalone.js"></script>
     <script src="run-impulse.js"></script>
-    <script>
+
+
+
+    <script>   //////////////////////////////////// EdgeImpulse WASM stuff here ///////////////////////////////////////
       
       myEdgeImpulse = async function(){  
          var classifier = new EdgeImpulseClassifier();
@@ -139,42 +142,23 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
          document.getElementById('target').innerHTML = '<br><b>'+project.owner + ' / ' + project.name + ' (version ' + project.deploy_version + ')</b><br>';
          document.getElementById('myDiv01').innerHTML  = ''
          try {
-                    let features = document.getElementById('myArea01').value.split(',').map(x => Number(x.trim()));
-                    let res = classifier.classify(features);
-                    document.getElementById('myDiv01').innerHTML  = JSON.stringify(res, null, 4);
-                }
-                catch (ex) {
-                    console.log('Failed to classify: ' + (ex.message || ex.toString()));
-                }
-        
-        
+              let features = document.getElementById('myArea01').value.split(',').map(x => Number(x.trim()));
+              let myResult = classifier.classify(features);
+              // document.getElementById('myDiv01').innerHTML  = JSON.stringify(myResult, null, 4);
+              for (let myLoop = 0;   myLoop <=  myResult.results.length ){
+                  document.getElementById('myDiv01').innerHTML  += myResult.results[myLoop].label + ' : ' + parseInt(myResult.results[myLoop].value * 100) + '%<br>'
+              }
+          }
+           catch (ex) {
+               console.log('Failed to classify: ' + (ex.message || ex.toString()));
+          }
+               
       }
      
-      
+   ////////////////////////////////////////////// Done EdgeIm,pulse WASM   
 
       
 
-      /*
-        (async () => {
-            var classifier = new EdgeImpulseClassifier();
-            await classifier.init();
-
-            let project = classifier.getProjectInfo();
-            document.querySelector('h1').textContent = project.owner + ' / ' + project.name + ' (version ' + project.deploy_version + ')';
-
-            document.querySelector('#run-inference').onclick = () => {
-                try {
-                    let features = document.querySelector('#features').value.split(',').map(x => Number(x.trim()));
-                    let res = classifier.classify(features);
-                    document.querySelector('#results').textContent = JSON.stringify(res, null, 4);
-                }
-                catch (ex) {
-                    alert('Failed to classify: ' + (ex.message || ex.toString()));
-                }
-            };
-        })();
-      
-      */
 
   
   
@@ -189,18 +173,7 @@ function keepOneLine(){
 }
 
   
-  
-  
- //function myRawSend(){ 
- // mySendIt('raw') 
- // setTimeout(myEdgeImpulse, 200);  // wait a bit to ge the data 
-   
- // document.getElementById('myArea01').value = ''   
- // myRaw = true     // not yet used but available if needed  
- // mySendIt('raw')
- 
-// } 
-  
+
   
   
   
