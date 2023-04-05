@@ -49,9 +49,9 @@ Headers are always a good idea. The latest EdgeImpulse seems fine with or withou
 
  clearInterval(myRawInterval) 
  myRawInterval =  setInterval(function () {
- document.getElementById('myArea01').value = ''   // clear the textarea                                              
- mySendIt('raw')                                             
- setTimeout(myEdgeImpulse, 1200);
+    document.getElementById('myArea01').value = ''   // clear the textarea                                              
+    mySendIt('raw')                                             
+    setTimeout(myEdgeImpulse, 1200);  // needs to wait long enough for the analyusis to happen must be a better way to do this
 
 }, 3000);        // intervall should be the interval for the analysis I should do this later                                        
                                                   
