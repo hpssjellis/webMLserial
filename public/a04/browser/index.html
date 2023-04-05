@@ -36,26 +36,7 @@ Headers are always a good idea. The latest EdgeImpulse seems fine with or withou
   document.getElementById('myArea01').value = ''                                                    
   mySendIt('firstline')
 }">
-<input type=button value="send 'raw' " onclick="{
-   document.getElementById('myArea01').value = ''   // clear the textarea                                              
-   mySendIt('raw')
-}">
-
-<input type=button value="Analyse" onclick="{
-  myEdgeImpulse()
-}"> 
-
-<input type=button value="Auto Analysis" onclick="{
-
- clearInterval(myRawInterval) 
- myRawInterval =  setInterval(function () {
-    document.getElementById('myArea01').value = ''   // clear the textarea                                              
-    mySendIt('raw')                                             
-    setTimeout(myEdgeImpulse, 1200);  // needs to wait long enough for the analyusis to happen must be a better way to do this
-
-}, 3000);        // intervall should be the interval for the analysis I should do this later                                        
-                                                  
-}"> <br>
+<br>
 
 <input type=button value="send 'c10' " onclick="{mySendIt('c10')}">set the collection seconds to 10 seconds   OR
 <input type=button value="send 'm9000' " onclick="{mySendIt('m9000')}">set the collection seconds to 9000 milliseconds<br>
@@ -108,7 +89,26 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 }">
  No:<input type=radio name="myRadioAutoScroll" onChange="{ clearInterval(myTimer)}">
 <br>
+<input type=button value="send 'raw' " onclick="{
+   document.getElementById('myArea01').value = ''   // clear the textarea                                              
+   mySendIt('raw')
+}">
 
+<input type=button value="Analyse" onclick="{
+  myEdgeImpulse()
+}"> 
+
+<input type=button value="Auto Analysis" onclick="{
+
+ clearInterval(myRawInterval) 
+ myRawInterval =  setInterval(function () {
+    document.getElementById('myArea01').value = ''   // clear the textarea                                              
+    mySendIt('raw')                                             
+    setTimeout(myEdgeImpulse, 1200);  // needs to wait long enough for the analyusis to happen must be a better way to do this
+
+}, 3000);        // intervall should be the interval for the analysis I should do this later                                        
+                                                  
+}"> <br>
 
 <textarea id="myArea01" rows="15" cols="120"></textarea>
 
