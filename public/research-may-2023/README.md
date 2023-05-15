@@ -17,3 +17,10 @@ im.onload = () => {
 }
 }
 ```
+
+
+
+Good site
+
+https://www.oreilly.com/library/view/learning-tensorflowjs/9781492090786/ch04.html
+
