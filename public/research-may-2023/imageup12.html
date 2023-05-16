@@ -53,7 +53,11 @@
         <input type="text" id="myLabels"> <br>
         <input type="button" value="Convert Images to Tensor" onclick="loadImagesToTensor()">
         <input type="button" value="Train Model" onclick="trainModel()">
-       <input type="button" value="Export Model" onclick="exportModel()">
+        <input type="button" value="Export Model" onclick="exportModel()">
+        <video id="webcam" width="640" height="480" autoplay></video>
+        <canvas id="canvas" width="640" height="480"></canvas>
+        <input type="button" value="Start Webcam" onclick="startWebcam()">
+        <input type="button" value="Capture and Classify Image" onclick="classifyImage()">
 
 
         <div id="myImagePreview"></div>
@@ -228,7 +232,43 @@ async function trainModel() {
   async function exportModel() {
     await model.save('downloads://my-model');
 }        
-      
+   
+            
+            
+    async function startWebcam() {
+    const videoElement = document.getElementById("webcam");
+    const stream = await navigator.mediaDevices.getUserMedia({video: true});
+    videoElement.srcObject = stream;
+}
+
+async function classifyImage() {
+    // Capture an image from the webcam
+    const videoElement = document.getElementById("webcam");
+    const canvasElement = document.getElementById("canvas");
+    const ctx = canvasElement.getContext("2d");
+    ctx.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+    const imageData = ctx.getImageData(0, 0, canvasElement.width, canvasElement.height);
+
+    // Resize the image to match the model input size
+    const inputTensor = tf.tidy(() => {
+        let tensor = tf.browser.fromPixels(imageData);
+        tensor = tf.image.resizeBilinear(tensor, [minWidth, minHeight]);
+        tensor = tensor.expandDims(0);
+        return tensor;
+    });
+
+    // Make a prediction using the trained model
+    const prediction = model.predict(inputTensor);
+    const predictedLabelIndex = prediction.argMax(1).dataSync()[0];
+    const predictedLabel = uniqueLabels[predictedLabelIndex];
+    console.log(`Predicted label: ${predictedLabel}`);
+
+    // Dispose the input tensor to free up memory
+    inputTensor.dispose();
+}
+        
+            
+            
 
         </script>
     </body>
