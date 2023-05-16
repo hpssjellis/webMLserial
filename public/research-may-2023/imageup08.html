@@ -45,6 +45,7 @@
         </style>
     </head>
     <body>
+        <h6> Version 8.0.0</h6>
         <h1>Upload Images</h1>
         <input type="file" id="myImageFile" accept="image/*" multiple>
         <br>
@@ -117,10 +118,9 @@ async function loadImagesToTensor() {
         return ctx.getImageData(0, 0, minWidth, minHeight);
     });
 
-    // Convert images to tensors
-    const tensors = resizedImgs.map((imgData) => tf.browser.fromPixels(imgData));
-    myTensor = tf.stack(tensors);
-    console.log('Images converted to tensor:', myTensor);
+    
+    
+
   
       // Convert images to tensors
     const tensors = resizedImgs.map((imgData) => tf.browser.fromPixels(imgData));
