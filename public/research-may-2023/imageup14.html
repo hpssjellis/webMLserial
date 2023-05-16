@@ -64,6 +64,12 @@
         <input type="file" id="weightsFile" accept=".bin">
         <br>
         <input type="button" value="Upload Model" onclick="uploadModel()">
+        <label for="minWidth">Enter model input width:</label>
+        <input type="number" id="minWidth">
+        <br>
+        <label for="minHeight">Enter model input height:</label>
+        <input type="number" id="minHeight">
+        <br>
 
 
         
@@ -191,6 +197,9 @@ document.getElementById("myImageFile").addEventListener("change", (event) => {
 });
             
  async function uploadModel() {
+         // Set the minWidth and minHeight variables
+    minWidth = parseInt(document.getElementById("minWidth").value);
+    minHeight = parseInt(document.getElementById("minHeight").value);
     const modelFile = document.getElementById("modelFile").files[0];
     const weightsFile = document.getElementById("weightsFile").files[0];
     if (!modelFile || !weightsFile) {
@@ -263,11 +272,14 @@ async function trainModel() {
    
             
             
-    async function startWebcam() {
+ async function startWebcam() {
     const videoElement = document.getElementById("webcam");
-    const stream = await navigator.mediaDevices.getUserMedia({video: true});
+    const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" }
+    });
     videoElement.srcObject = stream;
-}
+        
+ }
 
 async function classifyImage() {
     // Capture an image from the webcam
