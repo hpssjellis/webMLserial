@@ -194,7 +194,7 @@ async function trainModel() {
     model.add(tf.layers.conv2d({kernelSize: 3, filters: 32, activation: 'relu'}));
     model.add(tf.layers.flatten({}));
     model.add(tf.layers.dense({units: 64, activation: 'relu'}));
-    model.add(tf.layers.dense({units: labelsArray.length, activation: 'softmax'}));
+    model.add(tf.layers.dense({units: uniqueLabels.length, activation: 'softmax'}));
 
     // Compile the model
     model.compile({
