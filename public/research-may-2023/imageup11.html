@@ -197,11 +197,11 @@ async function trainModel() {
     model.add(tf.layers.dense({units: uniqueLabels.length, activation: 'softmax'}));
 
     // Compile the model
-    model.compile({
-        optimizer: tf.train.adam(),
-        loss: 'sparseCategoricalCrossentropy',
-        metrics: ['accuracy']
-    });
+  model.compile({
+    optimizer: tf.train.adam(),
+    loss: 'categoricalCrossentropy',
+    metrics: ['accuracy']
+});
 
     // Prepare the data for training
     const xs = myTensor;
@@ -220,7 +220,7 @@ async function trainModel() {
 }
 
           
-          
+      
 
         </script>
     </body>
