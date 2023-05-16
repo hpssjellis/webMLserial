@@ -59,6 +59,9 @@
             let myImageFiles, myTensor;
             let minWidth = Infinity;
             let minHeight = Infinity;
+            
+            let labelsArray, myTensor, labelsTensor;
+            
           
           function previewImages() {
     const preview = document.getElementById("myImagePreview");
@@ -144,8 +147,8 @@ async function loadImagesToTensor() {
 
     // Create a tensor for the labels
     const labelsInput = document.getElementById("myLabels").value;
-    const labelsArray = labelsInput.split(",").map((label) => label.trim());
-    const labelsTensor = tf.tensor1d(labelsArray);
+    labelsArray = labelsInput.split(",").map((label) => label.trim());
+    labelsTensor = tf.tensor1d(labelsArray);
     console.log('Labels converted to tensor:', labelsTensor);
   
   
@@ -165,7 +168,7 @@ document.getElementById("myImageFile").addEventListener("change", (event) => {
     
           
           
-          async function trainModel() {
+async function trainModel() {
     // Define the model architecture
     const model = tf.sequential();
     model.add(tf.layers.conv2d({
