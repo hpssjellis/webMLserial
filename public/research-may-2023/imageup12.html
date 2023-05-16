@@ -63,6 +63,7 @@
             let minHeight = Infinity;
             let labelsArray;
             let uniqueLabels, labelsTensor;
+            let model;
             
           
   function previewImages() {
@@ -93,9 +94,7 @@
     }
 }
 
-async function exportModel() {
-    await model.save('downloads://my-model');
-}
+
           
           
             async function imgToTensor(img) {
@@ -187,7 +186,7 @@ document.getElementById("myImageFile").addEventListener("change", (event) => {
           
 async function trainModel() {
     // Define the model architecture
-    const model = tf.sequential();
+    model = tf.sequential();
     model.add(tf.layers.conv2d({
         inputShape: [minWidth, minHeight, 3],
         kernelSize: 3,
@@ -226,7 +225,9 @@ async function trainModel() {
     });
 }
 
-          
+  async function exportModel() {
+    await model.save('downloads://my-model');
+}        
       
 
         </script>
