@@ -77,6 +77,7 @@
         
         <input type="button" value="Start Webcam" onclick="startWebcam()">
         <input type="button" value="Capture and Classify Image" onclick="classifyImage()">
+        <input type="button" value="Save Image" onclick="saveImage()">
         <video id="webcam" width="640" height="480" autoplay></video>
         <canvas id="canvas" width="640" height="480"></canvas>
 
@@ -311,15 +312,17 @@ async function classifyImage() {
     // Dispose the input tensor to free up memory
     inputTensor.dispose();
     
-     const imageURL = canvasElement.toDataURL("image/jpeg");
+
+    
+}
+        
+ function saveImage(){                        
+    const imageURL = canvasElement.toDataURL("image/jpeg");
     const link = document.createElement("a");
     link.href = imageURL;
     link.download = "webcam_image.jpg";
     link.click();
-    
-}
-        
-            
+ }         
             
 
         </script>
