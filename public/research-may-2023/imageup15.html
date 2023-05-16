@@ -153,16 +153,16 @@ async function loadImagesToTensor() {
 
     // Resize all images to match the smallest dimensions
     const resizedImgs = imgs.map((img) => {
-    const canvas = document.createElement("canvas");
-    canvas.width = minWidth;
-    canvas.height = minHeight;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, minWidth, minHeight);
-    console.log('minWidth');
-    console.log(minWidth);
-    document.getElementById("myMinWidth").value = minWidth;
-    document.getElementById("myMinHeight").value = minHeight;
-    return ctx.getImageData(0, 0, minWidth, minHeight);
+        const canvas = document.createElement("canvas");
+        canvas.width = minWidth;
+        canvas.height = minHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, minWidth, minHeight);
+        console.log('minWidth');
+        console.log(minWidth);
+        document.getElementById("myMinWidth").value = minWidth;
+        document.getElementById("myMinHeight").value = minHeight;
+        return ctx.getImageData(0, 0, minWidth, minHeight).data;
 
     });
 
