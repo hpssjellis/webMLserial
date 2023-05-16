@@ -64,11 +64,11 @@
         <input type="file" id="weightsFile" accept=".bin">
         <br>
         <input type="button" value="Upload Model" onclick="uploadModel()">
-        <label for="minWidth">Enter model input width:</label>
-        <input type="number" id="minWidth">
+        <label for="myMinWidth">Enter model input width:</label>
+        <input type="number" id="myMinWidth">
         <br>
-        <label for="minHeight">Enter model input height:</label>
-        <input type="number" id="minHeight">
+        <label for="myMinHeight">Enter model input height:</label>
+        <input type="number" id="myMinHeight">
         <br>
 
 
@@ -164,8 +164,8 @@ async function loadImagesToTensor() {
         return ctx.getImageData(0, 0, minWidth, minHeight);
         console.log('minWidth');
         console.log(minWidth);
-        document.getElementById("minWidth").value = minWidth;
-        document.getElementById("minHeight").value = minHeight;
+        document.getElementById("myMinWidth").value = minWidth;
+        document.getElementById("myMinHeight").value = minHeight;
         
     });
 
@@ -189,7 +189,7 @@ async function loadImagesToTensor() {
           
           
 document.getElementById("myImageFile").addEventListener("change", (event) => {
-     minWidth = Infinity;
+    minWidth = Infinity;
     minHeight = Infinity;
     if (!myImageFiles) {
         myImageFiles = event.target.files;
@@ -203,8 +203,8 @@ document.getElementById("myImageFile").addEventListener("change", (event) => {
             
  async function uploadModel() {
          // Set the minWidth and minHeight variables
-    minWidth = parseInt(document.getElementById("minWidth").value);
-    minHeight = parseInt(document.getElementById("minHeight").value);
+    minWidth = parseInt(document.getElementById("myMinWidth").value);
+    minHeight = parseInt(document.getElementById("myMinHeight").value);
     const modelFile = document.getElementById("modelFile").files[0];
     const weightsFile = document.getElementById("weightsFile").files[0];
     if (!modelFile || !weightsFile) {
