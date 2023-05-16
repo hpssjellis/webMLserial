@@ -310,6 +310,13 @@ async function classifyImage() {
 
     // Dispose the input tensor to free up memory
     inputTensor.dispose();
+    
+     const imageURL = canvasElement.toDataURL("image/jpeg");
+    const link = document.createElement("a");
+    link.href = imageURL;
+    link.download = "webcam_image.jpg";
+    link.click();
+    
 }
         
             
