@@ -57,7 +57,8 @@
         <div id="myImagePreview"></div>
         <script>
             let myImageFiles, myTensor;
-          
+            let minWidth = Infinity;
+            let minHeight = Infinity;
           
           function previewImages() {
     const preview = document.getElementById("myImagePreview");
@@ -116,8 +117,7 @@ async function loadImagesToTensor() {
     const imgs = await Promise.all(imagesPromise);
 
     // Find the smallest image dimensions
-    let minWidth = Infinity;
-    let minHeight = Infinity;
+
     imgs.forEach((img) => {
         if (img.width < minWidth) minWidth = img.width;
         if (img.height < minHeight) minHeight = img.height;
