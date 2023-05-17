@@ -177,20 +177,7 @@ document.getElementById("myImageFile").addEventListener("change", (event) => {
     }
 });
             
- async function uploadModel() {
-         // Set the minWidth and minHeight variables
-    minWidth = parseInt(document.getElementById("myMinWidth").value);
-    minHeight = parseInt(document.getElementById("myMinHeight").value);
-    const modelFile = document.getElementById("modelFile").files[0];
-    const weightsFile = document.getElementById("weightsFile").files[0];
-    if (!modelFile || !weightsFile) {
-        alert("Please select both a model file and a weights file to upload");
-        return;
-    }
-    model = await tf.loadLayersModel(tf.io.browserFiles([modelFile, weightsFile]));
-    document.getElementById('mySpanUpload').innerHTML = `Model imported from: ${modelFile}.json and ${weightsFile}.bin `;
-}
-      
+ 
 
           
 async function trainModel() { 
@@ -247,7 +234,25 @@ async function trainModel() {
 }        
    
             
-            
+    async function uploadModel() {
+         // Set the minWidth and minHeight variables
+    minWidth = parseInt(document.getElementById("myMinWidth").value);
+    minHeight = parseInt(document.getElementById("myMinHeight").value);
+    const modelFile = document.getElementById("modelFile").files[0];
+    const weightsFile = document.getElementById("weightsFile").files[0];
+    if (!modelFile || !weightsFile) {
+        alert("Please select both a model file and a weights file to upload");
+        return;
+    }
+    model = await tf.loadLayersModel(tf.io.browserFiles([modelFile, weightsFile]));
+    console.log(modelFile);    
+    console.log(model);
+    console.log(weightsFile);
+    document.getElementById('mySpanUpload').innerHTML = `Model imported from: ${modelFile.name}.json and ${weightsFile.name}.bin `;
+}
+     
+    
+    
  async function startWebcam() {
     const videoElement = document.getElementById("webcam");
      
