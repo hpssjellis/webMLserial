@@ -132,7 +132,7 @@ async function loadImagesToTensor() {
     const myMinHeight3 = parseInt(document.getElementById("myMinHeight").value);
     minWidth = myMinWidth3;
     minHeight = myMinHeight3;
-
+   
     // Resize all images to match minWidth
     const resizedImgs = imgs.map((img) => {
         const canvas = document.createElement("canvas");
@@ -143,11 +143,12 @@ async function loadImagesToTensor() {
         return ctx.getImageData(0, 0, minWidth, minHeight);
     });
 
+    document.getElementById('mySpanSize').innerHTML = `Images Loaded<hr>`;
     // Convert images to tensors
     const tensors = resizedImgs.map((imgData) => tf.browser.fromPixels(imgData));
     myTensor = tf.stack(tensors);
     console.log('Images converted to tensor:', myTensor);
-    document.getElementById('mySpanSize').innerHTML = `Images converted to tensor: ${myTensor}<br>`;
+    document.getElementById('mySpanSize').innerHTML += `Images converted to tensor: ${myTensor}<br>`;
 
     // Create a one-hot encoded tensor for the labels
     const labelsInput = document.getElementById("myLabels").value;
@@ -229,7 +230,7 @@ async function trainModel() {
         callbacks: {
             onEpochEnd: (epoch, logs) => {
                 console.log(`Epoch ${epoch}: loss = ${logs.loss}, accuracy = ${logs.acc}`);
-                document.getElemntById('mySpanExport').innerHTML = `Epoch ${epoch}: loss = ${logs.loss}, accuracy = ${logs.acc}`;
+                document.getElementById('mySpanExport').innerHTML = `Epoch ${epoch}: loss = ${logs.loss}, accuracy = ${logs.acc}`;
                 //console.log(logs);
             }
 
@@ -287,7 +288,7 @@ async function classifyImage() {
     const predictedLabelIndex = prediction.argMax(1).dataSync()[0];
     const predictedLabel = uniqueLabels[predictedLabelIndex];
     console.log(`Predicted label: ${predictedLabel}`);
-    document.getElemntById('mySpanWebcam').innerHTML = `Predicted label: ${predictedLabel}<br>`
+    document.getElementById('mySpanWebcam').innerHTML = `Predicted label: ${predictedLabel}<br>`
     
 
     // Dispose the input tensor to free up memory
@@ -304,6 +305,7 @@ async function classifyImage() {
     link.href = imageURL;
     link.download = myImageFileName;
     link.click();
+    document.getElementById('mySpanWebcam').innerHTML = `File saved as ${myImageFileName}<br>`
  }         
             
 
