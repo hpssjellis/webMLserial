@@ -242,6 +242,7 @@ async function trainModel() {
   async function exportModel() {
     let myModelFileName = 'downloads://' + document.getElementById('myExportFileName').value
     await model.save(myModelFileName);
+    document.getElementById('mySpanExport').innerHTML = `Model exported as: ${myModelFileName}.json and ${myModelFileName}.bin`;
 }        
    
             
