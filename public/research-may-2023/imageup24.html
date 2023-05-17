@@ -188,7 +188,7 @@ document.getElementById("myImageFile").addEventListener("change", (event) => {
         return;
     }
     model = await tf.loadLayersModel(tf.io.browserFiles([modelFile, weightsFile]));
-    document.getElementById('mySpanImport').innerHTML = `Model imported from: ${modelFile}.json and ${weightsFile}.bin `;
+    document.getElementById('mySpanUpload').innerHTML = `Model imported from: ${modelFile}.json and ${weightsFile}.bin `;
 }
       
 
