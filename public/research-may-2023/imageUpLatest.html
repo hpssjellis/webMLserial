@@ -11,19 +11,19 @@
 
 <h6> Version 0.24.1</h6>
 <h1>Upload Images</h1>       
-<label for="myLabels">Enter image labels (comma-separated):</label>
+<label for="myLabels">Enter image labels (comma-separated), then click Choose Files</label>
 <input type="text" id="myLabels" size=80 value="1,1,2,2"> <br>
 <label for="myMinWidth">Enter model input width:</label>
 <input type="number" id="myMinWidth" value=96  style="width:50px"> px, 
 
 <label for="myMinHeight">Enter model input height:</label>
 <input type="number" id="myMinHeight" value=96  style="width:50px"> px
-<span id="mySpanSize">...</span>
+
 <br>
 
 <input type="file" id="myImageFile" accept="image/*" multiple> 
 <br>
-
+<span id="mySpanSize">...</span><br>
 <div id="myImagePreview" style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; padding:20px;"></div>
 
 <input type="button" value="Convert Images to Tensor" onclick="loadImagesToTensor()">
@@ -50,7 +50,11 @@
 <hr>
 
 
-<input type="button" value="Start Webcam" onclick="startWebcam()">
+<input type="button" value="Start Webcam" onclick="startWebcam()"> 
+<select id="mySelectWebcam" size="1">
+    <option value="environment" selected="selected">Rear Camera</option>
+    <option value="user">Front Camera</option>
+</select>
 <input type="button" value="Capture and Classify Image" onclick="classifyImage()">
 <span id="mySpanWebcam">...</span><br>
 <input type="button" value="Save Image" onclick="saveImage()"> <input id="myImageExportFileName" type=text value="my-image.jpg"><br>
@@ -288,7 +292,7 @@ async function trainModel() {
     videoElement.height = myMinHeight;
      
     const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" }
+        video: { facingMode: document.getElementById('mySelectWebcam').value }   
     });
     videoElement.srcObject = stream;
         
