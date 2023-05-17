@@ -29,7 +29,8 @@
 <input type="button" value="Convert Images to Tensor" onclick="loadImagesToTensor()">
 <input type="button" value="Train Model" onclick="trainModel()">
 <label for="myEpochs">Enter model input height:</label>
-<input type="number" id="myEpochs" value=100 style="width:50px"> loops
+<input type="number" id="myEpochs" value=100 style="width:50px"> loops, 
+<input type="number" id="myLearningRate" value="0.0005" style="width:70px"> learning rate, 
 <br>
     
 <input type="button" value="Export Model" onclick="exportModel()"> <input id="myExportFileName" type=text value="my-model">
@@ -202,16 +203,21 @@ async function trainModel() {
     model.add(tf.layers.conv2d({kernelSize: 3, filters: 32, activation: 'relu'}));
     model.add(tf.layers.maxPooling2d({poolSize: 2}));
     model.add(tf.layers.conv2d({kernelSize: 3, filters: 32, activation: 'relu'}));
+    model.add(tf.layers.maxPooling2d({poolSize: 2}));
+    model.add(tf.layers.conv2d({kernelSize: 3, filters: 32, activation: 'relu'}));
+    model.add(tf.layers.maxPooling2d({poolSize: 2}));
+    model.add(tf.layers.conv2d({kernelSize: 3, filters: 32, activation: 'relu'}));
     model.add(tf.layers.flatten({}));
     model.add(tf.layers.dense({units: 64, activation: 'relu'}));
     model.add(tf.layers.dense({units: uniqueLabels.length, activation: 'softmax'}));
 
     // Compile the model
-  model.compile({
-    optimizer: tf.train.adam(),
-    loss: 'categoricalCrossentropy',
-    metrics: ['accuracy']
-});
+    const myRate = parseFloat(document.getElementById('myLearningRate').value)
+    model.compile({
+        optimizer: tf.train.adam(myRate),
+        loss: 'categoricalCrossentropy',
+        metrics: ['accuracy']
+    });
 
     // Prepare the data for training
     const xs = myTensor;
