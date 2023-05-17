@@ -60,11 +60,15 @@
     let canvasElement;
             
           
-  function previewImages() {
+
+function previewImages() {
     const preview = document.getElementById("myImagePreview");
     preview.innerHTML = "";
     const labelsInput = document.getElementById("myLabels").value;
     const labelsArray = labelsInput.split(",").map((label) => label.trim());
+    const myMinWidth2 = document.getElementById("myMinWidth").value;
+    const myMinHeight2 = document.getElementById("myMinHeight").value;
+    
     for (let i = 0; i < myImageFiles.length; i++) {
         const file = myImageFiles[i];
         const label = labelsArray[i];
@@ -76,8 +80,9 @@
             container.style.alignItems = "center";
             const img = document.createElement("img");
             img.src = reader.result;
-            img.style.width = "100px";
-            img.style.height = "100px";
+            img.style.width = myMinWidth2 + "px";
+            img.style.height = myMinHeight2 + "px";
+           // img.style.height = "auto";
             container.appendChild(img);
             const labelElement = document.createElement("span");
             labelElement.textContent = label;
@@ -87,7 +92,6 @@
         reader.readAsDataURL(file);
     }
 }
-
 
           
           
@@ -236,6 +240,10 @@ async function trainModel() {
             
  async function startWebcam() {
     const videoElement = document.getElementById("webcam");
+    const myMinWidth = document.getElementById("myMinWidth").value;
+    videoElement.width = myMinWidth;
+    const myMinHeight = document.getElementById("myMinHeight").value;
+    videoElement.height = myMinHeight;
     const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "environment" }
     });
