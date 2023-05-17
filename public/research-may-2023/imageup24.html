@@ -14,13 +14,14 @@
 <label for="myLabels">Enter image labels (comma-separated):</label>
 <input type="text" id="myLabels" size=80 value="1,1,2,2"> <br>
 <label for="myMinWidth">Enter model input width:</label>
-<input type="number" id="myMinWidth" value=96> px
-<br>
+<input type="number" id="myMinWidth" value=96> px, 
+
 <label for="myMinHeight">Enter model input height:</label>
 <input type="number" id="myMinHeight" value=96> px
+<span id="mySpanSize">...</span>
 <br>
 
-<input type="file" id="myImageFile" accept="image/*" multiple>
+<input type="file" id="myImageFile" accept="image/*" multiple> 
 <br>
 
 <div id="myImagePreview" style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; padding:20px;"></div>
@@ -29,6 +30,7 @@
 <input type="button" value="Train Model" onclick="trainModel()"><br>
     
 <input type="button" value="Export Model" onclick="exportModel()"> <input id="myExportFileName" type=text value="my-model">
+<span id="mySpanExport">...</span>
 <hr>
 
 <label for="modelFile">Select model file:</label>
@@ -38,6 +40,7 @@
 <input type="file" id="weightsFile" accept=".bin">
 <br>
 <input type="button" value="Upload Model" onclick="uploadModel()">
+<span id="mySpanUpload">...</span>
 
 
 <hr>
@@ -46,6 +49,8 @@
 <input type="button" value="Start Webcam" onclick="startWebcam()">
 <input type="button" value="Capture and Classify Image" onclick="classifyImage()">
 <input type="button" value="Save Image" onclick="saveImage()"> <input id="myImageExportFileName" type=text value="my-image.jpg">
+<span id="mySpanWebcam">...</span>
+    
 <video id="webcam" width="96" height="96" autoplay></video>
 <canvas id="canvas" width="96" height="96"></canvas>
 
@@ -67,6 +72,7 @@ function previewImages() {
     preview.innerHTML = "";
     const labelsInput = document.getElementById("myLabels").value;
     const labelsArray = labelsInput.split(",").map((label) => label.trim());
+    
     const myMinWidth2 = document.getElementById("myMinWidth").value;
     const myMinHeight2 = document.getElementById("myMinHeight").value;
     
@@ -182,7 +188,10 @@ document.getElementById("myImageFile").addEventListener("change", (event) => {
       
 
           
-async function trainModel() {
+async function trainModel() { 
+    minWidth = parseInt(document.getElementById("myMinWidth").value);
+    minHeight = parseInt(document.getElementById("myMinHeight").value);
+    
     // Define the model architecture
     model = tf.sequential();
     model.add(tf.layers.conv2d({
@@ -233,10 +242,12 @@ async function trainModel() {
             
  async function startWebcam() {
     const videoElement = document.getElementById("webcam");
+     
     const myMinWidth = document.getElementById("myMinWidth").value;
     videoElement.width = myMinWidth;
     const myMinHeight = document.getElementById("myMinHeight").value;
     videoElement.height = myMinHeight;
+     
     const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "environment" }
     });
