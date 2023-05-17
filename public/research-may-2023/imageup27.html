@@ -286,6 +286,12 @@ async function trainModel() {
  async function startWebcam() {
     const videoElement = document.getElementById("webcam");
      
+    // Stop the previous stream if it exists
+    if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+    }
+
     const myMinWidth = document.getElementById("myMinWidth").value;
     videoElement.width = myMinWidth;
     const myMinHeight = document.getElementById("myMinHeight").value;
