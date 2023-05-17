@@ -97,15 +97,15 @@ function previewImages() {
     
     
 async function imgToTensor(img) {
-    minWidth = document.getElementById("myMinWidth").value = ;
-    minHeight = document.getElementById("myMinHeight").value = ;
+    minWidth = document.getElementById("myMinWidth").value;
+    minHeight = document.getElementById("myMinHeight").value;
     return new Promise((resolve)=>{
         const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
+        canvas.width = minWidth;
+        canvas.height = minHeight;
         const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-        const imageData = ctx.getImageData(0, 0, img.width, img.height);
+        ctx.drawImage(img, 0, 0, minWidth, minHeight);
+        const imageData = ctx.getImageData(0, 0, minWidth, minHeight);
         resolve(tf.browser.fromPixels(imageData));
     }
 )};
