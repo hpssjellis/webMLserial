@@ -255,6 +255,12 @@ async function classifyImage() {
     // Capture an image from the webcam
     const videoElement = document.getElementById("webcam");
      canvasElement = document.getElementById("canvas");
+    
+    const myMinWidth = document.getElementById("myMinWidth").value;
+    const myMinHeight = document.getElementById("myMinHeight").value;
+    canvasElement.width = myMinWidth
+    canvasElement.height = myMinHeight
+    
     const ctx = canvasElement.getContext("2d");
     ctx.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
     const imageData = ctx.getImageData(0, 0, canvasElement.width, canvasElement.height);
