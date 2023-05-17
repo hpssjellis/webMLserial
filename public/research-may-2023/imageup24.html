@@ -157,7 +157,7 @@ async function loadImagesToTensor() {
     labelsTensor = tf.oneHot(tf.tensor1d(indices, 'int32'), uniqueLabels.length);
     console.log('Labels converted to one-hot encoded tensor:', labelsTensor);
    // console.log('Labels converted to one-hot encoded tensor:', labelsTensor);
-    document.getElemntById('mySpanSize').innerHTML += `Labels converted to one-hot encoded tensor: ${labelsTensor}<br>`;
+    document.getElementById('mySpanSize').innerHTML += `Labels converted to one-hot encoded tensor: ${labelsTensor}<br>`;
 }
 
     
