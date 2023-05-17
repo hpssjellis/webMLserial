@@ -24,10 +24,10 @@
 <br>
 
 <input type="button" value="Convert Images to Tensor" onclick="loadImagesToTensor()">
-<div id="myImagePreview"></div>
+<div id="myImagePreview" style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; padding:20px;"></div>
 
 <input type="button" value="Train Model" onclick="trainModel()">
-<input type="button" value="Export Model" onclick="exportModel()">
+<input type="button" value="Export Model" onclick="exportModel()"> <input id="myExportFileName" type=text value="my-model">
 <hr>
 
 <label for="modelFile">Select model file:</label>
@@ -44,7 +44,7 @@
 
 <input type="button" value="Start Webcam" onclick="startWebcam()">
 <input type="button" value="Capture and Classify Image" onclick="classifyImage()">
-<input type="button" value="Save Image" onclick="saveImage()">
+<input type="button" value="Save Image" onclick="saveImage()"> <input id="myImageExportFileName" type=text value="my-image.jpg">
 <video id="webcam" width="96" height="96" autoplay></video>
 <canvas id="canvas" width="96" height="96"></canvas>
 
@@ -228,7 +228,8 @@ async function trainModel() {
 }
 
   async function exportModel() {
-    await model.save('downloads://my-model');
+    let myModelFileName = 'downloads://' + document.getElementById('myExportFileName').value
+    await model.save(myModelFileName);
 }        
    
             
@@ -271,11 +272,12 @@ async function classifyImage() {
     
 }
         
- function saveImage(){                        
+ function saveImage(){      
+    let myImageFileName = document.getElementById('myImageExportFileName').value
     const imageURL = canvasElement.toDataURL("image/jpeg");
     const link = document.createElement("a");
     link.href = imageURL;
-    link.download = "webcam_image.jpg";
+    link.download = myImageFileName;
     link.click();
  }         
             
