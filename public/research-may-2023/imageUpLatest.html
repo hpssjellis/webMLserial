@@ -6,18 +6,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Image Upload to Tensor</title>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
-
 </head>
 <body>
+
 <h6> Version 0.24.1</h6>
 <h1>Upload Images</h1>       
 <label for="myLabels">Enter image labels (comma-separated):</label>
 <input type="text" id="myLabels" size=80 value="1,1,2,2"> <br>
 <label for="myMinWidth">Enter model input width:</label>
-<input type="number" id="myMinWidth" value=96> px, 
+<input type="number" id="myMinWidth" value=96  style="width:50px"> px, 
 
 <label for="myMinHeight">Enter model input height:</label>
-<input type="number" id="myMinHeight" value=96> px
+<input type="number" id="myMinHeight" value=96  style="width:50px"> px
 <span id="mySpanSize">...</span>
 <br>
 
@@ -27,7 +27,10 @@
 <div id="myImagePreview" style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; padding:20px;"></div>
 
 <input type="button" value="Convert Images to Tensor" onclick="loadImagesToTensor()">
-<input type="button" value="Train Model" onclick="trainModel()"><br>
+<input type="button" value="Train Model" onclick="trainModel()">
+<label for="myEpochs">Enter model input height:</label>
+<input type="number" id="myEpochs" value=100 style="width:50px"> loops
+<br>
     
 <input type="button" value="Export Model" onclick="exportModel()"> <input id="myExportFileName" type=text value="my-model">
 <span id="mySpanExport">...</span>
@@ -54,7 +57,7 @@
     
 <video id="webcam" width="96" height="96" autoplay></video>
 <canvas id="canvas" width="96" height="96"></canvas>
-
+<br>
 --------------------------------------------------------------------------------------------
 
 <script>
@@ -182,6 +185,8 @@ document.getElementById("myImageFile").addEventListener("change", (event) => {
 
           
 async function trainModel() { 
+    document.getElementById('mySpanExport').innerHTML = `Starting to train model`;
+     
     minWidth = parseInt(document.getElementById("myMinWidth").value);
     minHeight = parseInt(document.getElementById("myMinHeight").value);
     
@@ -214,7 +219,7 @@ async function trainModel() {
 
     // Train the model
     await model.fit(xs, ys, {
-        epochs: 100,
+        epochs:  parseInt(document.getElementById('myEpochs').value),  //100,
         batchSize: 32,
         callbacks: {
             onEpochEnd: (epoch, logs) => {
@@ -236,15 +241,12 @@ async function trainModel() {
    
             
     async function uploadModel() {
-/*
-    if (model <> null) {   // hack to see if a model exists
-        model.layers.forEach(l => l.dispose())   // delete the old model
-    }
 
-*/
-         // Set the minWidth and minHeight variables
+
+    // Set the minWidth and minHeight variables
     minWidth = parseInt(document.getElementById("myMinWidth").value);
     minHeight = parseInt(document.getElementById("myMinHeight").value);
+
     const modelFile = document.getElementById("modelFile").files[0];
     const weightsFile = document.getElementById("weightsFile").files[0];
     if (!modelFile || !weightsFile) {
@@ -253,18 +255,11 @@ async function trainModel() {
     }
 
 
-   // model = await tf.loadLayersModel(tf.io.browserFiles([modelFile, weightsFile]));
-/*
-    const modelBlob = new Blob([modelFile]);
-    const weightsBlob = new Blob([weightsFile]);
-    
-    const modelURL = URL.createObjectURL(modelBlob);
-    const weightsURL = URL.createObjectURL(weightsBlob);
-*/
+
     model = await tf.loadLayersModel(tf.io.browserFiles([modelFile, weightsFile]));
     
 
-
+    // log info about the model
     console.log('model');
     console.log(model);
     console.log('weightsFile');
@@ -310,10 +305,18 @@ async function classifyImage() {
     // Resize the image to match the model input size
     const inputTensor = tf.tidy(() => {
         let tensor = tf.browser.fromPixels(imageData);
+        console.log(tensor);
         tensor = tf.image.resizeBilinear(tensor, [minWidth, minHeight]);
         tensor = tensor.expandDims(0);
         return tensor;
     });
+
+
+   // setup labels from webpage
+    const labelsInput = document.getElementById("myLabels").value;
+    labelsArray = labelsInput.split(",").map((label) => label.trim());
+    uniqueLabels = [...new Set(labelsArray)];
+
 
     // Make a prediction using the trained model
     const prediction = model.predict(inputTensor);
@@ -328,9 +331,9 @@ async function classifyImage() {
     // Dispose the input tensor to free up memory
     inputTensor.dispose();
     
-
-    
+ 
 }
+
         
  function saveImage(){      
     let myImageFileName = document.getElementById('myImageExportFileName').value
