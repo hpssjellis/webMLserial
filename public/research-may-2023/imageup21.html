@@ -49,6 +49,13 @@
         <h1>Upload Images</h1>       
        <label for="myLabels">Enter image labels (comma-separated):</label>
         <input type="text" id="myLabels" value="1,1,2,2"> <br>
+        <label for="myMinWidth">Enter model input width:</label>
+        <input type="number" id="myMinWidth" value=96> px
+        <br>
+        <label for="myMinHeight">Enter model input height:</label>
+        <input type="number" id="myMinHeight" value=96> px
+        <br>
+
         <input type="file" id="myImageFile" accept="image/*" multiple>
         <br>
 
@@ -66,12 +73,6 @@
         <input type="file" id="weightsFile" accept=".bin">
         <br>
         <input type="button" value="Upload Model" onclick="uploadModel()">
-        <label for="myMinWidth">Enter model input width:</label>
-        <input type="number" id="myMinWidth" value=96> px
-        <br>
-        <label for="myMinHeight">Enter model input height:</label>
-        <input type="number" id="myMinHeight" value=96> px
-        <br>
 
 
         
@@ -80,8 +81,8 @@
         <input type="button" value="Start Webcam" onclick="startWebcam()">
         <input type="button" value="Capture and Classify Image" onclick="classifyImage()">
         <input type="button" value="Save Image" onclick="saveImage()">
-        <video id="webcam" width="640" height="480" autoplay></video>
-        <canvas id="canvas" width="640" height="480"></canvas>
+        <video id="webcam" width="96" height="96" autoplay></video>
+        <canvas id="canvas" width="96" height="96"></canvas>
 
 
 
@@ -218,21 +219,7 @@ document.getElementById("myImageFile").addEventListener("change", (event) => {
     model = await tf.loadLayersModel(tf.io.browserFiles([modelFile, weightsFile]));
 }
       
-            
-            
-            
-    /*
-  async function uploadModel() {
-    const modelFile = document.getElementById("modelFile").files[0];
-    if (!modelFile) {
-        alert("Please select a model file to upload");
-        return;
-    }
-    const modelName = modelFile.name.replace(".json", "");
-    const weightsFile = new File([modelFile], `${modelName}.weights.bin`);
-    model = await tf.loadLayersModel(tf.io.browserFiles([modelFile, weightsFile]));
-}
-      */
+
           
 async function trainModel() {
     // Define the model architecture
@@ -329,6 +316,6 @@ async function classifyImage() {
  }         
             
 
-        </script>
-    </body>
+</script>
+</body>
 </html>
