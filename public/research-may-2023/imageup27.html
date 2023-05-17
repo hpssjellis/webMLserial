@@ -297,10 +297,14 @@ async function trainModel() {
     const myMinHeight = document.getElementById("myMinHeight").value;
     videoElement.height = myMinHeight;
      
-    const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: document.getElementById('mySelectWebcam').value }   
-    });
-    videoElement.srcObject = stream;
+    try {
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: document.getElementById('mySelectWebcam').value }
+        });
+        videoElement.srcObject = stream;
+    } catch (error) {
+        console.error("Error accessing webcam:", error);
+    }
         
  }
 
