@@ -268,7 +268,8 @@ async function trainModel() {
         batchSize: 32,
         callbacks: {
             onEpochEnd: (epoch, logs) => {
-                console.log(`Epoch ${epoch}: loss = ${logs.loss}, accuracy = ${logs.accuracy}`);
+               // console.log(`Epoch ${epoch}: loss = ${logs.loss}, accuracy = ${logs.accuracy}`);
+                console.log(logs);
             }
 
         }
