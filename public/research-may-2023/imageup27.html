@@ -23,8 +23,9 @@
 
 <input type="file" id="myImageFile" accept="image/*" multiple> 
 <br>
-<span id="mySpanSize">...</span><br>
+
 <div id="myImagePreview" style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; padding:20px;"></div>
+<span id="mySpanSize">...</span><br>
 
 <input type="button" value="Convert Images to Tensor" onclick="loadImagesToTensor()">
 <input type="button" value="Train Model" onclick="trainModel()">
@@ -152,7 +153,7 @@ async function loadImagesToTensor() {
         return ctx.getImageData(0, 0, minWidth, minHeight);
     });
 
-    document.getElementById('mySpanSize').innerHTML = `Images Loaded<hr>`;
+    document.getElementById('mySpanSize').innerHTML = `Images Loaded<br>`;
     // Convert images to tensors
     const tensors = resizedImgs.map((imgData) => tf.browser.fromPixels(imgData));
     myTensor = tf.stack(tensors);
