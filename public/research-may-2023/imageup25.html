@@ -48,13 +48,14 @@
 
 <input type="button" value="Start Webcam" onclick="startWebcam()">
 <input type="button" value="Capture and Classify Image" onclick="classifyImage()">
-<input type="button" value="Save Image" onclick="saveImage()"> <input id="myImageExportFileName" type=text value="my-image.jpg">
-<span id="mySpanWebcam">...</span>
+<span id="mySpanWebcam">...</span><br>
+<input type="button" value="Save Image" onclick="saveImage()"> <input id="myImageExportFileName" type=text value="my-image.jpg"><br>
+
     
 <video id="webcam" width="96" height="96" autoplay></video>
 <canvas id="canvas" width="96" height="96"></canvas>
 
-
+--------------------------------------------------------------------------------------------
 
 <script>
     let myImageFiles, myTensor;
@@ -235,6 +236,12 @@ async function trainModel() {
    
             
     async function uploadModel() {
+/*
+    if (model <> null) {   // hack to see if a model exists
+        model.layers.forEach(l => l.dispose())   // delete the old model
+    }
+
+*/
          // Set the minWidth and minHeight variables
     minWidth = parseInt(document.getElementById("myMinWidth").value);
     minHeight = parseInt(document.getElementById("myMinHeight").value);
@@ -244,11 +251,29 @@ async function trainModel() {
         alert("Please select both a model file and a weights file to upload");
         return;
     }
+
+
+   // model = await tf.loadLayersModel(tf.io.browserFiles([modelFile, weightsFile]));
+/*
+    const modelBlob = new Blob([modelFile]);
+    const weightsBlob = new Blob([weightsFile]);
+    
+    const modelURL = URL.createObjectURL(modelBlob);
+    const weightsURL = URL.createObjectURL(weightsBlob);
+*/
     model = await tf.loadLayersModel(tf.io.browserFiles([modelFile, weightsFile]));
-    console.log(modelFile);    
+    
+
+
+    console.log('model');
     console.log(model);
+    console.log('weightsFile');
     console.log(weightsFile);
+    console.log('modelFile');    
+    console.log(modelFile);   
     document.getElementById('mySpanUpload').innerHTML = `Model imported from: ${modelFile.name} and ${weightsFile.name}<br><br> `;
+
+    await model.summary(null,null,x => {document.getElementById('mySpanUpload').innerHTML += x + '<br>'});
 }
      
     
@@ -295,7 +320,9 @@ async function classifyImage() {
     const predictedLabelIndex = prediction.argMax(1).dataSync()[0];
     const predictedLabel = uniqueLabels[predictedLabelIndex];
     console.log(`Predicted label: ${predictedLabel}`);
+    console.log(`Predicted label: ${prediction}`);
     document.getElementById('mySpanWebcam').innerHTML = `Predicted label: ${predictedLabel}<br>`
+    document.getElementById('mySpanWebcam').innerHTML += `Prediction: ${prediction}<br>`
     
 
     // Dispose the input tensor to free up memory
