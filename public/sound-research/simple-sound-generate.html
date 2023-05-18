@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Record and Save Sound</title>
+</head>
+<body>
+    <h1>Record and Save Sound</h1>
+    <button id="recordButton">Record</button>
+    <script>
+        const recordButton = document.getElementById("recordButton");
+        recordButton.addEventListener("click", async () => {
+            // Create an AudioContext and a MediaStreamAudioSourceNode
+            const audioContext = new AudioContext();
+            const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+            const audioSource = audioContext.createMediaStreamSource(stream);
+
+            // Create a ScriptProcessorNode to process the audio data
+            const audioProcessor = audioContext.createScriptProcessor(4096, 1, 1);
+            let audioData = [];
+            audioProcessor.onaudioprocess = (audioProcessingEvent) => {
+                // Get the input buffer and add it to the audio data array
+                const inputBuffer = audioProcessingEvent.inputBuffer;
+                const inputData = inputBuffer.getChannelData(0);
+                audioData.push(...inputData);
+            }
+
+            // Connect the nodes and start processing the audio data
+            audioSource.connect(audioProcessor);
+            audioProcessor.connect(audioContext.destination);
+
+            // Wait for 2 seconds
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+
+            // Stop the audio processor and disconnect the nodes
+            audioProcessor.disconnect();
+            audioSource.disconnect();
+
+            // Convert the captured audio data into a WAV file
+            const wavEncoder = new WavAudioEncoder(audioContext.sampleRate, 1);
+            wavEncoder.encode([audioData]);
+            const wavBlob = wavEncoder.finish();
+
+            // Create a download link for the WAV file
+            const downloadLink = document.createElement("a");
+            downloadLink.href = URL.createObjectURL(wavBlob);
+            downloadLink.download = "captured-sound.wav";
+            downloadLink.click();
+        });
+    </script>
+</body>
+</html>
