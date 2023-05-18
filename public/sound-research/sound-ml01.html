@@ -297,15 +297,50 @@ async function startWebAudio() {
 
     
     
-
+/*
 async function classifySound() {
     // TODO: Implement capturing and classification of sound using trained model
 }
-        
+    */
+    
+    
+async function classifySound() {
+    // Stop the audio processor and disconnect the nodes
+    audioProcessor.disconnect();
+    audioSource.disconnect();
+
+    // Convert the captured audio data into a tensor
+    const audioTensor = tf.tensor(audioData);
+
+    // Make a prediction using the trained model
+    const prediction = model.predict(audioTensor);
+    const predictedLabelIndex = prediction.argMax(1).dataSync()[0];
+    const predictedLabel = uniqueLabels[predictedLabelIndex];
+    console.log(`Predicted label: ${predictedLabel}`);
+
+    // Dispose the audio tensor to free up memory
+    audioTensor.dispose();
+}
+
+       /* 
 function saveSound(){      
     // TODO: Implement saving of captured sound
 }         
-            
+     */   
+    
+    function saveSound() {
+    // Convert the captured audio data into a WAV file
+    const wavEncoder = new WavAudioEncoder(audioContext.sampleRate, 1);
+    wavEncoder.encode([audioData]);
+    const wavBlob = wavEncoder.finish();
+
+    // Create a download link for the WAV file
+    const downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(wavBlob);
+    downloadLink.download = "captured-sound.wav";
+    downloadLink.click();
+}
+
 
 </script>
 </body>
