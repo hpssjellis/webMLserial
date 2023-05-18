@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sound Recorder</title>
+</head>
+<body>
+    <button onclick="startRecording()">Start Recording</button>
+    <button onclick="stopRecording()">Stop Recording</button>
+    <button onclick="playRecording()">Play Recording</button>
+    <button onclick="saveRecording()">Save Recording</button>
+
+    <script>
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let mediaRecorder;
+        let chunks = [];
+
+        function startRecording() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function (stream) {
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.start();
+
+                    mediaRecorder.addEventListener("dataavailable", function (event) {
+                        chunks.push(event.data);
+                    });
+                })
+                .catch(function (error) {
+                    console.log("Error accessing microphone:", error);
+                });
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== "inactive") {
+                mediaRecorder.stop();
+
+                mediaRecorder.addEventListener("stop", function () {
+                    var blob = new Blob(chunks, { type: "audio/wav" });
+                    var url = URL.createObjectURL(blob);
+                    var audioElement = document.createElement("audio");
+                    audioElement.src = url;
+                    audioElement.controls = true;
+                    document.body.appendChild(audioElement);
+
+                    chunks = [];
+                });
+            }
+        }
+
+        function playRecording() {
+            if (chunks.length > 0) {
+                var blob = new Blob(chunks, { type: "audio/wav" });
+                var url = URL.createObjectURL(blob);
+
+                var audioElement = new Audio();
+                audioElement.src = url;
+                audioElement.play();
+            }
+        }
+
+        function saveRecording() {
+            if (chunks.length > 0) {
+                var blob = new Blob(chunks, { type: "audio/wav" });
+                var url = URL.createObjectURL(blob);
+
+                var anchorElement = document.createElement("a");
+                anchorElement.href = url;
+                anchorElement.download = "recording.wav";
+                anchorElement.click();
+            }
+        }
+    </script>
+</body>
+</html>
