@@ -1,0 +1,7 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "dependencies": {
+    "@tensorflow/tfjs-converter": "^4.4.0"
+  }
+}
