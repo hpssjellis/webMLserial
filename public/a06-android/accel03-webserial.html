@@ -270,6 +270,7 @@ async function myRead(){
    
   
 async function myPoly(){  
+    document.getElementById('myDiv01').innerHTML = 'Trying...<br>'
     mySerial = await serial.requestPort()
                                                                      
     document.getElementById('myDiv01').innerHTML += await '<b>mySerial: </b><br><pre>' +  JSON.stringify(mySerial, null, 3) + '</pre><br><br>'      
@@ -284,7 +285,7 @@ async function myPoly(){
                                             
     const results = mySerial.getInfo();
     
-    //document.getElementById('myDiv01').innerHTML += await 'Results:<b>: </b><br><pre>' +  JSON.stringify(results, null, 3) + '</pre><br><br>'                                          
+    document.getElementById('myDiv01').innerHTML += await 'Results:<b>: </b><br><pre>' +  JSON.stringify(results, null, 3) + '</pre><br><br>'                                          
     console.log('get info results', results);
     document.getElementById('myDiv01').innerHTML += 'results.usbVendorId: ' + results.usbVendorId + '<br>'
     document.getElementById('myDiv01').innerHTML += 'results.usbProductId: ' + results.usbProductId + '<br>'
@@ -302,7 +303,7 @@ async function myPoly(){
       console.log('myWritten')
       console.log(myWritten)
                                          
-      //document.getElementById('myDiv01').innerHTML = '<br><br><b>myWriter: </b><br><pre>' +  JSON.stringify(myWritten, null, 3) + '</pre><br><br>'  
+      document.getElementById('myDiv01').innerHTML = '<br><br><b>myWriter: </b><br><pre>' +  JSON.stringify(myWritten, null, 3) + '</pre><br><br>'  
                                             
    
     })    
