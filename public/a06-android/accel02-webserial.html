@@ -1,4 +1,4 @@
-<h6> Version 0.5.1-40   </h6>
+<h6> Version 0.5.1-41   </h6>
 
 <h1 align=center>Microcontroller to CSV using both WebSerial (desktop) and Polyfill (Android-Chrome) to CSV</h1>
 As of Feb 20th, 2023 Pol,yfill has a bug. I will try to fix it.<br>
@@ -231,7 +231,10 @@ async function mySendIt(myData) {
 ///////////////////////////////////////// start polyfill for Android ////////////////////////////
   
  //Global Variables for Polyfill
-  var serial = exports.serial;  // is this needed as defined in the npm
+  exports.serial = new Serial();
+  
+  var serial = exports.serial;  // is this needed as defined in the npm  var serial = exports.serial;
+
  
   let myLooping  // for read setinterval
   var mySerial;
