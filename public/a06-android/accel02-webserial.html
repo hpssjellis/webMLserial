@@ -292,16 +292,9 @@ async function myPoly() {
     myLooping = setInterval(myRead, 1000);
   } catch (error) {
     console.error('error in myPoly', error);
- // start looping the serial read. Is there a better way to do this?
-       clearInterval(myLooping);
-       myLooping = setInterval(myRead, 1000);
-     } catch (error) {
-       console.error('error in myPoly', error);
-       document.getElementById('myDiv01').innerHTML = 'Error in myPoly: ' + error;
-     }
-   }
-
-   // ...
+    document.getElementById('myDiv01').innerHTML = 'Error in myPoly: ' + error;
+  }
+}
 
    async function mySend(myData2) {
      try {
