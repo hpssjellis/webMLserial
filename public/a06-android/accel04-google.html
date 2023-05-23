@@ -30,6 +30,10 @@
 <p>USB product ID: <span id="usbProductId"/></p>
 <button id='getInfo'>Get Serial Info</button>
 <p id='ReceivedText'></p>
+ 
+ <div id="myDiv01">...</div> 
+ 
+ 
 <script>var exports = {};</script>
 <script src="https://cdn.jsdelivr.net/npm/web-serial-polyfill@1.0.14/dist/serial.js"> </script> 
 
@@ -50,6 +54,7 @@
         await mySerial.open({baudRate: 115200});
         reader = mySerial.readable.getReader();
         writer = mySerial.writable.getWriter();
+        document.getElementById('myDiv01').innerHTML = await '<b>mySerial: </b><br><pre>' +  JSON.stringify(mySerial, null, 3) + '</pre><br><br>' 
       }
     })
 
@@ -64,6 +69,8 @@
       await mySerial.open({baudRate: 115200});
       reader = mySerial.readable.getReader();
       writer = mySerial.writable.getWriter();
+         document.getElementById('myDiv01').innerHTML += await '<b>mySerial: </b><br><pre>' +  JSON.stringify(mySerial, null, 3) + '</pre><br><br>' 
+
     })
 
 
@@ -113,7 +120,11 @@
         receivedText += ab2str(value);
         document.getElementById("ReceivedText").innerHTML= receivedText
       },
-      error => {console.error('error from read', error)}
+      error => {
+        console.error('error from read', error)
+         document.getElementById('myDiv01').innerHTML += await '<b>error: </b><br><pre>' +  JSON.stringify(error, null, 3) + '</pre><br><br>' 
+
+    }
     );
   });
 
@@ -124,6 +135,7 @@
     console.log('get info results', results);
     document.getElementById("usbVendorId").textContent = results.usbVendorId;
     document.getElementById("usbProductId").textContent = results.usbProductId;
+   document.getElementById('myDiv01').innerHTML += await '<b>results: </b><br><pre>' +  JSON.stringify(results, null, 3) + '</pre><br><br>' 
   });
 
 
