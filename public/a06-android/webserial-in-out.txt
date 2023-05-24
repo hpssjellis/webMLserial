@@ -17,7 +17,7 @@
 
 String readString;
 
-int myDelay = 200;   // non-block delay in milliseconds
+int myDelay = 600;   // non-block delay in milliseconds
 unsigned long myStart; 
 
 void setup() {
@@ -28,15 +28,15 @@ void setup() {
   
   myStart = millis();   // set delay
   randomSeed(analogRead(A0));  // AO pin on XIAO does not have to be connected to anything
-  Serial.println("timestamp,accX,accY,accZ");  // CSV file heading titles
+  Serial.println("timestamp,A0,A1,A2");  // CSV file heading titles
 }
 
 void loop() {
   digitalWrite(LED_BUILTIN, HIGH); 
   //delay(50);
   if(Serial.available() > 0)  {  
-      byte myIn = Serial.read();  
-      Serial.println(myIn);  
+      char myIn = Serial.read();  
+      Serial.print(myIn);  
       delay(1);
   }  
   if ( (millis() - myStart ) >= myDelay) {       
@@ -48,4 +48,5 @@ void loop() {
   
 }
 
+  
   
