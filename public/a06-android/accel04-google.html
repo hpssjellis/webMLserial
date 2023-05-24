@@ -24,6 +24,7 @@
 
 <h1>Serial API Polyfill Demo 1.0.1-5</h1>
 <button id='request-device'>Request Device</button>
+<button id='request-manual'>Manual Request</button>
 <button id='send'>Send Text(Tx)</button> <input type="text" id="inputText"/>
 <button id='get'>Read(Rx)</button>
 <p>USB vendor ID: <span id="usbVendorId"/></p>
@@ -38,6 +39,7 @@
 <script src="https://cdn.jsdelivr.net/npm/web-serial-polyfill@1.0.14/dist/serial.js"> </script> 
 
 <script>
+ console.log(exports)
   var serial = exports.serial;
 
   var mySerial;
@@ -69,7 +71,7 @@
       await mySerial.open({baudRate: 115200});
       reader = mySerial.readable.getReader();
       writer = mySerial.writable.getWriter();
-         document.getElementById('myDiv01').innerHTML += await '<b>mySerial: </b><br><pre>' +  JSON.stringify(mySerial, null, 3) + '</pre><br><br>' 
+      document.getElementById('myDiv01').innerHTML += await '<b>mySerial: </b><br><pre>' +  JSON.stringify(mySerial, null, 3) + '</pre><br><br>' 
 
     })
 
@@ -89,6 +91,33 @@
     //   }
     // );
   });
+
+
+
+  let button2 = document.getElementById('request-manual');
+  button.addEventListener('click', async () => {
+
+
+
+
+//the device can also be requested manuallly from the webUSB API and then set manually like this
+     const filters = [
+     { classCode: 10 },
+    ];
+    
+     navigator.usb.requestDevice({ 'filters': filters }).then(
+       async (device) => {
+         mySerial = new SerialPort(device);
+         await mySerial.open({baudRate: 115200});
+    
+         reader = mySerial.readable.getReader();
+         writer = mySerial.writable.getWriter();
+       }
+     );
+  });
+
+
+
 
   str2ab = function(str) {
     var buf = new Uint8Array(str.length); // 1 byte for each char
@@ -119,10 +148,11 @@
     reader.read().then(({value}) => {
         receivedText += ab2str(value);
         document.getElementById("ReceivedText").innerHTML= receivedText
+        console.log(receivedText)
       },
       error => {
         console.error('error from read', error)
-         document.getElementById('myDiv01').innerHTML +=  '<b>error: </b><br><pre>' +  JSON.stringify(error, null, 3) + '</pre><br><br>' 
+        document.getElementById('myDiv01').innerHTML +=  '<b>error: </b><br><pre>' +  JSON.stringify(error, null, 3) + '</pre><br><br>' 
 
     }
     );
@@ -135,7 +165,7 @@
     console.log('get info results', results);
     document.getElementById("usbVendorId").textContent = results.usbVendorId;
     document.getElementById("usbProductId").textContent = results.usbProductId;
-   document.getElementById('myDiv01').innerHTML +=  '<b>results: </b><br><pre>' +  JSON.stringify(results, null, 3) + '</pre><br><br>' 
+    document.getElementById('myDiv01').innerHTML +=  '<b>results: </b><br><pre>' +  JSON.stringify(results, null, 3) + '</pre><br><br>' 
   });
 
 
