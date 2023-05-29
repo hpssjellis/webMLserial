@@ -85,8 +85,9 @@
 
     // Test the model with new data
     async function testModel() {
-      const preprocessedTestData = preprocessTestData(testData);
-      const input = tf.tensor3d([preprocessedTestData], [1, 2, 3]);
+     // const preprocessedTestData = preprocessTestData(testData);
+    //  const input = tf.tensor3d([preprocessedTestData], [1, 2, 3]);
+      const input = tf.tensor3d([TestData], [1, 2, 3]);
 
       const predictions = model.predict(input);
       const predictedLabelIndex = predictions.argMax(1).dataSync()[0];
@@ -101,7 +102,7 @@
        const model = await trainModel();
        document.getElementById('status').innerText = 'Model trained.';
 
-      // Load the pre-trained model
+      // Load a pre-trained model
       // const model = await tf.loadLayersModel(modelUrl);
       // document.getElementById('status').innerText = 'Model loaded.';
 
