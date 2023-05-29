@@ -42,7 +42,7 @@
 
     // Define the model architecture
     const model = tf.sequential();
-    model.add(tf.layers.dense({ units: 30, activation: 'sigmoid', inputShape: [2, 3] }));
+    model.add(tf.layers.dense({ units: 30, activation: 'sigmoid', inputShape: [null, 3] }));
     model.add(tf.layers.dense({ units: trainingData.length, activation: 'softmax' }));
 
     // Compile the model
@@ -69,7 +69,7 @@
       const preprocessedData = preprocessData(trainingData.map(d => d.data));
       const preprocessedLabels = convertLabelsToOneHot(trainingData.map(d => d.label));
 
-      const xs = tf.tensor3d(preprocessedData, [1, trainingData.length, 3]);
+      const xs = tf.tensor3d(preprocessedData, [trainingData.length, 3]);
       const ys = tf.tensor2d(preprocessedLabels);
 
       await model.fit(xs, ys, { 
