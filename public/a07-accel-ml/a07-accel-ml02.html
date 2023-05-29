@@ -25,19 +25,18 @@
 
 <input type=button value="send 'a' LED On or Off" onclick="{mySendIt('a')}">
 <input type=button value="send 'b' LED Off or On" onclick="{mySendIt('b')}">
+<input type=button value="send 'start' " onclick="{mySendIt('start')}">
 <input type=button value="send 'stop' " onclick="{mySendIt('stop')}">
 
-<input type=button value="send 'start' " onclick="{mySendIt('start')}">
 
 <br>
 
-<input type=button value="send 'c10' " onclick="{mySendIt('c10')}">set the collection seconds to 10 seconds   OR
-<input type=button value="send 'm9000' " onclick="{mySendIt('m9000')}">set the collection seconds to 9000 milliseconds<br>
+Note: To make the code easier on both the webpage and the arduino. We have left the frquency and duration of sample collection to the arduino code.
 
-
-<input type=button value="send 'd1000' " onclick="{mySendIt('d1000')}">Set the delay to 1000 milliseconds = 1 second OR
-<input type=button value="send 'f2' " onclick="{mySendIt('f2')}"> Set the frequency to 2 Hz <br> <br>
-
+<pre>
+#define FREQUENCY_HZ        50     // how many samples per second 
+#define COLLECTION_SECONDS  2     // how many seconds to collect samples
+</pre>
 
 <br>
 
