@@ -1,11 +1,7 @@
 <h6> Version 0.6.0-51   </h6>
 
-<h1 align=center>Microcontroller to CSV using WebSerial for both desktop and laptop computers</h1>
-As of Feb 20th, 2023 Android Polyfill has a bug. I will try to fix it later.<br>
+<h1 align=center>Microcontroller acceleration x, y, z data to a tensorflowJS model and then do some classification</h1>
 
-Note: For multiple values a timestamp needs to be the first value. If single multiple readings in each .csv file then a timestamp is not needed. 
-Headers are always a good idea. The latest EdgeImpulse seems fine with or without headers.<br>
-<h3>This code collects data at a frequency of 0.05 Hz (delay of ~20 milliseconds) for ~1000 milliSeconds collecting about 50 samples.</h3>
 
 
 
@@ -32,10 +28,7 @@ Headers are always a good idea. The latest EdgeImpulse seems fine with or withou
 <input type=button value="send 'stop' " onclick="{mySendIt('stop')}">
 
 <input type=button value="send 'start' " onclick="{mySendIt('start')}">
-<input type=button value="send 'firstline' " onclick="{
-  document.getElementById('myArea01').value = ''                                                    
-  mySendIt('firstline')
-}">
+
 <br>
 
 <input type=button value="send 'c10' " onclick="{mySendIt('c10')}">set the collection seconds to 10 seconds   OR
@@ -45,41 +38,12 @@ Headers are always a good idea. The latest EdgeImpulse seems fine with or withou
 <input type=button value="send 'd1000' " onclick="{mySendIt('d1000')}">Set the delay to 1000 milliseconds = 1 second OR
 <input type=button value="send 'f2' " onclick="{mySendIt('f2')}"> Set the frequency to 2 Hz <br> <br>
 
-Save as time-series data<input id="myRadioTimeSeries" type=radio name="myChoice" CHECKED onClick="{
-  myMultiCSV = true 
-}"><br>
-Save individual data in numbered CSV files<input id="myRadioIndividual" type=radio name="myChoice" onclick="{
-  myMultiCSV = false 
-  }"> for example try <a href="z-webSerial-single.html">z-webSerial-single.html</a><br><br>
-
-
-<input type="file" id="myFileButton" accept=".csv"><br>
-<button type="button" onclick="myLoadCSV()">Load CSV</button><br>
-
-<button type="button" onclick="mySaveCSV(document.getElementById('myEnteredFileName').value)">Save CSV</button>
-<input type="text" id="myEnteredFileName" size=50 value="myLabel.myFile.csv"> <b style="color:green; ">Note: For EdgeImpulse change "myLabel" when appropriate</b><br>
-<button type="button" onclick="{
-    keepOneLine()                                     
-}">Clear CSV (except first line)</button>      
-
-<button  onclick="{
-    document.getElementById('myArea01').value = document.getElementById('myArea01').value.replace(/\n\n/g, '\n')   // remove blank lines 
-   // document.getElementById('myArea01').value = document.getElementById('myArea01').value.replace(/(\s*,?\s*)*$/, '')    // remove extra commas 
-}">clean only</button>
-
-<button  style="color:green; width:200px; " onclick="{
-  mySaveCSV(document.getElementById('myEnteredFileName').value)  // clean and save file
-  document.getElementById('myArea01').value = ''                 // delete textarea                                   
-  mySendIt('firstline')                                          // put CSV headers
-  setTimeout(() => { mySendIt('start'); }, 400);                 // Start but after a short delay
-}">Auto: clean-save-start</button>
-
 
 <br>
 
 <button type="button" onclick="{
     document.getElementById('myArea01').value = ''                                                
-}">Clear CSV All</button>
+}">Clear table All</button>
 
  Allow-AutoScroll Yes:<input type=radio name="myRadioAutoScroll" CHECKED onChange="{
  myTimer = setInterval(function () {   //auto scroll textarea
@@ -127,9 +91,6 @@ Save individual data in numbered CSV files<input id="myRadioIndividual" type=rad
 
 
 
-    <script src="edge-impulse-standalone.js"></script>
-    <script src="run-impulse.js"></script>
-
 
 
     <script>   //////////////////////////////////// EdgeImpulse WASM stuff here ///////////////////////////////////////
@@ -167,98 +128,10 @@ let myTimer = setInterval(function () {   //auto scroll textarea
 }, 50);
   
   
-function keepOneLine(){
-    let myTemp = document.getElementById('myArea01').value.split('\n')   // split along lines
-    document.getElementById('myArea01').value = myTemp[0] + '\n'         // just keep the first line            
-}
 
-  
 
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-function myLoadCSV(){
-   //use papparse to load a csv file and show it in an HTML table
-    var fileInput = document.getElementById('myFileButton');
-    var file = fileInput.files[0];
-    var reader = new FileReader();
-    reader.onload = function(event) {
-        var csv = event.target.result;
-        var data = Papa.parse(csv, {header: true}).data;
-
-        // create a table element
-        var table = document.createElement("table");
-        table.setAttribute("border", "1");
-
-        // add header row
-        var headerRow = table.insertRow(0);
-        Object.keys(data[0]).forEach(function(key) {
-            var cell = headerRow.insertCell(-1);
-            cell.innerHTML = key;
-        });
-
-        // add data rows
-        data.forEach(function(row) {
-            var tableRow = table.insertRow(-1);
-            Object.keys(row).forEach(function(key) {
-                var cell = tableRow.insertCell(-1);
-                cell.innerHTML = row[key];
-            });
-        });
-
-        // add table to document
-        var csvTableContainer = document.getElementById("csvTableContainer");
-        csvTableContainer.innerHTML = "";
-        csvTableContainer.appendChild(table);
-        document.getElementById("myArea01").value = reader.result
-    };
-    reader.readAsText(file);
-}
-
-function mySaveCSV(myInFileName) {
-  var csv = document.getElementById("myArea01").value.replace(/(\s*,?\s*)*$/, "");   // removes last commas , , , 
-      csv = csv.replace(/\n\n/g, '\n')                                               // remove any empty lines
-  var data = Papa.parse(csv, { header: true }).data;
-  var csvContent = Papa.unparse(data, { delimiter: "," });
-
-  var encodedUri = encodeURI(csvContent);
-  var link = document.createElement("a");
-  link.setAttribute("href", "data:text/csv;charset=utf-8," + encodedUri);
-  link.setAttribute("download", myInFileName);
-
-  document.body.appendChild(link);
-  link.click();
-
-  document.body.removeChild(link);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   /////////////////////////////////////// webSerial code first ///////////////////////////////////////////
@@ -433,21 +306,15 @@ async function myPoly(){
 
 
 
-  Here is the latest sketch I am using. The .txt is for viewing the .ino is to download<br>
+  Here is the latest sketch I am using. The .txt is for viewing or downloading<br>
  <li><a href="a07-accel-nano33.txt">a07-accel-nano33.txt</a>   Click to download: Note: New ArduinoWebSerial testing code. Make sure in Arduino Serial Monitor you don't send a new-line
-EdgeImpulse data uploading csv format <a href="https://docs.edgeimpulse.com/reference/data-ingestion/importing-csv-data">here</a><br> 
+
   
 
   This Github at <a href="https://github.com/hpssjellis/web-serial-polyfill">https://github.com/hpssjellis/web-serial-polyfill</a>
 <p><small>Original Demo from <a href="https://codelabs.developers.google.com/codelabs/web-serial/" target="_blank" rel="noopener">Google Developers</a> codelabs.</small></p>
 
-<br><br>
- An example of the original trained public edgeimpulse model can be found at <a href="https://studio.edgeimpulse.com/public/206570/latest">https://studio.edgeimpulse.com/public/206570/latest </a> the github folder for this code is at 
-  <a href="https://github.com/hpssjellis/webMLserial/tree/main/public/a05-resistor/">https://github.com/hpssjellis/webMLserial/tree/main/public/a05-resistor/</a>
-  Note that the file index.html is the WASM index.html from Edgeimpulse. The file a05-resistor-index.html file is my Javascript webSerial updated file that you could probably use with some changes for your specific data.
-<br> This work is lossely based on previous work I did at this folder <a href="https://github.com/hpssjellis/my-examples-of-edge-impulse/tree/main/public/downloads">https://github.com/hpssjellis/my-examples-of-edge-impulse/tree/main/public/downloads<a/>
-  which also has interesting index.html files in the other folders one directory up in the public folder
-  
+
   
   <br><br>
   
