@@ -47,8 +47,8 @@
         // Preprocess the collected accelerometer data and use it for inference with TensorFlow.js
         const input = tf.tensor2d(accelerometerData);
      //   const prediction = model.predict(input);
-        const predictedLabel = prediction.dataSync()[0];
-        const result = predictedLabel === 0 ? 'punch' : 'get up';
+     //   const predictedLabel = prediction.dataSync()[0];
+      //  const result = predictedLabel === 0 ? 'punch' : 'get up';
 
       //  document.getElementById('output').innerHTML = `<p>Prediction: ${result}</p>`;
         document.getElementById('output').innerHTML = `<p>accelerometerData: ${accelerometerData}</p>`;
