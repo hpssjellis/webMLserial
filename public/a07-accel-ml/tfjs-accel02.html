@@ -69,7 +69,7 @@
       const preprocessedData = preprocessData(trainingData.map(d => d.data));
       const preprocessedLabels = convertLabelsToOneHot(trainingData.map(d => d.label));
 
-      const xs = tf.tensor3d(preprocessedData, [trainingData.length, 2, 3]);
+      const xs = tf.tensor3d(preprocessedData, [trainingData.length, 3]);
       const ys = tf.tensor2d(preprocessedLabels);
 
       await model.fit(xs, ys, { 
