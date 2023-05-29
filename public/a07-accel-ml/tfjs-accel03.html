@@ -18,13 +18,22 @@
     ];
     const labels = ['punch', 'get up', 'punch'];
 
+    
+        // Preprocess the training data
+    function preprocessData(data) {
+      const preprocessedData = data.map(d => Object.values(d));
+      return preprocessedData;
+     document.getElementById('output').innerHTML += preprocessedData;
+    }
+    
+    
     // Convert data to TensorFlow tensors
-    const xs = tf.tensor3d(accelerationData);
+    const xs = tf.tensor3d(preprocessData(accelerationData));
     const ys = tf.oneHot(
       tf.tensor1d(labels.map(label => label === 'punch' ? 0 : 1), 'int32'),
       2
     );
-
+     document.getElementById('output').innerHTML += labels;
     // Create and train the model
     const model = tf.sequential();
     model.add(tf.layers.dense({ units: 10, inputShape: [3, 3], activation: 'relu' }));
