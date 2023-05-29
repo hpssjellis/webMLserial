@@ -1,1 +1,60 @@
-SDF
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Time-Series Acceleration ML Model</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.10.0/dist/tf.js"></script>
+</head>
+<body>
+  <h1>Time-Series Acceleration ML Model</h1>
+  <div id="output"></div>
+
+  <script>
+    // Time-Series acceleration data and labels
+    const accelerationData = [
+      [1.2, 0.8, 0.4],
+      [0.5, 1.0, 0.2],
+      [-0.1, 0.7, 1.5],
+      // Add more data here...
+    ];
+    const labels = ['punch', 'get up', 'punch'];
+
+    // Convert data to TensorFlow tensors
+    const xs = tf.tensor2d(accelerationData);
+    const ys = tf.oneHot(tf.tensor1d(labels.map(label => label === 'punch' ? 0 : 1)), 2);
+
+    // Create and train the model
+    const model = tf.sequential();
+    model.add(tf.layers.dense({ units: 10, inputShape: [3], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 2, activation: 'softmax' }));
+    model.compile({ optimizer: 'adam', loss: 'categoricalCrossentropy', metrics: ['accuracy'] });
+
+    async function trainModel() {
+      const history = await model.fit(xs, ys, { epochs: 10 });
+      return history;
+    }
+
+    trainModel().then(history => {
+      const loss = history.history.loss[0];
+      const accuracy = history.history.acc[0];
+
+      const outputDiv = document.getElementById('output');
+      outputDiv.innerHTML = `<p>Training Loss: ${loss}</p><p>Training Accuracy: ${accuracy}</p>`;
+
+      // Generate test data
+      const testData = [
+        [1.0, 0.5, 0.3],
+        [0.8, 0.9, 1.0],
+      ];
+      const testTensor = tf.tensor2d(testData);
+
+      // Make predictions on test data
+      const predictions = model.predict(testTensor);
+      const predArray = Array.from(predictions.dataSync());
+      const maxIndices = predArray.map((_, i) => i).sort((a, b) => predArray[b] - predArray[a]);
+      const predictedLabels = maxIndices.map(index => labels[index]);
+
+      outputDiv.innerHTML += `<p>Predicted Labels: ${predictedLabels.join(', ')}</p>`;
+    });
+  </script>
+</body>
+</html>
