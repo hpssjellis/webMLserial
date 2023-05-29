@@ -42,8 +42,7 @@
 
     // Define the model architecture
     const model = tf.sequential();
-   // model.add(tf.layers.lstm({ units: 32, inputShape: [3] }));
-    model.add(tf.layers.dense({ units: 30, activation: 'sigmoid', inputShape: [2,3], }) );  // 2 sdts of 3 inputs to 30 hidden layer nodes
+    model.add(tf.layers.dense({ units: 30, activation: 'sigmoid', inputShape: [2, 3] }));
     model.add(tf.layers.dense({ units: trainingData.length, activation: 'softmax' }));
 
     // Compile the model
@@ -70,7 +69,7 @@
       const preprocessedData = preprocessData(trainingData.map(d => d.data));
       const preprocessedLabels = convertLabelsToOneHot(trainingData.map(d => d.label));
 
-      const xs = tf.tensor3d(preprocessedData);
+      const xs = tf.tensor3d(preprocessedData, [trainingData.length, 2, 3]);
       const ys = tf.tensor2d(preprocessedLabels);
 
       await model.fit(xs, ys, { epochs: 10 });
@@ -80,18 +79,14 @@
 
     // Preprocess the test data
     function preprocessTestData(data) {
-      const preprocessedData = Object.values(data);
+      const preprocessedData = data.map(d => Object.values(d));
       return preprocessedData;
     }
 
     // Test the model with new data
     async function testModel() {
       const preprocessedTestData = preprocessTestData(testData);
-     // const input = tf.tensor3d(preprocessedTestData, [1, testData.length, 3]);
-     // const input = tf.tensor2d(preprocessedTestData,[1,2]);
-     /// const input = tf.tensor3d(preprocessedTestData, [1, testData.length, 3]);
       const input = tf.tensor3d(preprocessedTestData, [1, 2, 3]);
-
 
       const predictions = model.predict(input);
       const predictedLabelIndex = predictions.argMax(1).dataSync()[0];
@@ -102,7 +97,13 @@
 
     // Main function
     async function run() {
+      // Train the model
+      // const model = await trainModel();
+      // document.getElementById('status').innerText = 'Model trained.';
 
+      // Load the pre-trained model
+      // const model = await tf.loadLayersModel(modelUrl);
+      // document.getElementById('status').innerText = 'Model loaded.';
 
       // Test the model with new data
       const predictedLabel = await testModel();
