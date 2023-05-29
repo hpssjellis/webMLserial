@@ -1,62 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IMU Data Classification with TensorFlow.js</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.7.0/dist/tf.min.js"></script>
+  <title>IMU Time-Series Data Classification with TensorFlow.js</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.6.0/dist/tf.min.js"></script>
 </head>
 <body>
-  <h1>IMU Data Classification</h1>
+  <h1>IMU Time-Series Data Classification V0.0.4</h1>
 
-  <div id="status">Loading model...</div>
+  <div id="status"></div>
 
   <script>
-    // Define the pre-trained model URL
-    const modelUrl = 'model/model.json';
 
-    // Define the acceleration data and labels
-    const accelerationData = [
-      { x: 0.1, y: 0.2, z: 0.3 },
-      { x: 0.2, y: 0.3, z: 0.4 },
-      // Add more acceleration data objects here
+
+    // Define the time-series data for training
+    const trainingData = [
+      {
+        label: 'punch',
+        data: [
+          { x: 0.1, y: 0.2, z: 0.3 },
+          { x: 0.2, y: 0.3, z: 0.4 },
+          // Add more time-series data points here for 'punch'
+        ]
+      },
+      {
+        label: 'arm lift',
+        data: [
+          { x: 0.5, y: 0.6, z: 0.7 },
+          { x: 0.6, y: 0.7, z: 0.8 },
+          // Add more time-series data points here for 'arm lift'
+        ]
+      },
+      // Add more training data for other labels here
     ];
 
-    const labels = ['punch', 'arm lift', /* Add more labels here */];
+    // Define the time-series data for testing
+    const testData = [
+      { x: 0.3, y: 0.4, z: 0.5 },
+      { x: 0.4, y: 0.5, z: 0.6 },
+      // Add more time-series data points here for testing
+    ];
 
-    // Load the pre-trained model
-    async function loadModel() {
-      const model = await tf.loadLayersModel(modelUrl);
+    // Define the model architecture
+    const model = tf.sequential();
+   // model.add(tf.layers.lstm({ units: 32, inputShape: [3] }));
+    model.add(tf.layers.dense({ units: 30, activation: 'sigmoid', inputShape: [2,3], }) );  // 2 sdts of 3 inputs to 30 hidden layer nodes
+    model.add(tf.layers.dense({ units: trainingData.length, activation: 'softmax' }));
+
+    // Compile the model
+    model.compile({ loss: 'categoricalCrossentropy', optimizer: 'adam' });
+
+    // Preprocess the training data
+    function preprocessData(data) {
+      const preprocessedData = data.map(d => Object.values(d));
+      return preprocessedData;
+    }
+
+    // Convert labels to one-hot encoding
+    function convertLabelsToOneHot(labels) {
+      const labelSet = new Set(labels);
+      const oneHotLabels = labels.map(label => {
+        const oneHot = Array.from(labelSet).map(l => (l === label ? 1 : 0));
+        return oneHot;
+      });
+      return oneHotLabels;
+    }
+
+    // Train the model
+    async function trainModel() {
+      const preprocessedData = preprocessData(trainingData.map(d => d.data));
+      const preprocessedLabels = convertLabelsToOneHot(trainingData.map(d => d.label));
+
+      const xs = tf.tensor3d(preprocessedData);
+      const ys = tf.tensor2d(preprocessedLabels);
+
+      await model.fit(xs, ys, { epochs: 10 });
+
       return model;
     }
 
-    // Normalize the acceleration data
-    function normalizeData(data) {
-      const normalizedData = tf.tidy(() => {
-        const tensorData = tf.tensor2d(data, [data.length, 3]);
-        const dataMean = tensorData.mean(0);
-        const dataStd = tensorData.sub(dataMean).square().mean(0).sqrt();
-        return tensorData.sub(dataMean).div(dataStd);
-      });
-      return normalizedData;
+    // Preprocess the test data
+    function preprocessTestData(data) {
+      const preprocessedData = Object.values(data);
+      return preprocessedData;
     }
 
-    // Classify the normalized data
-    function classifyData(model, data) {
-      const tensorData = tf.tensor2d(data, [1, data.length]);
-      const predictions = model.predict(tensorData);
+    // Test the model with new data
+    async function testModel() {
+      const preprocessedTestData = preprocessTestData(testData);
+     // const input = tf.tensor3d(preprocessedTestData, [1, testData.length, 3]);
+     // const input = tf.tensor2d(preprocessedTestData,[1,2]);
+     /// const input = tf.tensor3d(preprocessedTestData, [1, testData.length, 3]);
+      const input = tf.tensor3d(preprocessedTestData, [1, 2, 3]);
+
+
+      const predictions = model.predict(input);
       const predictedLabelIndex = predictions.argMax(1).dataSync()[0];
-      const predictedLabel = labels[predictedLabelIndex];
+      const predictedLabel = trainingData[predictedLabelIndex].label;
+
       return predictedLabel;
     }
 
     // Main function
     async function run() {
-      // Load the model
-      const model = await loadModel();
-      document.getElementById('status').innerText = 'Model loaded.';
 
-      // Normalize and classify the acceleration data
-      const normalizedData = normalizeData(accelerationData);
-      const predictedLabel = classifyData(model, normalizedData.arraySync());
+
+      // Test the model with new data
+      const predictedLabel = await testModel();
 
       // Display the predicted label
       document.getElementById('status').innerText = `Predicted label: ${predictedLabel}`;
