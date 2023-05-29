@@ -10,17 +10,20 @@
 
   <script>
     // Time-Series acceleration data and labels
-    const accelerationData = [
-      [1.2, 0.8, 0.4],
-      [0.5, 1.0, 0.2],
-      [-0.1, 0.7, 1.5],
-      // Add more data here...
-    ];
-    const labels = ['punch', 'get up', 'punch'];
+// Time-Series acceleration data and labels
+const accelerationData = [
+  [[1.2, 0.8, 0.4], [0.5, 1.0, 0.2], [-0.1, 0.7, 1.5]],
+  // Add more data here...
+];
+const labels = ['punch', 'get up', 'punch'];
 
-    // Convert data to TensorFlow tensors
-    const xs = tf.tensor2d(accelerationData);
-    const ys = tf.oneHot(tf.tensor1d(labels.map(label => label === 'punch' ? 0 : 1)), 2);
+// Convert data to TensorFlow tensors
+const xs = tf.tensor3d(accelerationData);
+const ys = tf.oneHot(
+  tf.tensor1d(labels.map(label => label === 'punch' ? 0 : 1), 'int32'),
+  2
+);
+
 
     // Create and train the model
     const model = tf.sequential();
