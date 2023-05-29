@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Accelerometer Data</title>
+</head>
+<body>
+  <h1>Accelerometer Data</h1>
+  <div id="output"></div>
+
+  <script>
+    // Check if the device supports the DeviceMotion event
+    if (window.DeviceMotionEvent) {
+      // DeviceMotion event listener
+      window.addEventListener('devicemotion', handleMotionEvent);
+    } else {
+      document.getElementById('output').innerHTML = 'DeviceMotion not supported.';
+    }
+
+    // Event handler for DeviceMotion event
+    function handleMotionEvent(event) {
+      const acceleration = event.acceleration;
+      const x = acceleration.x;
+      const y = acceleration.y;
+      const z = acceleration.z;
+
+      document.getElementById('output').innerHTML = `
+        <p>Acceleration X: ${x}</p>
+        <p>Acceleration Y: ${y}</p>
+        <p>Acceleration Z: ${z}</p>
+      `;
+
+      // You can use the accelerometer data here for further processing or machine learning tasks.
+    }
+  </script>
+</body>
+</html>
