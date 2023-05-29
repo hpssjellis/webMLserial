@@ -95,7 +95,13 @@
 <li><a href="./a06-android/accel01-webserial.html">./a06-android/accel01-webserial.html</a>
 <li><a href="./a06-android/accel02-webserial.html">./a06-android/accel02-webserial.html</a>
 <li><a href="./a06-android/accel03-webserial.html">./a06-android/accel03-webserial.html</a>
-<li><a href="./a06-android/accel04-google.html">./a06-android/accel04-google.html</a>
+<li><a href="./a06-android/accel04-google.html">./a06-android/accel04-google.html</a> this one is not as good as the one before it
+  
+  
+  <br>
+  
+  So it seems that some pixel phones work with web serial but many android and all IOS phones don't. I may look into bluetooth again here at <a href="https://github.com/hpssjellis/my-examples-of-web-BLE"> https://github.com/hpssjellis/my-examples-of-web-BLE</a> but for now I will leave this
+  
   
   
   
@@ -111,7 +117,18 @@
   
 We need to convert the tensorflowJS file to tensorflowLite and then to a c-header file to finally put it on a microcontroller  
   
-A fully loaded Gitpod can be built here https://gitpod.io/#github.com/hpssjellis/Gitpod-auto-tensorflowJS-to-arduino (If taking this option many of the below commands are automated.) The github for this site is at https://github.com/hpssjellis/Gitpod-auto-tensorflowJS-to-arduino
+A fully loaded Gitpod can be built here <a href="https://gitpod.io/#github.com/hpssjellis/Gitpod-auto-tensorflowJS-to-arduino">https://gitpod.io/#github.com/hpssjellis/Gitpod-auto-tensorflowJS-to-arduino</a>
+  (If taking this option many of the below commands are automated.) The github for this site is at <a href="https://github.com/hpssjellis/Gitpod-auto-tensorflowJS-to-arduino">https://github.com/hpssjellis/Gitpod-auto-tensorflowJS-to-arduino</a>
+  
+ So that site is working fine and can make a c-header file that works with many of the examples on this page <a href="https://github.com/hpssjellis/my-examples-for-the-arduino-portentaH7/tree/master/m09-Tensoflow">https://github.com/hpssjellis/my-examples-for-the-arduino-portentaH7/tree/master/m09-Tensoflow</a>
+  
+  My latest problem is that tensorflowLite does not work out of the box for the XIAO esp32S3. I might have to leave this issue for later.
+  
+  
+    <h2> Back to webSerial and the acceleration example. Can this be made to make it's own neural network</h2>
+  
+  I guess it is best to work with the Nano33BleSense for acceleration but this code should be easy to adjust for the XIAO esp32s3 <a href="https://github.com/hpssjellis/mcu-stable-edu-launch/blob/main/xiao-esp32s3/a16-accelerometer-adxl362.ino">here</a> and the Portenta using the MKR IU code <a href="https://github.com/arduino-libraries/MKRIMU/blob/master/examples/SimpleAccelerometer/SimpleAccelerometer.ino">here</a>
+  
   
   
   
