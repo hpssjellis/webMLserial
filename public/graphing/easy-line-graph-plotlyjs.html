@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Line Graph Example</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="myChart"></div>
+
+    <script>
+        // Sample data for the line graph
+        var data = [
+            {
+                x: ["January", "February", "March", "April", "May", "June"],
+                y: [10, 20, 30, 25, 40, 35],
+                type: "scatter"
+            }
+        ];
+
+        // Configuration options for the line graph
+        var layout = {
+            title: "Example Line Chart",
+            xaxis: {
+                title: "Month"
+            },
+            yaxis: {
+                title: "Value",
+                range: [0, 50]
+            }
+        };
+
+        // Create the line graph
+        Plotly.newPlot("myChart", data, layout);
+    </script>
+</body>
+</html>
