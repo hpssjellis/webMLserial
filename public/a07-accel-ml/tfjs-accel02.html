@@ -7,7 +7,7 @@
 <body>
   <h1>IMU Time-Series Data Classification</h1>
 
-  <div id="status">Loading model...</div>
+  <div id="status"></div>
 
   <script>
     // Define the model URL
@@ -100,8 +100,8 @@
     // Main function
     async function run() {
       // Load the pre-trained model
-      const model = await tf.loadLayersModel(modelUrl);
-      document.getElementById('status').innerText = 'Model loaded.';
+    //  const model = await tf.loadLayersModel(modelUrl);
+   //   document.getElementById('status').innerText = 'Model loaded.';
 
       // Train the model (if not using a pre-trained model)
       // const model = await trainModel();
