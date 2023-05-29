@@ -16,12 +16,11 @@
 #include <Arduino.h> // Only needed for https://platformio.org/
 #include <Arduino_LSM9DS1.h>
 
-#define CONVERT_G_TO_MS2    9.80665f
-#define FREQUENCY_HZ        50
-#define INTERVAL_MS         (1000 / (FREQUENCY_HZ + 1))
-#define COLLECTION_SECONDS  10
 
-
+#define FREQUENCY_HZ        50     // how many samples per second 
+#define COLLECTION_SECONDS  2     // how many seconds to collect samples
+#define INTERVAL_MS  (1000 / (FREQUENCY_HZ + 1)) // need for the timer 
+#define CONVERT_G_TO_MS2    9.80665f   // accleration conversion
 
 int myMaxData = FREQUENCY_HZ * COLLECTION_SECONDS;
 int myCount = 0;
@@ -36,11 +35,11 @@ void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);   // onboard LED, HIGH = off
-  while (!Serial) {}                // do nothing and wait
+  //while (!Serial) {}                 // do nothing and wait
   
   myStart = millis();   // set delay
   randomSeed(analogRead(A0));  // AO pin on XIAO does not have to be connected to anything
-  Serial.println("timestamp,accX,accY,accZ");  // CSV file heading titles
+  Serial.println("accX,accY,accZ");  // CSV file heading titles
   
   if (!IMU.begin()) {
      Serial.println("Failed to initialize IMU!");
@@ -54,12 +53,16 @@ void loop() {
      myStart = millis();      //  reset the delay time
      myCount += 1;
      IMU.readAcceleration(x, y, z);
+     // convert raw acceleration to acceleration due to gravity
+     x *= CONVERT_G_TO_MS2;
+     y *= CONVERT_G_TO_MS2;
+     z *= CONVERT_G_TO_MS2;
      //Serial.println( String(myStart)+ "," + String(analogRead(A0)) + "," + String(analogRead(A1)) + "," +  String(analogRead(A2))  );
      if (myCount >= myMaxData){
         mySendData = false;   // stop sending data when amount reached
      }
      if (mySendData){
-        Serial.println( String(myStart)+ "," + String(x) + "," + String(y) + "," +  String(z)  );
+        Serial.println( String(x) + "," + String(y) + "," +  String(z)  );
      } 
    }
 
@@ -70,6 +73,7 @@ void loop() {
   }
 
   if (readString.length() > 0) {
+    readString.trim();  // get rid of last weird character
     if (readString == "a"){
       digitalWrite(LED_BUILTIN, LOW); //onboard LED LOW = on
     }
@@ -78,13 +82,15 @@ void loop() {
     }
     if (readString == "start"){
       mySendData = true;
+      myStart = millis();      //  reset the delay time
       myCount = 0;
     }
     if (readString == "stop"){
       mySendData = false;
+      Serial.println("Stopping at count: "+ String(myCount));  // CSV file heading titles
     }
     if (readString == "firstline"){
-      Serial.println("timestamp,accX,accY,accZ");  // CSV file heading titles
+      Serial.println("accX,accY,accZ");  // CSV file heading titles
     }
     readString="";
   } 
