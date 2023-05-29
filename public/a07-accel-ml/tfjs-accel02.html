@@ -89,7 +89,7 @@
     async function testModel() {
       const preprocessedTestData = preprocessTestData(testData);
      // const input = tf.tensor3d(preprocessedTestData, [1, testData.length, 3]);
-      const input = tf.tensor3d(preprocessedTestData, [1, testData.length, 3]);
+      const input = tf.tensor3d(preprocessedTestData);
 
       const predictions = model.predict(input);
       const predictedLabelIndex = predictions.argMax(1).dataSync()[0];
