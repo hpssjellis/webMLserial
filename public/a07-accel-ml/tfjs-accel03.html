@@ -10,22 +10,20 @@
 
   <script>
     // Time-Series acceleration data and labels
-// Time-Series acceleration data and labels
-const accelerationData = [
-  [[1.2, 0.8, 0.4], [0.5, 1.0, 0.2], [-0.1, 0.7, 1.5]],
-  [[2.2, 0.2, 1.4], [1.5, 1.3, 0.7], [-0.1, 4.7, 1.5]],
-  [[3.2, 0.8, 2.4], [0.2, 1.0, 2.2], [-4.1, 0.7, 1.7]],
-  // Add more data here...
-];
-const labels = ['punch', 'get up', 'punch'];
+    const accelerationData = [
+      [[1.2, 0.8, 0.4], [0.5, 1.0, 0.2], [-0.1, 0.7, 1.5]],
+      [[2.2, 0.2, 1.4], [1.5, 1.3, 0.7], [-0.1, 4.7, 1.5]],
+      [[3.2, 0.8, 2.4], [0.2, 1.0, 2.2], [-4.1, 0.7, 1.7]],
+      // Add more data here...
+    ];
+    const labels = ['punch', 'get up', 'punch'];
 
-// Convert data to TensorFlow tensors
-const xs = tf.tensor3d(accelerationData);
-const ys = tf.oneHot(
-  tf.tensor1d(labels.map(label => label === 'punch' ? 0 : 1), 'int32'),
-  2
-);
-
+    // Convert data to TensorFlow tensors
+    const xs = tf.tensor3d(accelerationData);
+    const ys = tf.oneHot(
+      tf.tensor1d(labels.map(label => label === 'punch' ? 0 : 1), 'int32'),
+      2
+    );
 
     // Create and train the model
     const model = tf.sequential();
@@ -47,11 +45,9 @@ const ys = tf.oneHot(
 
       // Generate test data
       const testData = [
-        [1.0, 0.5, 0.3],
-        [0.8, 0.9, 1.0],
-        [3.8, 2.9, 1.0],
+        [[1.0, 0.5, 0.3], [0.8, 0.9, 1.0], [3.8, 2.9, 1.0]],
       ];
-      const testTensor = tf.tensor2d(testData);
+      const testTensor = tf.tensor3d(testData);
 
       // Make predictions on test data
       const predictions = model.predict(testTensor);
