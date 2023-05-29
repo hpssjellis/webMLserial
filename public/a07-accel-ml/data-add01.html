@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Accelerometer Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.0.0/dist/tf.js"></script>
+    <script>
+      let accelerationData = [];
+      let timerId;
+
+      function startDataCollection() {
+        accelerationData = []; // Clear previous data
+        timerId = setInterval(collectData, 20); // Collect data every 20 milliseconds (50 Hz)
+      }
+
+      function stopDataCollection() {
+        clearInterval(timerId);
+      }
+
+      function collectData() {
+        // Simulated data collection
+        const x = Math.random();
+        const y = Math.random();
+        const z = Math.random();
+        const dataEntry = [x, y, z];
+        accelerationData.push(dataEntry);
+
+        // Update textarea
+        const textarea = document.getElementById("accelerationTextarea");
+        textarea.value = accelerationData.map(entry => entry.join(",")).join("\n");
+      }
+
+      function stackData() {
+        const tensor = tf.tensor(accelerationData);
+        console.log("Tensor:", tensor);
+        // You can perform further operations with the tensor here
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Accelerometer Data</h1>
+    <button onclick="startDataCollection()">Start Data Collection</button>
+    <button onclick="stopDataCollection()">Stop Data Collection</button>
+    <button onclick="stackData()">Stack Data</button>
+    <textarea id="accelerationTextarea" rows="10" cols="30"></textarea>
+  </body>
+</html>
