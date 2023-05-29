@@ -27,7 +27,7 @@
 
     // Create and train the model
     const model = tf.sequential();
-    model.add(tf.layers.dense({ units: 10, inputShape: [3], activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 10, inputShape: [3, 3], activation: 'relu' }));
     model.add(tf.layers.dense({ units: 2, activation: 'softmax' }));
     model.compile({ optimizer: 'adam', loss: 'categoricalCrossentropy', metrics: ['accuracy'] });
 
