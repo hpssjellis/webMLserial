@@ -72,7 +72,15 @@
       const xs = tf.tensor3d(preprocessedData, [trainingData.length, 2, 3]);
       const ys = tf.tensor2d(preprocessedLabels);
 
-      await model.fit(xs, ys, { epochs: 10 });
+      await model.fit(xs, ys, { 
+        epochs: 60,
+        callbacks:  { 
+          onEpochEnd: async (epoch, logs) => {                                                                                         
+            document.getElementById('status').innerHTML = 'Epoch # ' + (epoch+1) + '/500, Loss: ' + logs.loss + '<br><br>'
+            await tf.nextFrame();  // This improves UI responsiveness during training.  
+          }    // end onEpochEnd callback 
+        }      // end all callbacks                      
+      });
 
       return model;
     }
@@ -85,9 +93,9 @@
 
     // Test the model with new data
     async function testModel() {
-     // const preprocessedTestData = preprocessTestData(testData);
-    //  const input = tf.tensor3d([preprocessedTestData], [1, 2, 3]);
-      const input = tf.tensor3d([TestData], [1, 2, 3]);
+      const preprocessedTestData = preprocessTestData(testData);
+     const input = tf.tensor3d([preprocessedTestData], [1, 2, 3]);
+   //   const input = tf.tensor3d([TestData], [1, 2, 3]);
 
       const predictions = model.predict(input);
       const predictedLabelIndex = predictions.argMax(1).dataSync()[0];
