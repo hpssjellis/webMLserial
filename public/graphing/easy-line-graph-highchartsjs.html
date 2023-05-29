@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Line Graph Example</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</head>
+<body>
+    <div id="myChart"></div>
+
+    <script>
+        // Sample data for the line graph
+        var data = [
+            {
+                name: "Example Dataset",
+                data: [10, 20, 30, 25, 40, 35]
+            }
+        ];
+
+        // Configuration options for the line graph
+        var options = {
+            chart: {
+                renderTo: "myChart",
+                type: "line"
+            },
+            title: {
+                text: "Example Line Chart"
+            },
+            xAxis: {
+                categories: ["January", "February", "March", "April", "May", "June"]
+            },
+            yAxis: {
+                title: {
+                    text: "Value"
+                }
+            },
+            series: data
+        };
+
+        // Create the line graph
+        var chart = new Highcharts.Chart(options);
+    </script>
+</body>
+</html>
+
