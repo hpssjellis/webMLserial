@@ -52,6 +52,7 @@
     function preprocessData(data) {
       const preprocessedData = data.map(d => Object.values(d));
       return preprocessedData;
+     document.getElementById('status').innerHTML += preprocessedData;
     }
 
     // Convert labels to one-hot encoding
@@ -62,6 +63,7 @@
         return oneHot;
       });
       return oneHotLabels;
+       document.getElementById('status').innerHTML += oneHotLabels
     }
 
     // Train the model
@@ -69,7 +71,7 @@
       const preprocessedData = preprocessData(trainingData.map(d => d.data));
       const preprocessedLabels = convertLabelsToOneHot(trainingData.map(d => d.label));
 
-      const xs = tf.tensor3d(preprocessedData, [trainingData.length, 3]);
+      const xs = tf.tensor2d(preprocessedData, [trainingData.length, 3]);
       const ys = tf.tensor2d(preprocessedLabels);
 
       await model.fit(xs, ys, { 
@@ -88,7 +90,8 @@
     // Preprocess the test data
     function preprocessTestData(data) {
       const preprocessedData = data.map(d => Object.values(d));
-      return preprocessedData;
+      return preprocessedData; 
+      document.getElementById('status').innerHTML += preprocessedData;
     }
 
     // Test the model with new data
