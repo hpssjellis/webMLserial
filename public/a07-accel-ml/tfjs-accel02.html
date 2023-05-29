@@ -5,7 +5,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.6.0/dist/tf.min.js"></script>
 </head>
 <body>
-  <h1>IMU Time-Series Data Classification V0.0.3</h1>
+  <h1>IMU Time-Series Data Classification V0.0.4</h1>
 
   <div id="status"></div>
 
@@ -44,7 +44,7 @@
     // Define the model architecture
     const model = tf.sequential();
    // model.add(tf.layers.lstm({ units: 32, inputShape: [3] }));
-    model.add(tf.layers.dense({ units: 30, activation: 'sigmoid', inputShape: [2,3], }) );  // 8 inputs to 30 hidden layer nodes
+    model.add(tf.layers.dense({ units: 30, activation: 'sigmoid', inputShape: [2,3], }) );  // 2 sdts of 3 inputs to 30 hidden layer nodes
     model.add(tf.layers.dense({ units: trainingData.length, activation: 'softmax' }));
 
     // Compile the model
@@ -88,7 +88,8 @@
     // Test the model with new data
     async function testModel() {
       const preprocessedTestData = preprocessTestData(testData);
-      const input = tf.tensor2d(preprocessedTestData, [1, testData.length, 3]);
+     // const input = tf.tensor3d(preprocessedTestData, [1, testData.length, 3]);
+      const input = tf.tensor3d(preprocessedTestData, [1, testData.length, 3]);
 
       const predictions = model.predict(input);
       const predictedLabelIndex = predictions.argMax(1).dataSync()[0];
