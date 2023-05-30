@@ -131,7 +131,7 @@ async function trainModel() {
 model = tf.sequential();
 model.add(tf.layers.lstm({
 units: 8,
-inputShape: [50, 3]
+inputShape: [49, 4]
 }));
 model.add(tf.layers.dense({units: uniqueLabels.length, activation: 'softmax'}));
 
