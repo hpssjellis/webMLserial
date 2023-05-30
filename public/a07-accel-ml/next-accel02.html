@@ -187,6 +187,8 @@ const dataArray = dataString.split("\n").map((row) => row.split(",").map((value)
 //const inputTensor = tf.tensor([dataArray]);
 const inputTensor = tf.tensor(dataArray).reshape([1, 99, 3]);
 
+document.getElementById('mySpanClassify').innerHTML = `dataArray: ${dataArray}<br>`
+document.getElementById('mySpanClassify').innerHTML += `inputTensor: ${inputTensor}<br>`
 // Make a prediction using the trained model
 const prediction = model.predict(inputTensor);
 const predictedLabelIndex = prediction.argMax(1).dataSync()[0];
