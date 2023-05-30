@@ -235,13 +235,21 @@ Array(n).fill(0)
 // Convert data string to array
 let dataArray = dataString.split("\n").map((row) => row.split(",").map((value) => parseFloat(value)));
 let myLength = 99 * 3;  // shape of final tensor
+let myOrig = dataArray.length
+let myBig = myLength-dataArray.length
+console.log('dataArray.length is myOrig')
+console.log(myOrig)
+console.log('myLength')
+console.log(myLength)
+console.log('myBig')
+console.log(myBig)
   
 document.getElementById('mySpanClassify').innerHTML = `dataArray ist: ${dataArray}<br><br><br>` 
 if (dataArray.length > myLength) { 
    dataArray.length = myLength;   // reduce it if it is too big
 } else { 
-     for (let myLoop = dataArray.length; myLoop <= myLength-dataArray.length;  myLoop++ ){
-      dataArray[myLoop] = 0
+     for (let myLoop = 0; myLoop <= myBig;  myLoop++ ){
+      dataArray[myLoop + myOrig] = 0
      }  
 }
  document.getElementById('mySpanClassify').innerHTML += `dataArray: ${dataArray}<br>` 
