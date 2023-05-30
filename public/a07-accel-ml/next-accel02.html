@@ -244,6 +244,8 @@ console.log('myLength')
 console.log(myLength)
 console.log('myBig')
 console.log(myBig)
+console.log('myBig-myOrig')
+console.log(myBig-myOrig)
   
 document.getElementById('mySpanClassify').innerHTML = `dataArray 1st: ${dataArray}<br><br><br>` 
 if (dataArray.length > myLength) { 
@@ -251,7 +253,7 @@ if (dataArray.length > myLength) {
 } else { 
      for (let myLoop = myOrig; myLoop <= myBig;  myLoop++ ){
      // dataArray[myLoop + myOrig] = 0
-      dataArray[0].push(0)
+      dataArray[0].push(0)     // use push so wwe don't have to worry about the array locations
      }  
 }
  document.getElementById('mySpanClassify').innerHTML += `dataArray: ${dataArray}<br>` 
