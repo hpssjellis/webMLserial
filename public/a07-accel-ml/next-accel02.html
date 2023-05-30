@@ -248,6 +248,7 @@ console.log('myBig-myOrig')
 console.log(myBig-myOrig)
   
 document.getElementById('mySpanClassify').innerHTML = `dataArray 1st: ${dataArray}<br><br><br>` 
+
 if (dataArray.length > myLength) { 
    dataArray.length = myLength;   // reduce it if it is too big
 } else { 
@@ -256,19 +257,21 @@ if (dataArray.length > myLength) {
       dataArray[0].push(0)     // use push so wwe don't have to worry about the array locations
      }  
 }
- document.getElementById('mySpanClassify').innerHTML += `dataArray: ${dataArray}<br>` 
+ document.getElementById('mySpanClassify').innerHTML += `dataArray 2nd: ${dataArray}<br>` 
 
 // Convert data array to tensor
 const inputTensor = tf.tensor([dataArray]); 
 console.log('inputTensor before reshape')  
 console.log(inputTensor)  
-inputTensor.reshape([99,3]).print();
   
-console.log('inputTensor after reshape')  
-console.log(inputTensor)  
+const inputTensor2 = inputTensor.reshape([99,3])
+//inputTensor.reshape([99,3]).print();
+  
+console.log('inputTensor2 after reshape')  
+console.log(inputTensor2)  
   
 // Make a prediction using the trained model
-const prediction = model.predict(inputTensor);
+const prediction = model.predict(inputTensor2);
 const predictedLabelIndex = prediction.argMax(1).dataSync()[0];
 const predictedLabel = uniqueLabels[predictedLabelIndex];
 console.log(`Predicted label: ${predictedLabel}`);
