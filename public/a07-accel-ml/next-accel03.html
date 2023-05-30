@@ -278,13 +278,45 @@ console.log(dataArray2)
         // Configuration options for the line graph
         var options = {
             responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        };
+  scales: {
+    x: {
+      grid: {
+        color: "#ccc",
+        borderColor: "black",
+      },
+      ticks: {
+        min: 0,
+        max: 6500,
+        stepSize: 1300
+      },
+      title: {
+        display: true,
+        text: "Density in kg/m3",
+        color: "green",
+        font: {
+          weight: "bold",
+          size: 22,
+          lineHeight: 2
+        }
+      }
+    },
+    y: {
+      grid: {
+        display: true
+      }
+    }
+  }
 
+ }   
+   
+
+
+   
+   
+   
+   
+   
+   
    
    // JS - Destroy exiting Chart Instance to reuse <canvas> element
         let chartStatus = Chart.getChart("myChart"); // <canvas> id
