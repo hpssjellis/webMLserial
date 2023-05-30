@@ -264,18 +264,18 @@ var line1 = [];
 var line2 = [];
 var line3 = [];
 
-for (let i = 0; i < inputArray.length; i++) {
+for (let i = 0; i < inputArray[0].length; i++) {
   if (i % 3 == 0) {
     console.log(1)
-    line1.push(inputArray[i]);
+    line1.push(inputArray[0][i]);
   } else if (i % 3 == 1) {
     
     console.log(2)
-    line2.push(inputArray[i]);
+    line2.push(inputArray[0][i]);
   } else {
     
     console.log(3)
-    line3.push(inputArray[i]);
+    line3.push(inputArray[0][i]);
   }
 }
 
