@@ -131,7 +131,7 @@ async function trainModel() {
 model = tf.sequential();
 model.add(tf.layers.lstm({
 units: 8,
-inputShape: [49, 4]
+inputShape: [99, 3]
 }));
 model.add(tf.layers.dense({units: uniqueLabels.length, activation: 'softmax'}));
 
@@ -185,7 +185,7 @@ const dataArray = dataString.split("\n").map((row) => row.split(",").map((value)
 
 // Convert data array to tensor
 //const inputTensor = tf.tensor([dataArray]);
-const inputTensor = tf.tensor(dataArray).reshape([1, 49, 4]);
+const inputTensor = tf.tensor(dataArray).reshape([1, 99, 3]);
 
 // Make a prediction using the trained model
 const prediction = model.predict(inputTensor);
