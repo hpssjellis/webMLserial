@@ -254,7 +254,7 @@ inputTensor.dispose();
  const dataString2 = document.getElementById("classifyData").value;
 
 // Convert data string to array
-let dataArray2 = dataString.split("\n").map((row) => row.split(",").map((value) => parseFloat(value)));
+let dataArray2 = dataString2.split("\n").map((row) => row.split(",").map((value) => parseFloat(value)));
   
 
 
@@ -264,8 +264,8 @@ let dataArray2 = dataString.split("\n").map((row) => row.split(",").map((value) 
             datasets: [{
                 label: "Example Dataset",
              //   data: [10, 20, 30, 25, 40, 35],
-            //    data: dataArray2,
-                data: dataArray,
+                 data: dataArray2,
+              //  data: dataArray,
                 fill: false,
                 borderColor: "rgb(75, 192, 192)",
                 tension: 0.1
