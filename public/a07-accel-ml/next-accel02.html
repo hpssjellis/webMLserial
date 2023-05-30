@@ -190,8 +190,8 @@ document.getElementById('mySpanClassify').innerHTML += `inputTensor: ${myOut}<br
 // Convert data array to tensor
 //const inputTensor = tf.tensor([dataArray]);
 const inputTensor = tf.tensor(dataArray).reshape([1, 99, 3]);
-
-document.getElementById('mySpanClassify').innerHTML += `inputTensor: ${inputTensor}<br>`
+let myOut2 = JSON.stringify(inputTensor, null, 3)
+document.getElementById('mySpanClassify').innerHTML += `inputTensor: ${myOut2}<br>`
 
 // Make a prediction using the trained model
 const prediction = model.predict(inputTensor);
