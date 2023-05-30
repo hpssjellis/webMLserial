@@ -240,7 +240,7 @@ document.getElementById('mySpanClassify').innerHTML = `dataArray ist: ${dataArra
 if (dataArray.length > myLength) { 
    dataArray.length = myLength;   // reduce it if it is too big
 } else { 
-     for (let myLoop = dataArray.length; myLoop <= myLength;  myLoop++ ){
+     for (let myLoop = dataArray.length; myLoop <= myLength-dataArray.length;  myLoop++ ){
       dataArray[myLoop] = 0
      }  
 }
