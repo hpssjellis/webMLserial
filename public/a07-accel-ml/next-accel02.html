@@ -178,6 +178,7 @@ model = await tf.loadLayersModel(tf.io.browserFiles([modelFile, weightsFile]));
 
 async function classifyData() {
 // Get data from input field
+  /*
 console.log('Formating data')
 const dataString = document.getElementById("classifyData").value;
 
@@ -188,10 +189,32 @@ console.log(dataArray)
 document.getElementById('mySpanClassify').innerHTML = `dataArray: ${dataArray}<br>`
 
 console.log('reshape')
+  */
 
 // Convert data array to tensor
 //const inputTensor = tf.tensor([dataArray]);
-const inputTensor = tf.tensor(dataArray).reshape([1, 99, 3]);
+  
+ /*
+ 
+ // Defining the tensor input elements 
+const input = tf.input({shape: [2, 6]});
+
+ // Calling the layers.reshape ( ) function
+const reshapeLayer = tf.layers.reshape({targetShape: [3, 9]});
+  
+// Inspect the inferred output shape of the
+// Reshape layer, which equals `[null, 3, 9]`. 
+// (The 1st dimension is the undermined batch size.)
+console.log(JSON.stringify(reshapeLayer.apply(input).shape));
+  
+  
+  
+  */
+  /*
+const inputTensor2 = tf.tensor(dataArray);
+ 
+const inputTensor = tf.layers.reshape({targetShape: [3, 9]});  
+  
 let myOut = JSON.stringify(inputTensor, null, 3)
 document.getElementById('mySpanClassify').innerHTML += `inputTensor: ${myOut}<br>`
 
@@ -199,6 +222,18 @@ console.log('done reshape, input tensor')
 console.log(inputTensor)
 
 console.log('predicting')
+  
+  */
+  
+ const dataString = document.getElementById("classifyData").value;
+
+// Convert data string to array
+const dataArray = dataString.split("\n").map((row) => row.split(",").map((value) => parseFloat(value)));
+
+// Convert data array to tensor
+const inputTensor = tf.tensor([dataArray]); 
+  
+  
 // Make a prediction using the trained model
 const prediction = model.predict(inputTensor);
 const predictedLabelIndex = prediction.argMax(1).dataSync()[0];
