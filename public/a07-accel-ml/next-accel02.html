@@ -222,6 +222,11 @@ console.log('done reshape, input tensor')
 console.log(inputTensor)
 
 console.log('predicting')
+
+
+Array(n).fill(0)
+
+
   
   */
   
@@ -229,6 +234,15 @@ console.log('predicting')
 
 // Convert data string to array
 const dataArray = dataString.split("\n").map((row) => row.split(",").map((value) => parseFloat(value)));
+let myLength = 99 * 3;  // shape of final tensor
+  
+//if (dataArray.length > myLength) { 
+  dataArray.length = myLength;   // what happens to the ends of it
+//  }
+//for (let myLoop = dataArray.length; myLoop <= myLength;  myLoop++ ){
+
+//}  
+  
 
 // Convert data array to tensor
 const inputTensor = tf.tensor([dataArray]); 
