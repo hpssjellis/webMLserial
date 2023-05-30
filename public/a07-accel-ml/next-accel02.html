@@ -184,7 +184,9 @@ const dataString = document.getElementById("classifyData").value;
 const dataArray = dataString.split("\n").map((row) => row.split(",").map((value) => parseFloat(value)));
 
 document.getElementById('mySpanClassify').innerHTML = `dataArray: ${dataArray}<br>`
-document.getElementById('mySpanClassify').innerHTML += `inputTensor: ${inputTensor}<br><br>`
+let myOut = JSON.stringify(inputTensor, null, 3)
+document.getElementById('mySpanClassify').innerHTML += `inputTensor: ${myOut}<br><br>`
+
 // Convert data array to tensor
 //const inputTensor = tf.tensor([dataArray]);
 const inputTensor = tf.tensor(dataArray).reshape([1, 99, 3]);
