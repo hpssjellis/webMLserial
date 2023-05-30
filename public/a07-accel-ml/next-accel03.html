@@ -254,74 +254,65 @@ inputTensor.dispose();
  const dataString2 = document.getElementById("classifyData").value;
 
 // Convert data string to array
-let dataArray2 = dataString2.split("\n").map((row) => row.split(",").map((value) => parseFloat(value)));
+let inputArray = dataString2.split("\n").map((row) => row.split(",").map((value) => parseFloat(value)));
   
-console.log(dataArray2)
+console.log(inputArray)
+// Assuming your input array is named 'inputArray'
 
-        // Sample data for the line graph
-        var data = {
-         //   labels: ["January", "February", "March", "April", "May", "June"],
-            labels: [],
-            datasets: [{
-                label: "Example Dataset",
-             //   data: [10, 20, 30, 25, 40, 35],
-                 data: dataArray2,
-              //  data: dataArray,
-                fill: false,
-                borderColor: "rgb(75, 192, 192)",
-                tension: 0.1
-            }]
-        };
+// Split the input array into three separate arrays
+var line1 = [];
+var line2 = [];
+var line3 = [];
 
-       console.log(data);
-   
-        // Configuration options for the line graph
- var options = {
-  responsive: true,
-  scales: {
-    x: {
-      type: 'linear', // Set the scale type to linear
-      beginAtZero: true, // Start the axis from zero
-      title: {
-        display: true,
-        text: 'X-Axis Label', // Replace with your desired label
-        font: {
-          weight: 'bold',
-          size: 22,
-          lineHeight: 2
-        }
-      }
-    },
-    y: {
-      grid: {
-        display: true
-      }
-    }
+for (var i = 0; i < inputArray.length; i++) {
+  if (i % 3 === 0) {
+    line1.push(inputArray[i]);
+  } else if (i % 3 === 1) {
+    line2.push(inputArray[i]);
+  } else {
+    line3.push(inputArray[i]);
   }
+}
+
+// Create the line graph data using the separate arrays
+var data = {
+  labels: [], // Add your labels here
+  datasets: [
+    {
+      label: 'Line 1',
+      data: line1,
+      fill: false,
+      borderColor: 'rgb(75, 192, 192)',
+      tension: 0.1
+    },
+    {
+      label: 'Line 2',
+      data: line2,
+      fill: false,
+      borderColor: 'rgb(255, 99, 132)',
+      tension: 0.1
+    },
+    {
+      label: 'Line 3',
+      data: line3,
+      fill: false,
+      borderColor: 'rgb(54, 162, 235)',
+      tension: 0.1
+    }
+  ]
 };
 
-   
-   
-   
-   
-   
-   
-   
-   // JS - Destroy exiting Chart Instance to reuse <canvas> element
-        let chartStatus = Chart.getChart("myChart"); // <canvas> id
-        if (chartStatus != undefined) {
-          chartStatus.destroy();
-        }
-   
-        // Create the line graph
-        var ctx = document.getElementById("myChart").getContext("2d");
-        var myChart = new Chart(ctx, {
-            type: "line",
-            data: data,
-            options: options
-        });
-  
-  
+// Create the line graph with the data
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+  type: 'line',
+  data: data,
+  options: {
+    responsive: true,
+    // Add other options as needed
+  }
+});
+
  }  
   
   
