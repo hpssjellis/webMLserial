@@ -305,16 +305,33 @@ var data = {
     }
   ]
 };
+   
+   
+   var options = {
+  responsive: true,
+  scales: {
+    // Your scale configurations
+  },
+  plugins: {
+    zoom: {
+      zoom: {
+        enabled: true,
+        mode: 'xy', // Enable zooming for both axes (x and y)
+      },
+      pan: {
+        enabled: true,
+        mode: 'xy', // Enable panning for both axes (x and y)
+      },
+    },
+  },
+};
 
 // Create the line graph with the data
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
   type: 'line',
   data: data,
-  options: {
-    responsive: true,
-    // Add other options as needed
-  }
+  options: options,
 });
 
  }  
