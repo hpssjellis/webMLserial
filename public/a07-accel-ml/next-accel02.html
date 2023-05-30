@@ -233,16 +233,18 @@ Array(n).fill(0)
  const dataString = document.getElementById("classifyData").value;
 
 // Convert data string to array
-const dataArray = dataString.split("\n").map((row) => row.split(",").map((value) => parseFloat(value)));
+let dataArray = dataString.split("\n").map((row) => row.split(",").map((value) => parseFloat(value)));
 let myLength = 99 * 3;  // shape of final tensor
   
-//if (dataArray.length > myLength) { 
-  dataArray.length = myLength;   // what happens to the ends of it
-//  }
-//for (let myLoop = dataArray.length; myLoop <= myLength;  myLoop++ ){
-
-//}  
-  
+document.getElementById('mySpanClassify').innerHTML = `dataArray ist: ${dataArray}<br><br><br>` 
+if (dataArray.length > myLength) { 
+   dataArray.length = myLength;   // reduce it if it is too big
+} else { 
+     for (let myLoop = dataArray.length; myLoop <= myLength;  myLoop++ ){
+      dataArray[myLoop] = 0
+     }  
+}
+ document.getElementById('mySpanClassify').innerHTML += `dataArray: ${dataArray}<br>` 
 
 // Convert data array to tensor
 const inputTensor = tf.tensor([dataArray]); 
