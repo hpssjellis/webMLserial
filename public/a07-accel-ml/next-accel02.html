@@ -250,8 +250,8 @@ if (dataArray.length > myLength) {
    dataArray.length = myLength;   // reduce it if it is too big
 } else { 
      for (let myLoop = 0; myLoop <= myBig;  myLoop++ ){
-     // dataArray[myLoop + myOrig] = 0
-      dataArray[0].push = 0
+      dataArray[myLoop + myOrig] = 0
+    //  dataArray[0].push = 0
      }  
 }
  document.getElementById('mySpanClassify').innerHTML += `dataArray: ${dataArray}<br>` 
