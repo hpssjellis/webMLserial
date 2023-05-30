@@ -272,6 +272,8 @@ let dataArray2 = dataString2.split("\n").map((row) => row.split(",").map((value)
             }]
         };
 
+       console.log(datasets);
+   
         // Configuration options for the line graph
         var options = {
             responsive: true,
@@ -282,6 +284,13 @@ let dataArray2 = dataString2.split("\n").map((row) => row.split(",").map((value)
             }
         };
 
+   
+   // JS - Destroy exiting Chart Instance to reuse <canvas> element
+        let chartStatus = Chart.getChart("myChart"); // <canvas> id
+        if (chartStatus != undefined) {
+          chartStatus.destroy();
+        }
+   
         // Create the line graph
         var ctx = document.getElementById("myChart").getContext("2d");
         var myChart = new Chart(ctx, {
