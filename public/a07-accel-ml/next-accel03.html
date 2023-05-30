@@ -276,25 +276,17 @@ console.log(dataArray2)
        console.log(data);
    
         // Configuration options for the line graph
-        var options = {
-            responsive: true,
+ var options = {
+  responsive: true,
   scales: {
     x: {
-      grid: {
-        color: "#ccc",
-        borderColor: "black",
-      },
-      ticks: {
-        min: 0,
-        max: 6500,
-        stepSize: 1300
-      },
+      type: 'linear', // Set the scale type to linear
+      beginAtZero: true, // Start the axis from zero
       title: {
         display: true,
-        text: "Density in kg/m3",
-        color: "green",
+        text: 'X-Axis Label', // Replace with your desired label
         font: {
-          weight: "bold",
+          weight: 'bold',
           size: 22,
           lineHeight: 2
         }
@@ -306,10 +298,7 @@ console.log(dataArray2)
       }
     }
   }
-
- }   
-   
-
+};
 
    
    
