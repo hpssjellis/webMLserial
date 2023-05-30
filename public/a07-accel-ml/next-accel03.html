@@ -45,9 +45,10 @@
 
 <hr>
 
-<label for="classifyData">Enter data to classify:</label>
+<label for="classifyData">Enter data to classify:</label><br>
   <textarea id="classifyData" rows=10 cols=70></textarea>
 <br>
+<input type="button" value="Show Graph" onclick="myShowGraph()">
 <input type="button" value="Classify Data" onclick="classifyData()">
 <span id="mySpanClassify">...</span><br>
   
@@ -245,11 +246,15 @@ inputTensor.dispose();
   
   
   
+ function myShowGraph(){ 
   
   
   
-  
-  
+    
+ const dataString2 = document.getElementById("classifyData").value;
+
+// Convert data string to array
+let dataArray2 = dataString.split("\n").map((row) => row.split(",").map((value) => parseFloat(value)));
   
 
 
@@ -258,7 +263,9 @@ inputTensor.dispose();
             labels: ["January", "February", "March", "April", "May", "June"],
             datasets: [{
                 label: "Example Dataset",
-                data: [10, 20, 30, 25, 40, 35],
+             //   data: [10, 20, 30, 25, 40, 35],
+            //    data: dataArray2,
+                data: dataArray,
                 fill: false,
                 borderColor: "rgb(75, 192, 192)",
                 tension: 0.1
@@ -284,7 +291,7 @@ inputTensor.dispose();
         });
   
   
-  
+ }  
   
   
   
