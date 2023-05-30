@@ -233,7 +233,7 @@ const dataArray = dataString.split("\n").map((row) => row.split(",").map((value)
 // Convert data array to tensor
 const inputTensor = tf.tensor([dataArray]); 
   
-inputTensor.reshape([null,99,3]).print();
+inputTensor.reshape([99,3]).print();
   
   
 // Make a prediction using the trained model
