@@ -14,3 +14,11 @@ https://hpssjellis.github.io/webMLserial/public/graphing/easy-line-graph-d3js.ht
 
 
 https://hpssjellis.github.io/webMLserial/public/graphing/easy-line-graph-chartjs.html
+
+
+
+## Sinusoidals
+
+https://hpssjellis.github.io/webMLserial/public/graphing/easy-line-graph-chartjs.html
+
+
