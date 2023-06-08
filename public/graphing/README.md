@@ -22,3 +22,7 @@ https://hpssjellis.github.io/webMLserial/public/graphing/easy-line-graph-chartjs
 https://hpssjellis.github.io/webMLserial/public/graphing/chartjs-3-sinusoidal.html
 
 
+
+https://hpssjellis.github.io/webMLserial/public/graphing/d3.js-3-sinusoidal.html
+
+
