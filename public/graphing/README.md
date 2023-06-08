@@ -29,3 +29,8 @@ https://hpssjellis.github.io/webMLserial/public/graphing/d3.js-3-sinusoidal.html
 https://hpssjellis.github.io/webMLserial/public/graphing/plotlyjs-3-sinusoidal.html
 
 
+https://hpssjellis.github.io/webMLserial/public/graphing/highchartjs-3-sinusoidal.html
+
+
+
+
