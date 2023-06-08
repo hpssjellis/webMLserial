@@ -19,6 +19,6 @@ https://hpssjellis.github.io/webMLserial/public/graphing/easy-line-graph-chartjs
 
 ## Sinusoidals
 
-https://hpssjellis.github.io/webMLserial/public/graphing/easy-line-graph-chartjs.html
+https://hpssjellis.github.io/webMLserial/public/graphing/chartjs-3-sinusoidal.html
 
 
