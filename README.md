@@ -38,4 +38,8 @@ Main Google polyfill. Not sure if it works well
 https://github.com/google/web-serial-polyfill/tree/main
 
 
+cool API with p5.js   https://makeabilitylab.github.io/physcomp/communication/web-serial.html
+
+
+
 
